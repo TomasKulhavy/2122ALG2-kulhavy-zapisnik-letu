@@ -1,12 +1,12 @@
-#Zápisník letů
+# Zápisník letů
 
-##Zadání práce
+## Zadání práce
 
  - **Popis problému (motivace)**
    - 
  - **Popis řešení**
    - 
-##Řešení
+## Řešení
 
  - **Funkční specifikace**
     - 
@@ -15,9 +15,9 @@
  - **Class diagram**
    - 
 
-##Testování
+## Testování
 
-##Popis fungování externích knihoven
+## Popis fungování externích knihoven
 
-##Funkční a technické požadavky na aplikaci
+## Funkční a technické požadavky na aplikaci
 
