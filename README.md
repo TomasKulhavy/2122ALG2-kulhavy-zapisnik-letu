@@ -29,6 +29,7 @@
 ## Testování
 
 ## Popis fungování externích knihoven
+- LEADTOOLS Document Converter
 
 ## Funkční a technické požadavky na aplikaci
 
