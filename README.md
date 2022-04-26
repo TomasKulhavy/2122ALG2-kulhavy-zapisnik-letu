@@ -29,7 +29,7 @@
 ## Testování
 
 ## Popis fungování externích knihoven
-- LEADTOOLS Document Converter
+- [LEADTOOLS Document Converter](https://www.leadtools.com/sdk/document/document-converter)
 
 ## Funkční a technické požadavky na aplikaci
 
