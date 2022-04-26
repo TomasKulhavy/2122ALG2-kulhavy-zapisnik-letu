@@ -1,3 +1,5 @@
+##### Termín: 25. 5. 2022 #####
+###### Semestrální práce ######
 # Zápisník letů
 
 ## Zadání práce
