@@ -5,6 +5,7 @@
 ## Zadání práce
 
  - ### **Popis problému (motivace)**
+   - Zápisník letu bude sloužit pro piloty, který si budou chtít své lety zapisovat elektronicky
    - Záznamník letů bude umožňovat uživateli si zapisovat lety, které budou ukládány do textové souboru. A následně je bude moc vyexportovat do PDF. 
      - Místo startu / přistání
      - Čas vzletu / přistání
@@ -19,6 +20,7 @@
    - Uživatel může vytvářet své zápisníky letů např. pro vetroně, ultralighty nebo motorové letadla.
    - Celkové součty letů, hodin a startů
    - Užitel může načíst deníky letadel ze souboru
+     - Údaje v deníkách letadel budou různé od typu letadla (větroň, ultralight, motorové letadlo)
  
  - ### **Popis řešení**
    - 
