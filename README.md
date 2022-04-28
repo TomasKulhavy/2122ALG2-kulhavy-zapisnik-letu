@@ -5,7 +5,7 @@
 ## Zadání práce
 
  - ### **Popis problému (motivace)**
-   - Zápisník letu bude sloužit pro piloty, který si budou chtít své lety zapisovat elektronicky
+   - Zápisník letů bude sloužit pro piloty, kteří si budou chtít své lety zapisovat elektronicky do PC
    - Záznamník letů bude umožňovat uživateli si zapisovat lety, které budou ukládány do textové souboru. A následně je bude moc vyexportovat do PDF. 
      - Místo startu / přistání
      - Čas vzletu / přistání
