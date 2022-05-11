@@ -1,10 +1,15 @@
 package app;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 public class Pilot {
     private String firstName;
@@ -14,6 +19,15 @@ public class Pilot {
     public Pilot(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        try {
+            FileWriter myWriter = new FileWriter("pilots.txt", true);
+            myWriter.write("\n" + firstName + ", " + lastName);
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     public String getName() {

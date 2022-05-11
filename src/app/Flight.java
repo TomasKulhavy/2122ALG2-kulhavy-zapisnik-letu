@@ -25,7 +25,7 @@ public class Flight {
                 ", landing='" + landing + '\'' +
                 ", date=" + date +
                 ", takeoffTime=" + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
-                ", landingTime=" + landingTime +
+                ", landingTime=" + landingTime.getHour() + ":" + landingTime.getMinute() +
                 ", flightTimeInMinutes=" + flightTimeMinutes +
                 ", takeoffNo=" + takeoffNo +
                 ", typeOfFlight='" + typeOfFlight + '\'' +
