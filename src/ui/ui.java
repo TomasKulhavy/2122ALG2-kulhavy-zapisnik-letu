@@ -1,4 +1,4 @@
-package cz.tul.alg.tue.tomku.ui;
+package kulhavy.ui;
 
 public class ui {
 }

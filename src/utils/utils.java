@@ -1,4 +1,4 @@
-package cz.tul.alg.tue.tomku.utils;
+package kulhavy.utils;
 
 public class utils {
 }

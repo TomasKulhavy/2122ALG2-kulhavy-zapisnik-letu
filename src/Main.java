@@ -1,4 +1,4 @@
-package cz.tul.alg.tue.tomku;
+package kulhavy;
 
 public class Main {
 
