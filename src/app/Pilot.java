@@ -20,7 +20,7 @@ public class Pilot {
         this.firstName = firstName;
         this.lastName = lastName;
         try {
-            FileWriter myWriter = new FileWriter("pilots.txt", true);
+            FileWriter myWriter = new FileWriter(firstName + "_" + lastName + ".txt");
             myWriter.write("\n" + firstName + ", " + lastName);
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
@@ -31,7 +31,7 @@ public class Pilot {
     }
 
     public String getName() {
-        return firstName + " " + lastName;
+        return firstName + "_" + lastName;
     }
 
     public void setName(String firstName, String lastName) {
@@ -66,12 +66,16 @@ public class Pilot {
         FlightDiary diarySPL  = new FlightDiary(pilot, TypeOfLicence.SPL);
         FlightDiary diaryULL  = new FlightDiary(pilot, TypeOfLicence.ULL);
         Plane plane = new Plane("Bristell", TypeOfLicence.ULL, "OK-YAI-24");
+        Plane plane2 = new Plane("HpH304CZ", TypeOfLicence.SPL, "OK-7304");
+
         LocalDate date = LocalDate.of(2022, 5, 9);
         LocalDateTime takeoffTime = date.atTime(16, 22);
         LocalDateTime landingTime = date.atTime(17, 22);
         int flightTimeMinutes = (int) ChronoUnit.MINUTES.between(takeoffTime, landingTime);
 
-        Flight flight = new Flight(plane, "LKLB", "LKLB", date, takeoffTime, landingTime, flightTimeMinutes, 8, "okruhy", pilot, diaryULL);
+        Flight flight = new Flight(plane, "LKLB", "LKVR", date, takeoffTime, landingTime, flightTimeMinutes, 8, "okruhy", pilot, diaryULL);
+        Flight flight2 = new Flight(plane2, "LKLB", "LKBR", date, takeoffTime, landingTime, flightTimeMinutes, 1, "přelet", pilot, diarySPL);
+
         System.out.println(flight);
         pilot.addDiary(diarySPL);
         pilot.addDiary(diaryULL);

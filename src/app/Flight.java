@@ -1,5 +1,7 @@
 package app;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -46,6 +48,42 @@ public class Flight {
         this.typeOfFlight = typeOfFlight;
         this.pilot = pilot;
         this.diary = diary;
+        SaveNewFlight();
+    }
+
+    public void SaveNewFlight() {
+        try {
+            FileWriter myWriter = new FileWriter(pilot.getName() + "_" + diary.getType() + ".txt", true);
+            myWriter.write("\n" + plane.getName() +
+                    ", " + plane.getRegistration() +
+                    ", " + takeoff +
+                    ", " + landing +
+                    ", " + date +
+                    ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
+                    ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
+                    ", " + flightTimeMinutes +
+                    ", " + takeoffNo +
+                    ", " + typeOfFlight +
+                    ", " + pilot.getName() +
+                    ", " + diary.getType());
+            myWriter.close();
+            FileWriter myWriterPlane = new FileWriter(plane.getRegistration() + ".txt", true);
+            myWriterPlane.write("\n" +
+                    takeoff +
+                    ", " + landing +
+                    ", " + date +
+                    ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
+                    ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
+                    ", " + flightTimeMinutes +
+                    ", " + takeoffNo +
+                    ", " + typeOfFlight +
+                    ", " + pilot.getName());
+            myWriterPlane.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     public String getTakeoff() {

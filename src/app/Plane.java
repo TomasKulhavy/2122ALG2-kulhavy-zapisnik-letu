@@ -1,5 +1,8 @@
 package app;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Plane {
     private String name;
     private TypeOfLicence typeOfLicence;
@@ -13,6 +16,15 @@ public class Plane {
         this.registration = registration;
         this.flightTimeMinutes = 0;
         this.takeoffNo = 0;
+        try {
+            FileWriter myWriter = new FileWriter(registration + ".txt");
+            myWriter.write("\n" + name + ", " + typeOfLicence + ", " + registration + ", " + flightTimeMinutes + ", " + takeoffNo);
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     public String getName() {

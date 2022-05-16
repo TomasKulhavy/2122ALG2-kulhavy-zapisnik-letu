@@ -1,5 +1,7 @@
 package app;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,15 @@ public class FlightDiary {
     public FlightDiary(Pilot pilot, TypeOfLicence typeOfLicence) {
         this.pilot = pilot;
         this.typeOfLicence = typeOfLicence;
+        try {
+            FileWriter myWriter = new FileWriter(pilot.getName() + ".txt", true);
+            myWriter.write("\n" + typeOfLicence);
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     public String getType() {
