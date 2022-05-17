@@ -1,7 +1,11 @@
 package app;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Plane {
     private String name;
@@ -9,6 +13,7 @@ public class Plane {
     private String registration;
     private int takeoffNo;
     private int flightTimeMinutes;
+    private List<Plane> planes = new ArrayList<>();
 
     public Plane(String name, TypeOfLicence typeOfLicence, String registration) {
         this.name = name;
@@ -17,7 +22,7 @@ public class Plane {
         this.flightTimeMinutes = 0;
         this.takeoffNo = 0;
         try {
-            FileWriter myWriter = new FileWriter(registration + ".txt");
+            FileWriter myWriter = new FileWriter("plane_" + registration + ".txt");
             myWriter.write("\n" + name + ", " + typeOfLicence + ", " + registration + ", " + flightTimeMinutes + ", " + takeoffNo);
             myWriter.close();
             System.out.println("Successfully wrote to the file.");

@@ -84,6 +84,7 @@ public class Flight {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        diary.setOverall(takeoffNo, flightTimeMinutes);
     }
 
     public String getTakeoff() {

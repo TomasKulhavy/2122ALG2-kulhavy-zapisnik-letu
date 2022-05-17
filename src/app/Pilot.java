@@ -1,15 +1,13 @@
 package app;
 
-import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
 
 public class Pilot {
     private String firstName;
@@ -30,13 +28,13 @@ public class Pilot {
         }
     }
 
-    public String getName() {
-        return firstName + "_" + lastName;
-    }
-
-    public void setName(String firstName, String lastName) {
+    public Pilot(String firstName, String lastName, File logbook) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public String getName() {
+        return firstName + "_" + lastName;
     }
 
     public String getDiaries() {
@@ -75,10 +73,6 @@ public class Pilot {
 
         Flight flight = new Flight(plane, "LKLB", "LKVR", date, takeoffTime, landingTime, flightTimeMinutes, 8, "okruhy", pilot, diaryULL);
         Flight flight2 = new Flight(plane2, "LKLB", "LKBR", date, takeoffTime, landingTime, flightTimeMinutes, 1, "přelet", pilot, diarySPL);
-
-        System.out.println(flight);
-        pilot.addDiary(diarySPL);
-        pilot.addDiary(diaryULL);
-        System.out.println(pilot.getDiaries());
+        Flight flight3 = new Flight(plane2, "LKBR", "LKLB", date, takeoffTime, landingTime, flightTimeMinutes, 10, "přelet", pilot, diarySPL);
     }
 }
