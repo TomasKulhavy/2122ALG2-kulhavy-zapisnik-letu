@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 public class Flight {
     private Plane plane;
@@ -16,7 +17,8 @@ public class Flight {
     private int takeoffNo;
     private String typeOfFlight;
     private Pilot pilot;
-    private FlightDiary diary;
+    private TypeOfLicence diary;
+    private FlightDiary flightDiary;
 
     @Override
     public String toString() {
@@ -32,11 +34,11 @@ public class Flight {
                 ", takeoffNo=" + takeoffNo +
                 ", typeOfFlight='" + typeOfFlight + '\'' +
                 ", pilot=" + pilot.getName() +
-                ", diary=" + diary.getType() +
+                ", diary=" + flightDiary.getType() +
                 '}';
     }
 
-    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, FlightDiary diary) {
+    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, FlightDiary flightDiary) {
         this.plane = plane;
         this.takeoff = takeoff;
         this.landing = landing;
@@ -47,13 +49,13 @@ public class Flight {
         this.takeoffNo = takeoffNo;
         this.typeOfFlight = typeOfFlight;
         this.pilot = pilot;
-        this.diary = diary;
+        this.flightDiary = flightDiary;
         SaveNewFlight();
     }
 
     public void SaveNewFlight() {
         try {
-            FileWriter myWriter = new FileWriter(pilot.getName() + "_" + diary.getType() + ".txt", true);
+            FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "_" + plane.getTypeOfLicence() + ".txt", true);
             myWriter.write("\n" + plane.getName() +
                     ", " + plane.getRegistration() +
                     ", " + takeoff +
@@ -65,9 +67,9 @@ public class Flight {
                     ", " + takeoffNo +
                     ", " + typeOfFlight +
                     ", " + pilot.getName() +
-                    ", " + diary.getType());
+                    ", " + flightDiary.getType());
             myWriter.close();
-            FileWriter myWriterPlane = new FileWriter(plane.getRegistration() + ".txt", true);
+            FileWriter myWriterPlane = new FileWriter(plane.getRegistration() + ".plane", true);
             myWriterPlane.write("\n" +
                     takeoff +
                     ", " + landing +
@@ -79,12 +81,11 @@ public class Flight {
                     ", " + typeOfFlight +
                     ", " + pilot.getName());
             myWriterPlane.close();
-            System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        diary.setOverall(takeoffNo, flightTimeMinutes);
+        flightDiary.setOverall(getTakeoffNo(), getFlightTimeMinutes());
     }
 
     public String getTakeoff() {
@@ -123,8 +124,8 @@ public class Flight {
         return pilot.getName();
     }
 
-    public String getDiary() {
-        return diary.getType();
+    public TypeOfLicence getDiaryType() {
+        return flightDiary.getType();
     }
 
     public Plane getPlane() {
@@ -171,7 +172,7 @@ public class Flight {
         this.pilot = pilot;
     }
 
-    public void setDiary(FlightDiary diary) {
-        this.diary = diary;
+    public void setDiary(FlightDiary flightDiary) {
+        this.flightDiary = flightDiary;
     }
 }

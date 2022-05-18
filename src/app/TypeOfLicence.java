@@ -28,4 +28,13 @@ public enum TypeOfLicence {
     public int getValue() {
         return value;
     }
+
+    public static TypeOfLicence findByLicence(String name){
+        for(TypeOfLicence licence : values()){
+            if( licence.name().equals(name)){
+                return licence;
+            }
+        }
+        return null;
+    }
 }

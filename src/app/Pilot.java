@@ -2,12 +2,14 @@ package app;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Pilot {
     private String firstName;
@@ -18,7 +20,7 @@ public class Pilot {
         this.firstName = firstName;
         this.lastName = lastName;
         try {
-            FileWriter myWriter = new FileWriter(firstName + "_" + lastName + ".txt");
+            FileWriter myWriter = new FileWriter(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".txt");
             myWriter.write("\n" + firstName + ", " + lastName);
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
@@ -71,8 +73,8 @@ public class Pilot {
         LocalDateTime landingTime = date.atTime(17, 22);
         int flightTimeMinutes = (int) ChronoUnit.MINUTES.between(takeoffTime, landingTime);
 
-        Flight flight = new Flight(plane, "LKLB", "LKVR", date, takeoffTime, landingTime, flightTimeMinutes, 8, "okruhy", pilot, diaryULL);
-        Flight flight2 = new Flight(plane2, "LKLB", "LKBR", date, takeoffTime, landingTime, flightTimeMinutes, 1, "přelet", pilot, diarySPL);
-        Flight flight3 = new Flight(plane2, "LKBR", "LKLB", date, takeoffTime, landingTime, flightTimeMinutes, 10, "přelet", pilot, diarySPL);
+        //Flight flight = new Flight(plane, "LKLB", "LKVR", date, takeoffTime, landingTime, flightTimeMinutes, 8, "okruhy", pilot, diaryULL);
+        //Flight flight2 = new Flight(plane2, "LKLB", "LKBR", date, takeoffTime, landingTime, flightTimeMinutes, 1, "přelet", pilot, diarySPL);
+        //light flight3 = new Flight(plane2, "LKBR", "LKLB", date, takeoffTime, landingTime, flightTimeMinutes, 10, "přelet", pilot, diarySPL);
     }
 }

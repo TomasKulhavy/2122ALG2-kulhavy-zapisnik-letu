@@ -1,10 +1,8 @@
 package app;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.lang.reflect.Type;
+import java.util.*;
 
 public class FlightDiary {
     private Pilot pilot;
@@ -17,21 +15,20 @@ public class FlightDiary {
         this.pilot = pilot;
         this.typeOfLicence = typeOfLicence;
         try {
-            FileWriter myWriter = new FileWriter(pilot.getName() + ".txt", true);
+            FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + ".txt", true);
             myWriter.write("\n" + typeOfLicence);
             myWriter.close();
-            FileWriter myWriterDiary = new FileWriter(pilot.getName() + "_" + getType() + ".txt");
+            FileWriter myWriterDiary = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "_" + getType() + ".txt");
             myWriterDiary.write("\n" + getOverallMinutes() + "," + getOverallTakeoffs());
             myWriterDiary.close();
-            System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
 
-    public String getType() {
-        return typeOfLicence.toString();
+    public TypeOfLicence getType() {
+        return typeOfLicence;
     }
 
     public String getName() {
