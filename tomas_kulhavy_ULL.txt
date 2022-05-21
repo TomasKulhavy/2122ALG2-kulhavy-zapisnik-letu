@@ -1,3 +1,7 @@
 
-120,1
-Bristell, OK-YAI-24, LKVR, LKLB, 2022-05-18, 18:0, 20:0, 120, 1, navigačníí let, tomas_kulhavy, ULL
+197,3
+Bristell, OK-YAI-24, LKLB, LKVR, 2022-05-20, 10:13, 13:0, 167, 1, let, tomas_kulhavy, ULL
+
+Bristell, OK-YAI-24, LKVR, LKVR, 2022-05-22, 12:0, 12:15, 15, 1, let, tomas_kulhavy, ULL
+
+Bristell, OK-YAI-24, LKLB, LKLB, 2022-05-23, 12:0, 12:15, 15, 1, let, tomas_kulhavy, ULL

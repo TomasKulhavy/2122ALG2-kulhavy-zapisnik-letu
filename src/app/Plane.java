@@ -1,5 +1,7 @@
 package app;
 
+import utils.Tools;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ public class Plane {
     private int takeoffNo;
     private int flightTimeMinutes;
     private List<Plane> planes = new ArrayList<>();
+    private boolean isLoaded = false;
 
     public Plane(String registration) {
         this.registration = registration;
@@ -74,35 +77,64 @@ public class Plane {
     public void setTakeoffNo(int takeoffNo) {
         this.takeoffNo = takeoffNo;
     }
+
+    public void setOverallPlane() {
+        try {
+            File myObj = new File(getRegistration() + ".plane");
+            Scanner myReader = new Scanner(myObj);
+            myReader.nextLine();
+            String data = myReader.nextLine();
+            String[] line = data.split(", ");
+            System.out.println(Arrays.toString(line));
+            int temp = Integer.parseInt(line[3]);
+            temp += flightTimeMinutes;
+            line[3] = String.valueOf(temp);
+            int temp2 = Integer.parseInt(line[4]);
+            temp2 += takeoffNo;
+            line[4] = String.valueOf(temp2);
+            String data2 = line[0] + ", " + line[1] + ", " + line[2] + ", " + line[3] + ", " + line[4];
+            System.out.println(data2);
+            myReader.close();
+            Tools.replaceSelected(myObj, data, data2);
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
     public void addPlane(Plane plane) {
         planes.add(plane);
     }
+
     public List<Plane> getPlanes() {
         return planes;
     }
+
     public List<Plane> loadAllPlanes() throws FileNotFoundException {
+        planes.removeAll(planes);
+        if (!isLoaded) {
+            File dir = new File(".");
+            File[] files = dir.listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".plane");
+                }
+            });
 
-        File dir = new File(".");
-        File [] files = dir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".plane");
+            for (File xmlfile : files) {
+                File file = new File(xmlfile.getName());
+                Scanner sc = new Scanner(file);
+                sc.nextLine();
+                String data = sc.nextLine();
+                String[] list = data.split(", ");
+                String name = list[0];
+                TypeOfLicence licence = TypeOfLicence.findByLicence(list[1]);
+                String registration = list[2];
+                Plane plane = new Plane(name, licence, registration);
+                addPlane(plane);
             }
-        });
 
-        for (File xmlfile : files) {
-            File file = new File(xmlfile.getName());
-            Scanner sc = new Scanner(file);
-            sc.nextLine();
-            String data = sc.nextLine();
-            String[] list = data.split(", ");
-            String name = list[0];
-            TypeOfLicence licence = TypeOfLicence.findByLicence(list[1]);
-            String registration = list[2];
-            Plane plane = new Plane(name, licence, registration);
-            addPlane(plane);
         }
-
         return getPlanes();
     }
 }
