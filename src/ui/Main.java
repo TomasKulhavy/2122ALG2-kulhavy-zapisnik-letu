@@ -5,6 +5,7 @@ import utils.Tools;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -46,8 +47,7 @@ public class Main {
                         1. Pridat typ zapisniku letu
                         2. Pridat let
                         3. Pridat letadlo
-                        4. Zobrazit souhrne soucty podle typu licence
-                        5. Zobrazit zapisnik
+                        4. Zobrazit zapisnik
                         0. Odhlasit se""";
                 System.out.println(menu);
                 int tempLogin = sc.nextInt();
@@ -85,12 +85,10 @@ public class Main {
                     System.out.println(planes.get(tempPlane - 1).getRegistration());
                     Plane selectedPlane = planes.get(tempPlane - 1);
 
-                    String[] dateArr = date.split("\\.");
-                    LocalDate dateCal = LocalDate.of(Integer.parseInt(dateArr[2]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]));
-                    String[] takeoffArr = takeoffTime.split(":");
-                    LocalDateTime takeoffTimeCal = dateCal.atTime(Integer.parseInt(takeoffArr[0]), Integer.parseInt(takeoffArr[1]));
-                    String[] landingArr = landingTime.split(":");
-                    LocalDateTime landingTimeCal = dateCal.atTime(Integer.parseInt(landingArr[0]), Integer.parseInt(landingArr[1]));
+                    LocalDate dateCal = Tools.parseDate(date);
+                    LocalDateTime takeoffTimeCal = Tools.parseTime(takeoffTime, Tools.parseDate(date));
+                    LocalDateTime landingTimeCal = Tools.parseTime(landingTime, Tools.parseDate(date));
+
                     int flightTimeInMinutes = (int) ChronoUnit.MINUTES.between(takeoffTimeCal, landingTimeCal);
                     flightDiary = new FlightDiary(pilot, plane.getTypeOfLicence(), true);
                     Flight flight = new Flight(selectedPlane, takeoff, landing, dateCal, takeoffTimeCal, landingTimeCal, flightTimeInMinutes, takeoffNo, typeOfFlight, pilot, flightDiary);
@@ -105,6 +103,16 @@ public class Main {
                     String reg = sc.next();
                     plane = new Plane(name, TypeOfLicence.valueOf(tempLicence), reg);
 
+                } else if (tempLogin == 4) {
+                    System.out.println("--Vas vypis zapisniku--");
+                    flightDiary = new FlightDiary(pilot, TypeOfLicence.findByLicence("ULL"), true);
+                    List<FlightDiary> diaries = flightDiary.getDiaries();
+                    Tools.printLicences(flightDiary.getDiaries());
+                    System.out.println("Vyber podle typu licence: ");
+                    int tempLicence = sc.nextInt();
+                    flightDiary = diaries.get(tempLicence - 1);
+                    System.out.println(flightDiary.getFlightsAndMinutes());
+                    Tools.printFlight(flightDiary.getFlights(flightDiary));
                 }
             } while (login);
         } while (!end);

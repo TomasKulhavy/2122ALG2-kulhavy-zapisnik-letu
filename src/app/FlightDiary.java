@@ -3,6 +3,8 @@ package app;
 import utils.Tools;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class FlightDiary {
@@ -56,6 +58,20 @@ public class FlightDiary {
         return overallTakeoffs;
     }
 
+    public List<FlightDiary> getDiaries() throws FileNotFoundException {
+        diaries.removeAll(diaries);
+        File myObj = new File(pilot.getName() + ".profile");
+        Scanner myReader = new Scanner(myObj);
+        myReader.nextLine();
+        myReader.nextLine();
+        while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            FlightDiary diary = new FlightDiary(pilot, TypeOfLicence.findByLicence(data), true);
+            diaries.add(diary);
+        }
+        return diaries;
+    }
+
     public void setOverall(int overallTakeoffs, int overallMinutes, TypeOfLicence typeOfLicence) {
         try {
             File myObj = new File(pilot.getName() + "." + typeOfLicence);
@@ -78,18 +94,42 @@ public class FlightDiary {
         }
     }
 
-    public String getFlights() {
-        StringBuilder str = new StringBuilder();
-        for (Flight flight : flights) {
-            str.append("\n")
-                    .append(flight.getTakeoff())
-                    .append(flight.getLanding())
-                    .append(flight.getTakeoffTime())
-                    .append(flight.getLandingTime())
-                    .append(flight.getTakeoffNo())
-                    .append(flight.getPilot())
-                    .append(flight.getPlane());
+    public String getFlightsAndMinutes() throws FileNotFoundException {
+        System.out.println("Typ licence: " + typeOfLicence);
+        File myObj = new File(pilot.getName() + "." + typeOfLicence);
+        Scanner myReader = new Scanner(myObj);
+        myReader.nextLine();
+        String data = myReader.nextLine();
+        String[] line = data.split(",");
+        overallMinutes = Integer.parseInt(line[0]);
+        overallTakeoffs = Integer.parseInt(line[1]);
+        return String.format("Celkem: %s hodin a %sx startu\n", Tools.getTotalTime(overallMinutes), overallTakeoffs);
+    }
+
+    public List<Flight> getFlights(FlightDiary diary) {
+        try {
+            File myObj = new File(pilot.getName() + "." + typeOfLicence);
+            Scanner myReader = new Scanner(myObj);
+            myReader.nextLine();
+            myReader.nextLine();
+            while(myReader.hasNextLine()) {
+                String dataFlight = myReader.nextLine();
+                String[] lineFlight = dataFlight.split(", ");
+                Plane plane = new Plane(lineFlight[0], TypeOfLicence.findByLicence(lineFlight[11]), lineFlight[1], true);
+                LocalDate date = LocalDate.parse(lineFlight[4]);
+                LocalDateTime takeoffTime = Tools.parseTime(lineFlight[5], date);
+                LocalDateTime landingTime = Tools.parseTime(lineFlight[6], date);
+
+                Flight flight = new Flight(plane, lineFlight[2], lineFlight[3], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[7]), Integer.parseInt(lineFlight[8]), lineFlight[9], pilot, diary, true);
+                flights.add(flight);
+                if(myReader.hasNextLine()) myReader.nextLine();
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
-        return str.toString();
+
+        return flights;
     }
 }

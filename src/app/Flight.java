@@ -53,6 +53,20 @@ public class Flight {
         SaveNewFlight();
     }
 
+    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, FlightDiary flightDiary, boolean exist) {
+        this.plane = plane;
+        this.takeoff = takeoff;
+        this.landing = landing;
+        this.date = date;
+        this.takeoffTime = takeoffTime;
+        this.landingTime = landingTime;
+        this.flightTimeMinutes = flightTimeMinutes;
+        this.takeoffNo = takeoffNo;
+        this.typeOfFlight = typeOfFlight;
+        this.pilot = pilot;
+        this.flightDiary = flightDiary;
+    }
+
     public void SaveNewFlight() {
         try {
             FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);

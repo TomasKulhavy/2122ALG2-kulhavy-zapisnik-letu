@@ -2,7 +2,6 @@ package app;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,18 +14,25 @@ public class Pilot {
     private String firstName;
     private String lastName;
     private List<FlightDiary> diary = new ArrayList<>();
+    boolean exist = false;
 
     public Pilot(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        try {
-            FileWriter myWriter = new FileWriter(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
-            myWriter.write("\n" + firstName + ", " + lastName);
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+
+        File file = new File(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
+        exist = file.exists();
+
+        if(!exist) {
+            try {
+                FileWriter myWriter = new FileWriter(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
+                myWriter.write("\n" + firstName + ", " + lastName);
+                myWriter.close();
+                System.out.println("Successfully wrote to the file.");
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -37,14 +43,6 @@ public class Pilot {
 
     public String getName() {
         return firstName + "_" + lastName;
-    }
-
-    public String getDiaries() {
-        StringBuilder str = new StringBuilder();
-        for (FlightDiary flightDiary : diary) {
-            str.append("\n").append(flightDiary.getType());
-        }
-        return str.toString();
     }
 
     public void addDiary(FlightDiary flightDiary) {
