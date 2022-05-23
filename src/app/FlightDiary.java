@@ -26,7 +26,7 @@ public class FlightDiary {
 
             File file2 = new File(pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
             exist = file2.exists();
-            if(!exist) {
+            if (!exist) {
                 FileWriter myWriterDiary = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
                 myWriterDiary.write("\n" + getOverallMinutes() + "," + getOverallTakeoffs());
                 myWriterDiary.close();
@@ -44,10 +44,6 @@ public class FlightDiary {
 
     public TypeOfLicence getType() {
         return typeOfLicence;
-    }
-
-    public String getName() {
-        return pilot.getName();
     }
 
     public int getOverallMinutes() {
@@ -106,23 +102,23 @@ public class FlightDiary {
         return String.format("Celkem: %s hodin a %sx startu\n", Tools.getTotalTime(overallMinutes), overallTakeoffs);
     }
 
-    public List<Flight> getFlights(FlightDiary diary) {
+    public List<Flight> getFlights() {
         try {
             File myObj = new File(pilot.getName() + "." + typeOfLicence);
             Scanner myReader = new Scanner(myObj);
             myReader.nextLine();
             myReader.nextLine();
-            while(myReader.hasNextLine()) {
+            while (myReader.hasNextLine()) {
                 String dataFlight = myReader.nextLine();
                 String[] lineFlight = dataFlight.split(", ");
                 Plane plane = new Plane(lineFlight[0], TypeOfLicence.findByLicence(lineFlight[11]), lineFlight[1], true);
                 LocalDate date = LocalDate.parse(lineFlight[4]);
                 LocalDateTime takeoffTime = Tools.parseTime(lineFlight[5], date);
                 LocalDateTime landingTime = Tools.parseTime(lineFlight[6], date);
-
+                FlightDiary diary = new FlightDiary(pilot, typeOfLicence, true);
                 Flight flight = new Flight(plane, lineFlight[2], lineFlight[3], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[7]), Integer.parseInt(lineFlight[8]), lineFlight[9], pilot, diary, true);
                 flights.add(flight);
-                if(myReader.hasNextLine()) myReader.nextLine();
+                if (myReader.hasNextLine()) myReader.nextLine();
             }
             myReader.close();
         } catch (FileNotFoundException e) {
@@ -131,5 +127,20 @@ public class FlightDiary {
         }
 
         return flights;
+    }
+
+    public ArrayList<Flight> sortByDateDesc() {
+        ArrayList<Flight> list = new ArrayList<>(flights);
+        Comparator<Flight> flight = new Flight();
+        list.sort(flight);
+        return list;
+    }
+
+    public ArrayList<Flight> sortByDateAsc() {
+        ArrayList<Flight> list = new ArrayList<>(flights);
+        Comparator<Flight> flight = new Flight();
+        list.sort(flight);
+        Collections.reverse(list);
+        return list;
     }
 }

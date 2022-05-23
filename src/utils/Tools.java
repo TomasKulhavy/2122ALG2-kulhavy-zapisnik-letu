@@ -34,6 +34,14 @@ public class Tools {
         System.out.println();
     }
 
+    public static void printPlaneFlight(List<Flight> flights) {
+        System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", "Letiste odletu", "Letiste priletu", "Datum letu", "Cas odletu", "Cas priletu", "Cas letu", "Pocet startu", "Poznamka", "Pilot");
+        for (Flight flight : flights) {
+            System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", flight.getTakeoff(), flight.getLanding(), flight.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), flight.getTakeoffTime().getHour() + ":" + flight.getTakeoffTime().getMinute(), flight.getLandingTime().getHour() + ":" + flight.getLandingTime().getMinute(), getTotalTime(flight.getFlightTimeMinutes()), flight.getTakeoffNo(), flight.getTypeOfFlight(), flight.getPilot());
+        }
+        System.out.println();
+    }
+
     public static String getTotalTime(int minutesInput) {
         int hours = minutesInput / 60;
         int minutes = minutesInput % 60;
@@ -66,7 +74,7 @@ public class Tools {
         try {
             // input the file content to the StringBuffer "input"
             BufferedReader file = new BufferedReader(new FileReader(fileInput));
-            StringBuffer inputBuffer = new StringBuffer();
+            StringBuilder inputBuffer = new StringBuilder();
             String line;
 
             while ((line = file.readLine()) != null) {
@@ -87,5 +95,24 @@ public class Tools {
         } catch (Exception e) {
             System.out.println("Problem reading file.");
         }
+    }
+
+    public static void showMenu() {
+        String menu = """
+                        1. Pridat typ zapisniku letu
+                        2. Pridat let
+                        3. Pridat letadlo
+                        4. Zobrazit zapisnik
+                        5. Zobrazit zapisnik letadla
+                        0. Odhlasit se""";
+        System.out.println(menu);
+    }
+
+    public static void showSortMenu() {
+        String menu = """
+                        1. Seradit sestupne podle datumu
+                        2. Seradit vzestupne podle datumu
+                        0. Zpet""";
+        System.out.println(menu);
     }
 }

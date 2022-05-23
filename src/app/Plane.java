@@ -3,11 +3,9 @@ package app;
 import utils.Tools;
 
 import java.io.*;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class Plane {
     private String name;
@@ -16,7 +14,7 @@ public class Plane {
     private int takeoffNo;
     private int flightTimeMinutes;
     private List<Plane> planes = new ArrayList<>();
-    private boolean isLoaded = false;
+    private List<Flight> flights = new ArrayList<>();
 
     public Plane(String registration) {
         this.registration = registration;
@@ -50,36 +48,16 @@ public class Plane {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public TypeOfLicence getTypeOfLicence() {
         return typeOfLicence;
-    }
-
-    public void setTypeOfLicence(TypeOfLicence typeOfLicence) {
-        this.typeOfLicence = typeOfLicence;
     }
 
     public String getRegistration() {
         return registration;
     }
 
-    public void setRegistration(String registration) {
-        this.registration = registration;
-    }
-
-    public int getFlightTimeMinutes() {
-        return flightTimeMinutes;
-    }
-
     public void setFlightTimeMinutes(int flightTimeMinutes) {
         this.flightTimeMinutes = flightTimeMinutes;
-    }
-
-    public int getTakeoffNo() {
-        return takeoffNo;
     }
 
     public void setTakeoffNo(int takeoffNo) {
@@ -108,6 +86,50 @@ public class Plane {
         }
     }
 
+    public String getFlightsAndMinutes() throws FileNotFoundException {
+        System.out.format("%-15s%-15s%n", "Letadlo: ", getName());
+        System.out.format("%-15s%-15s%n", "Registrace: ", getRegistration());
+        System.out.format("%-15s%-15s%n", "Type letu: ", getTypeOfLicence());
+
+        File myObj = new File(getRegistration() + ".plane");
+        Scanner myReader = new Scanner(myObj);
+        myReader.nextLine();
+        String data = myReader.nextLine();
+        String[] line = data.split(", ");
+        flightTimeMinutes = Integer.parseInt(line[3]);
+        takeoffNo = Integer.parseInt(line[4]);
+        return String.format("Celkem: %s hodin a %sx startu\n", Tools.getTotalTime(flightTimeMinutes), takeoffNo);
+    }
+
+    public List<Flight> getFlights() {
+        try {
+            File myObj = new File(getRegistration() + ".plane");
+            Scanner myReader = new Scanner(myObj);
+            myReader.nextLine();
+            myReader.nextLine();
+            while (myReader.hasNextLine()) {
+                String dataFlight = myReader.nextLine();
+                String[] lineFlight = dataFlight.split(", ");
+                Plane planeSelect = new Plane(name, typeOfLicence, registration, true);
+                LocalDate date = LocalDate.parse(lineFlight[2]);
+                LocalDateTime takeoffTime = Tools.parseTime(lineFlight[3], date);
+                LocalDateTime landingTime = Tools.parseTime(lineFlight[4], date);
+                String[] tempName = lineFlight[8].split("_");
+                File file = new File(lineFlight[8] + ".profile");
+                Pilot pilot = new Pilot(tempName[0], tempName[1], file);
+                Flight flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[5]), Integer.parseInt(lineFlight[6]), lineFlight[7], pilot, true);
+                flights.add(flight);
+                if (myReader.hasNextLine()) myReader.nextLine();
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        return flights;
+    }
+
     public void addPlane(Plane plane) {
         planes.add(plane);
     }
@@ -118,29 +140,36 @@ public class Plane {
 
     public List<Plane> loadAllPlanes() throws FileNotFoundException {
         planes.removeAll(planes);
-        if (!isLoaded) {
-            File dir = new File(".");
-            File[] files = dir.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.endsWith(".plane");
-                }
-            });
+        File dir = new File(".");
+        File[] files = dir.listFiles((dir1, name) -> name.endsWith(".plane"));
 
-            for (File xmlfile : files) {
-                File file = new File(xmlfile.getName());
-                Scanner sc = new Scanner(file);
-                sc.nextLine();
-                String data = sc.nextLine();
-                String[] list = data.split(", ");
-                String name = list[0];
-                TypeOfLicence licence = TypeOfLicence.findByLicence(list[1]);
-                String registration = list[2];
-                Plane plane = new Plane(name, licence, registration, true);
-                addPlane(plane);
-            }
-
+        for (File xmlfile : Objects.requireNonNull(files)) {
+            File file = new File(xmlfile.getName());
+            Scanner sc = new Scanner(file);
+            sc.nextLine();
+            String data = sc.nextLine();
+            String[] list = data.split(", ");
+            String name = list[0];
+            TypeOfLicence licence = TypeOfLicence.findByLicence(list[1]);
+            String registration = list[2];
+            Plane plane = new Plane(name, licence, registration, true);
+            addPlane(plane);
         }
         return getPlanes();
+    }
+
+    public ArrayList<Flight> sortByDateDesc() {
+        ArrayList<Flight> list = new ArrayList<>(flights);
+        Comparator<Flight> flight = new Flight();
+        list.sort(flight);
+        return list;
+    }
+
+    public ArrayList<Flight> sortByDateAsc() {
+        ArrayList<Flight> list = new ArrayList<>(flights);
+        Comparator<Flight> flight = new Flight();
+        list.sort(flight);
+        Collections.reverse(list);
+        return list;
     }
 }

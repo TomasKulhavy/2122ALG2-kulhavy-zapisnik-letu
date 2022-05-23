@@ -5,7 +5,6 @@ import utils.Tools;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -17,17 +16,17 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
         boolean end = false;
-        boolean login = false;
-        Pilot pilot = null;
-        Plane plane = null;
+        boolean login;
+        boolean exitSort = false;
+        Pilot pilot;
+        Plane plane;
         plane = new Plane("OK-INIT");
-        FlightDiary flightDiary = null;
+        FlightDiary flightDiary;
         do {
             System.out.println("---- Vitejte v zapisniku svych letu ----");
             System.out.println("Zadejte sve jmeno [bez diakritiky] - pro vypnuti aplikace stiskni [0]: ");
             String temp = sc.nextLine();
             if (temp.equals("0")) {
-                end = true;
                 break;
             }
             String[] tempData = temp.split(" ");
@@ -43,16 +42,9 @@ public class Main {
 
             do {
                 List<Plane> planes = plane.loadAllPlanes();
-                String menu = """
-                        1. Pridat typ zapisniku letu
-                        2. Pridat let
-                        3. Pridat letadlo
-                        4. Zobrazit zapisnik
-                        0. Odhlasit se""";
-                System.out.println(menu);
+                Tools.showMenu();
                 int tempLogin = sc.nextInt();
                 if (tempLogin == 0) {
-                    login = false;
                     sc.nextLine();
                     break;
                 } else if (tempLogin == 1) {
@@ -112,7 +104,30 @@ public class Main {
                     int tempLicence = sc.nextInt();
                     flightDiary = diaries.get(tempLicence - 1);
                     System.out.println(flightDiary.getFlightsAndMinutes());
-                    Tools.printFlight(flightDiary.getFlights(flightDiary));
+                    Tools.printFlight(flightDiary.getFlights());
+                    do {
+                        Tools.showSortMenu();
+                        int tempSort = sc.nextInt();
+                        if(tempSort == 1) Tools.printFlight(flightDiary.sortByDateDesc());
+                        else if(tempSort == 2) Tools.printFlight(flightDiary.sortByDateAsc());
+                        if(tempSort == 0) exitSort = true;
+                    } while (!exitSort);
+                } else if (tempLogin == 5) {
+                    System.out.println("--Zapisnik letadla--");
+                    System.out.println("Vyber letadlo: ");
+                    Tools.printPlanes(planes);
+                    int tempPlaneDiary = sc.nextInt();
+                    plane = planes.get(tempPlaneDiary - 1);
+                    System.out.println(plane.getFlightsAndMinutes());
+                    Tools.printPlaneFlight(plane.getFlights());
+                    do {
+                        Tools.showSortMenu();
+                        int tempSort = sc.nextInt();
+                        if(tempSort == 1) Tools.printPlaneFlight(plane.sortByDateDesc());
+                        else if(tempSort == 2) Tools.printPlaneFlight(plane.sortByDateAsc());
+                        if(tempSort == 0) exitSort = true;
+                    } while (!exitSort);
+
                 }
             } while (login);
         } while (!end);

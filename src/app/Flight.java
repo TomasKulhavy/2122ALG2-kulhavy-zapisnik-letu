@@ -4,9 +4,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Locale;
 
-public class Flight {
+public class Flight implements Comparator<Flight> {
     private Plane plane;
     private String takeoff;
     private String landing;
@@ -17,25 +18,10 @@ public class Flight {
     private int takeoffNo;
     private String typeOfFlight;
     private Pilot pilot;
-    private TypeOfLicence diary;
     private FlightDiary flightDiary;
 
-    @Override
-    public String toString() {
-        return "Flight{" +
-                "planeType=" + plane.getName() +
-                ", planeRegistration=" + plane.getRegistration() +
-                ", takeoff='" + takeoff + '\'' +
-                ", landing='" + landing + '\'' +
-                ", date=" + date +
-                ", takeoffTime=" + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
-                ", landingTime=" + landingTime.getHour() + ":" + landingTime.getMinute() +
-                ", flightTimeInMinutes=" + flightTimeMinutes +
-                ", takeoffNo=" + takeoffNo +
-                ", typeOfFlight='" + typeOfFlight + '\'' +
-                ", pilot=" + pilot.getName() +
-                ", diary=" + flightDiary.getType() +
-                '}';
+    public Flight() {
+
     }
 
     public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, FlightDiary flightDiary) {
@@ -65,6 +51,19 @@ public class Flight {
         this.typeOfFlight = typeOfFlight;
         this.pilot = pilot;
         this.flightDiary = flightDiary;
+    }
+
+    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, boolean exist) {
+        this.plane = plane;
+        this.takeoff = takeoff;
+        this.landing = landing;
+        this.date = date;
+        this.takeoffTime = takeoffTime;
+        this.landingTime = landingTime;
+        this.flightTimeMinutes = flightTimeMinutes;
+        this.takeoffNo = takeoffNo;
+        this.typeOfFlight = typeOfFlight;
+        this.pilot = pilot;
     }
 
     public void SaveNewFlight() {
@@ -147,55 +146,17 @@ public class Flight {
         return pilot.getName();
     }
 
-    public TypeOfLicence getDiaryType() {
-        return flightDiary.getType();
-    }
-
     public Plane getPlane() {
         return plane;
     }
 
-    public void setPlane(Plane plane) {
-        this.plane = plane;
-    }
-
-    public void setTakeoff(String takeoff) {
-        this.takeoff = takeoff;
-    }
-
-    public void setLanding(String landing) {
-        this.landing = landing;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setTakeoffTime(LocalDateTime takeoffTime) {
-        this.takeoffTime = takeoffTime;
-    }
-
-    public void setLandingTime(LocalDateTime landingTime) {
-        this.landingTime = landingTime;
-    }
-
-    public void setFlightTimeMinutes(int flightTimeMinutes) {
-        this.flightTimeMinutes = flightTimeMinutes;
-    }
-
-    public void setTakeoffNo(int takeoffNo) {
-        this.takeoffNo = takeoffNo;
-    }
-
-    public void setTypeOfFlight(String typeOfFlight) {
-        this.typeOfFlight = typeOfFlight;
-    }
-
-    public void setPilot(Pilot pilot) {
-        this.pilot = pilot;
-    }
-
-    public void setDiary(FlightDiary flightDiary) {
-        this.flightDiary = flightDiary;
+    @Override
+    public int compare(Flight o1, Flight o2) {
+        int result = o1.getDate().compareTo(o2.getDate());
+        result = ((-1) * result);
+        if (0 == result) {
+            result = o1.getTakeoffTime().compareTo(o2.getTakeoffTime());
+        }
+        return result;
     }
 }

@@ -29,9 +29,9 @@ public enum TypeOfLicence {
         return value;
     }
 
-    public static TypeOfLicence findByLicence(String name){
-        for(TypeOfLicence licence : values()){
-            if( licence.name().equals(name)){
+    public static TypeOfLicence findByLicence(String name) {
+        for (TypeOfLicence licence : values()) {
+            if (licence.name().equals(name)) {
                 return licence;
             }
         }
