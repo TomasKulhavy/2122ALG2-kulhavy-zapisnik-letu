@@ -1,6 +1,5 @@
 package utils;
 
-import app.Pilot;
 import app.Plane;
 import app.TypeOfLicence;
 
@@ -18,6 +17,12 @@ public class Tools {
     public static void printPlanes(List<Plane> planeList) {
         for (int i = 0; i < planeList.size(); i++) {
             System.out.println(i + 1 + "." + " - " + planeList.get(i).getRegistration());
+        }
+    }
+
+    public static void generateTypesOfLicence() {
+        for (int i = 0; i < TypeOfLicence.values().length; i++) {
+            System.out.println(i + 1 + "." + " - " + TypeOfLicence.valueOf(i));
         }
     }
 

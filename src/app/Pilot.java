@@ -20,7 +20,7 @@ public class Pilot {
         this.firstName = firstName;
         this.lastName = lastName;
         try {
-            FileWriter myWriter = new FileWriter(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".txt");
+            FileWriter myWriter = new FileWriter(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
             myWriter.write("\n" + firstName + ", " + lastName);
             myWriter.close();
             System.out.println("Successfully wrote to the file.");

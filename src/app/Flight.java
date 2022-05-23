@@ -55,7 +55,7 @@ public class Flight {
 
     public void SaveNewFlight() {
         try {
-            FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "_" + plane.getTypeOfLicence() + ".txt", true);
+            FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
             myWriter.write("\n" + plane.getName() +
                     ", " + plane.getRegistration() +
                     ", " + takeoff +
@@ -69,6 +69,11 @@ public class Flight {
                     ", " + pilot.getName() +
                     ", " + plane.getTypeOfLicence());
             myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        try {
             FileWriter myWriterPlane = new FileWriter(plane.getRegistration() + ".plane", true);
             myWriterPlane.write("\n" +
                     takeoff +
@@ -85,6 +90,7 @@ public class Flight {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+
         flightDiary.setOverall(getTakeoffNo(), getFlightTimeMinutes(), plane.getTypeOfLicence());
         plane.setFlightTimeMinutes(getFlightTimeMinutes());
         plane.setTakeoffNo(getTakeoffNo());

@@ -38,6 +38,14 @@ public class Plane {
         }
     }
 
+    public Plane(String name, TypeOfLicence typeOfLicence, String registration, boolean exist) {
+        this.name = name;
+        this.typeOfLicence = typeOfLicence;
+        this.registration = registration;
+        this.flightTimeMinutes = 0;
+        this.takeoffNo = 0;
+    }
+
     public String getName() {
         return name;
     }
@@ -85,7 +93,6 @@ public class Plane {
             myReader.nextLine();
             String data = myReader.nextLine();
             String[] line = data.split(", ");
-            System.out.println(Arrays.toString(line));
             int temp = Integer.parseInt(line[3]);
             temp += flightTimeMinutes;
             line[3] = String.valueOf(temp);
@@ -93,7 +100,6 @@ public class Plane {
             temp2 += takeoffNo;
             line[4] = String.valueOf(temp2);
             String data2 = line[0] + ", " + line[1] + ", " + line[2] + ", " + line[3] + ", " + line[4];
-            System.out.println(data2);
             myReader.close();
             Tools.replaceSelected(myObj, data, data2);
         } catch (FileNotFoundException e) {
@@ -130,7 +136,7 @@ public class Plane {
                 String name = list[0];
                 TypeOfLicence licence = TypeOfLicence.findByLicence(list[1]);
                 String registration = list[2];
-                Plane plane = new Plane(name, licence, registration);
+                Plane plane = new Plane(name, licence, registration, true);
                 addPlane(plane);
             }
 

@@ -8,8 +8,6 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,7 +18,8 @@ public class Main {
         boolean end = false;
         boolean login = false;
         Pilot pilot = null;
-        Plane plane = new Plane("OK-INIT");
+        Plane plane = null;
+        plane = new Plane("OK-INIT");
         FlightDiary flightDiary = null;
         do {
             System.out.println("---- Vitejte v zapisniku svych letu ----");
@@ -42,6 +41,7 @@ public class Main {
             login = true;
 
             do {
+                List<Plane> planes = plane.loadAllPlanes();
                 String menu = """
                         1. Pridat typ zapisniku letu
                         2. Pridat let
@@ -57,14 +57,13 @@ public class Main {
                     break;
                 } else if (tempLogin == 1) {
                     System.out.println("Zadej pozadovany typ licence ze seznamu: ");
-                    generateTypesOfLicence();
+                    Tools.generateTypesOfLicence();
                     int tempLicence = sc.nextInt() - 1;
                     FlightDiary diary = new FlightDiary(pilot, TypeOfLicence.valueOf(tempLicence));
                     pilot.addDiary(diary);
                 } else if (tempLogin == 2) {
                     System.out.println("--Zadejte informace o letu--");
                     System.out.println("Vyber letadlo: ");
-                    List<Plane> planes = plane.loadAllPlanes();
                     Tools.printPlanes(planes);
                     int tempPlane = sc.nextInt();
                     sc.nextLine();
@@ -83,6 +82,7 @@ public class Main {
                     sc.nextLine();
                     System.out.println("Zadej typ letu: ");
                     String typeOfFlight = sc.nextLine();
+                    System.out.println(planes.get(tempPlane - 1).getRegistration());
                     Plane selectedPlane = planes.get(tempPlane - 1);
 
                     String[] dateArr = date.split("\\.");
@@ -92,15 +92,14 @@ public class Main {
                     String[] landingArr = landingTime.split(":");
                     LocalDateTime landingTimeCal = dateCal.atTime(Integer.parseInt(landingArr[0]), Integer.parseInt(landingArr[1]));
                     int flightTimeInMinutes = (int) ChronoUnit.MINUTES.between(takeoffTimeCal, landingTimeCal);
-                    flightDiary = new FlightDiary(pilot, plane.getTypeOfLicence());
-
+                    flightDiary = new FlightDiary(pilot, plane.getTypeOfLicence(), true);
                     Flight flight = new Flight(selectedPlane, takeoff, landing, dateCal, takeoffTimeCal, landingTimeCal, flightTimeInMinutes, takeoffNo, typeOfFlight, pilot, flightDiary);
                 } else if (tempLogin == 3) {
                     System.out.println("--Zadejte informace o letadle--");
                     System.out.println("Nazev letadla: ");
                     String name = sc.next();
                     System.out.println("Vyberte typ letadla: ");
-                    generateTypesOfLicence();
+                    Tools.generateTypesOfLicence();
                     int tempLicence = sc.nextInt() - 1;
                     System.out.println("Zadejte registraci letadla: ");
                     String reg = sc.next();
@@ -109,11 +108,5 @@ public class Main {
                 }
             } while (login);
         } while (!end);
-    }
-
-    public static void generateTypesOfLicence() {
-        for (int i = 0; i < TypeOfLicence.values().length; i++) {
-            System.out.println(i + 1 + "." + " - " + TypeOfLicence.valueOf(i));
-        }
     }
 }

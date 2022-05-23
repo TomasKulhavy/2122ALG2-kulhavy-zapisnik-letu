@@ -8,24 +8,36 @@ import java.util.*;
 public class FlightDiary {
     private Pilot pilot;
     private List<Flight> flights = new ArrayList<>();
+    private List<FlightDiary> diaries = new ArrayList<>();
     private TypeOfLicence typeOfLicence;
     private int overallMinutes = 0;
     private int overallTakeoffs = 0;
+    boolean exist = false;
 
     public FlightDiary(Pilot pilot, TypeOfLicence typeOfLicence) {
         this.pilot = pilot;
         this.typeOfLicence = typeOfLicence;
         try {
-            FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + ".txt", true);
+            FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + ".profile", true);
             myWriter.write("\n" + typeOfLicence);
             myWriter.close();
-            FileWriter myWriterDiary = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "_" + getType() + ".txt");
-            myWriterDiary.write("\n" + getOverallMinutes() + "," + getOverallTakeoffs());
-            myWriterDiary.close();
+
+            File file2 = new File(pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
+            exist = file2.exists();
+            if(!exist) {
+                FileWriter myWriterDiary = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
+                myWriterDiary.write("\n" + getOverallMinutes() + "," + getOverallTakeoffs());
+                myWriterDiary.close();
+            }
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    public FlightDiary(Pilot pilot, TypeOfLicence typeOfLicence, boolean exist) {
+        this.pilot = pilot;
+        this.typeOfLicence = typeOfLicence;
     }
 
     public TypeOfLicence getType() {
@@ -46,7 +58,7 @@ public class FlightDiary {
 
     public void setOverall(int overallTakeoffs, int overallMinutes, TypeOfLicence typeOfLicence) {
         try {
-            File myObj = new File(pilot.getName() + "_" + typeOfLicence + ".txt");
+            File myObj = new File(pilot.getName() + "." + typeOfLicence);
             Scanner myReader = new Scanner(myObj);
             myReader.nextLine();
             String data = myReader.nextLine();
