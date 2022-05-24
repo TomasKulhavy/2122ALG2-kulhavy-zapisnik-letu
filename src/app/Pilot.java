@@ -7,18 +7,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Třída, která uchovává pilota
+ * @author Tomáš Kulhavý
+ */
 public class Pilot {
     private String firstName;
     private String lastName;
     private List<FlightDiary> diary = new ArrayList<>();
     boolean exist = false;
 
+    /**
+     * Konstuktor
+     * @param firstName Křestní jméno pilota
+     * @param lastName Příjmení pilota
+     * @param exist Existuje daný pilot?
+     * @throws IOException
+     */
     public Pilot(String firstName, String lastName, boolean exist) {
         this.firstName = firstName;
         this.lastName = lastName;
         if(!exist) savePilotToFile();
     }
 
+    /**
+     * Metoda, která uloží pilotův profil
+     */
     public void savePilotToFile() {
         File file = new File(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
         exist = file.exists();
@@ -36,10 +50,18 @@ public class Pilot {
         }
     }
 
+    /**
+     * Vrátí celé jméno pilota
+     * @return Pilotovo celé jméno
+     */
     public String getName() {
         return firstName + "_" + lastName;
     }
 
+    /**
+     * Metoda, která přidá zápisník do profilu pilota
+     * @param flightDiary Letový zápisník
+     */
     public void addDiary(FlightDiary flightDiary) {
         for (FlightDiary value : diary) {
             if (value.getType().equals(flightDiary.getType())) {

@@ -3,6 +3,10 @@ package app;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Enum licencí
+ * @author Tomáš Kulhavý
+ */
 public enum TypeOfLicence {
     SPL(0),
     ULL(1),
@@ -21,14 +25,20 @@ public enum TypeOfLicence {
         }
     }
 
+    /**
+     * Metodá, která nám vrátí TypeOfLicence
+     * @param typeOfLicence int hodnota licence
+     * @return TypeOfLicence
+     */
     public static TypeOfLicence valueOf(int typeOfLicence) {
         return (TypeOfLicence) map.get(typeOfLicence);
     }
 
-    public int getValue() {
-        return value;
-    }
-
+    /**
+     * Metoda, která nám vrátí licenci podle názvu
+     * @param name Název licence
+     * @return Název licence podle názvu
+     */
     public static TypeOfLicence findByLicence(String name) {
         for (TypeOfLicence licence : values()) {
             if (licence.name().equals(name)) {

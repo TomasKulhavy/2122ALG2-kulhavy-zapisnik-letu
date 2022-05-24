@@ -14,17 +14,30 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * Pomocná třída na vedlejší metody
+ * @author Tomáš Kulhavý
+ */
 public class Tools {
 
     public Tools() {
     }
 
+    /**
+     * Metoda, která vypíše letadla do konzole
+     * @param planeList
+     */
     public static void printPlanes(List<Plane> planeList) {
         for (int i = 0; i < planeList.size(); i++) {
             System.out.println(i + 1 + "." + " - " + planeList.get(i).getRegistration());
         }
     }
 
+    /**
+     * Metoda, která vypíše lety ze záisníku pilota v závisloti na typu letadla
+     * @param flights List letů
+     * @param isGlider Je toto větroň?
+     */
     public static void printFlight(List<Flight> flights, boolean isGlider) {
         if (isGlider) {
             System.out.format("%-15s%-15s%-15s%-20s%-20s%-20s%-20s%-15s%-15s%-15s%-15s%n", "Datum letu", "Cas odletu", "Cas priletu", "Letiste odletu", "Letiste priletu", "Zpusob vzletu", "Cas letu", "Pocet startu", "Letadlo", "Registrace", "Poznamka");
@@ -43,6 +56,11 @@ public class Tools {
         }
     }
 
+    /**
+     * Metoda, která vypíše lety ze záisníku letadla v závisloti na typu letadla
+     * @param flights List letů
+     * @param isGlider Je toto větroň?
+     */
     public static void printPlaneFlight(List<Flight> flights, boolean isGlider) {
         if(isGlider) {
             System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", "Letiste odletu", "Letiste priletu", "Datum letu", "Cas odletu", "Cas priletu", "Cas letu", "Pocet startu", "Zpusob vzletu", "Poznamka", "Pilot");
@@ -59,34 +77,64 @@ public class Tools {
         }
     }
 
+
+    /**
+     * Metoda, která nám vrátí minuty na hodiny
+     * @param minutesInput Celkové minuty
+     * @return Hodiny ve formátu HH:MM
+     */
     public static String getTotalTime(int minutesInput) {
         int hours = minutesInput / 60;
         int minutes = minutesInput % 60;
         return String.format("%d:%02d", hours, minutes);
     }
 
+    /**
+     * Metoda, která námm parsne čas ze Stringu
+     * @param timeInput Čas ve Stringu
+     * @param dateCal Datum ve formátu LocalDate
+     * @return Čas ve formátu LocalDateTime
+     */
     public static LocalDateTime parseTime(String timeInput, LocalDate dateCal) {
         String[] timeArr = timeInput.split(":");
         return dateCal.atTime(Integer.parseInt(timeArr[0]), Integer.parseInt(timeArr[1]));
     }
 
+    /**
+     * Metoda, která námm parsne datum ze Stringu
+     * @param dateInput Datum ve Stringu
+     * @return Datum ve formátu LocalDate
+     */
     public static LocalDate parseDate(String dateInput) {
         String[] dateArr = dateInput.split("\\.");
         return LocalDate.of(Integer.parseInt(dateArr[2]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]));
     }
 
+    /**
+     * Metoda, která nám vygeneruje typy licencí pro volbu v UI
+     */
     public static void generateTypesOfLicence() {
         for (int i = 0; i < TypeOfLicence.values().length; i++) {
             System.out.println(i + 1 + "." + " - " + TypeOfLicence.valueOf(i));
         }
     }
 
+    /**
+     * Metoda, která nám vypíše licence pilota
+     * @param diaries List licencí pilota
+     */
     public static void printLicences(List<FlightDiary> diaries) {
         for (int i = 0; i < diaries.size(); i++) {
             System.out.println(i + 1 + "." + " - " + diaries.get(i).getType());
         }
     }
 
+    /**
+     * Metoda, která v souboru přepíše hodnotu novou hodnotou
+     * @param fileInput Soubor pro změnu
+     * @param replaceOld Starý text
+     * @param replaceWith Nový text
+     */
     public static void replaceSelected(File fileInput, String replaceOld, String replaceWith) {
         try {
             // input the file content to the StringBuffer "input"
@@ -114,6 +162,9 @@ public class Tools {
         }
     }
 
+    /**
+     * Metoda, která nám zobrazí hlavnáí menu v UI
+     */
     public static void showMenu() {
         String menu = """
                         1. Pridat typ zapisniku letu
@@ -125,6 +176,9 @@ public class Tools {
         System.out.println(menu);
     }
 
+    /**
+     * Metoda, která nám vrátí menu pro výběr řazení listu
+     */
     public static void showSortMenu() {
         String menu = """
                         1. Seradit sestupne podle datumu
@@ -133,6 +187,11 @@ public class Tools {
         System.out.println(menu);
     }
 
+    /**
+     * Metoda, která nám zjistí, jestli je toto větroň
+     * @param licence Typ licence
+     * @return True : je, False : není
+     */
     public static boolean isGlider(TypeOfLicence licence) {
         return licence == TypeOfLicence.SPL;
     }

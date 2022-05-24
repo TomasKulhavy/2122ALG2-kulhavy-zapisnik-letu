@@ -7,6 +7,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Třída, která zápisník letů
+ * @author Tomáš Kulhavý
+ */
 public class FlightDiary {
     private Pilot pilot;
     private List<Flight> flights = new ArrayList<>();
@@ -16,12 +20,23 @@ public class FlightDiary {
     private int overallTakeoffs = 0;
     boolean exist = false;
 
+    /**
+     * Konstruktor
+     * @param pilot
+     * @param typeOfLicence
+     * @param exist
+     * @throws IOException
+     */
     public FlightDiary(Pilot pilot, TypeOfLicence typeOfLicence, boolean exist) {
         this.pilot = pilot;
         this.typeOfLicence = typeOfLicence;
         if(!exist) saveToFile();
     }
 
+    /**
+     * Uloží typ licence to souboru pilota
+     * @throws IOException
+     */
     public void saveToFile() {
         try {
             FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + ".profile", true);
@@ -41,18 +56,35 @@ public class FlightDiary {
         }
     }
 
+    /**
+     * Vrátí typ licence
+     * @return Typ licence
+     */
     public TypeOfLicence getType() {
         return typeOfLicence;
     }
 
+    /**
+     * Vrátí celkový nálet v minutách
+     * @return Celkový nálet v minutách
+     */
     public int getOverallMinutes() {
         return overallMinutes;
     }
 
+    /**
+     * Vrátí celkový počet startů
+     * @return Celkový počet startů
+     */
     public int getOverallTakeoffs() {
         return overallTakeoffs;
     }
 
+    /**
+     * Metoda získá všechny licence pilota
+     * @return List zápisníků, které pilot má.
+     * @throws FileNotFoundException
+     */
     public List<FlightDiary> getDiaries() throws FileNotFoundException {
         diaries.removeAll(diaries);
         File myObj = new File(pilot.getName() + ".profile");
@@ -67,6 +99,13 @@ public class FlightDiary {
         return diaries;
     }
 
+    /**
+     * Metoda aktualizuje součty celkového náletu
+     * @param overallTakeoffs
+     * @param overallMinutes
+     * @param typeOfLicence
+     * @throws FileNotFoundException
+     */
     public void setOverall(int overallTakeoffs, int overallMinutes, TypeOfLicence typeOfLicence) {
         try {
             File myObj = new File(pilot.getName() + "." + typeOfLicence);
@@ -89,6 +128,11 @@ public class FlightDiary {
         }
     }
 
+    /**
+     * Metoda, která vrátí celkový nálet hodin a minut ve Stringu
+     * @return String naformátovaný, který vrátí celkový nálet hodin a vzletů
+     * @throws FileNotFoundException
+     */
     public String getFlightsAndMinutes() throws FileNotFoundException {
         System.out.println("Typ licence: " + typeOfLicence);
         File myObj = new File(pilot.getName() + "." + typeOfLicence);
@@ -101,6 +145,11 @@ public class FlightDiary {
         return String.format("Celkem: %s hodin a %sx startu\n", Tools.getTotalTime(overallMinutes), overallTakeoffs);
     }
 
+    /**
+     * Metoda, která vrátí list letů
+     * @return List letů z daného zápisníku letů
+     * @throws FileNotFoundException
+     */
     public List<Flight> getFlights() {
         try {
             File myObj = new File(pilot.getName() + "." + typeOfLicence);
@@ -138,6 +187,10 @@ public class FlightDiary {
         return flights;
     }
 
+    /**
+     * Metoda, která vrátí list seřazený sestupně
+     * @return List seřazený sestupně
+     */
     public ArrayList<Flight> sortByDateDesc() {
         ArrayList<Flight> list = new ArrayList<>(flights);
         Comparator<Flight> flight = new Flight();
@@ -145,6 +198,10 @@ public class FlightDiary {
         return list;
     }
 
+    /**
+     * Metoda, která vrátí list seřazený vzestupně
+     * @return List seřazený vzestupně
+     */
     public ArrayList<Flight> sortByDateAsc() {
         ArrayList<Flight> list = new ArrayList<>(flights);
         Comparator<Flight> flight = new Flight();

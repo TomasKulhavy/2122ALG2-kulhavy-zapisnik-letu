@@ -16,7 +16,7 @@
      - Velitel letadla
      - Typ letadla
      - Registrace letadla
-   - Uživatel může lety načíst, filtrovat, řadit, vyhledávat apod.
+   - Uživatel může lety načíst, filtorvat a řadit
    - Uživatel může vytvářet své zápisníky letů např. pro vetroně, ultralighty nebo motorové letadla.
    - Celkové součty letů, hodin a startů
    - Užitel může načíst deníky letadel ze souboru
@@ -58,9 +58,9 @@ Vámi definované zadání a následně vypracovaná semestrální práce musí 
 12. Použití kontejnerové třídy jazyka Java (ArrayList, LinkedList, HashMap ...) z Collections frameworku.
 13. Alespoň dvě možnosti třídění s využitím rozhraní Comparable a Comparator 
 14. Použití regulárního výrazu
-15.Ošetření vstupů, aby chybné vstupy nezpůsobily pád programu - pomocí existujících a vlastních výjimek
+15. Ošetření vstupů, aby chybné vstupy nezpůsobily pád programu - pomocí existujících a vlastních výjimek
 16. Vhodné ošetření povinně ošetřovaných výjimek
-17. Použití Vámi vybrané externí knihovny (audio, posílání emailů, práce s obrázkem, junit testování, jiné formáty uložení dat ...)
+17. Použití Vámi vybrané externí knihovny (audio, posílání emailů, práce s obrázkem, unit testování, jiné formáty uložení dat ...)
 18. Javadoc - každá třída a metoda musí mít javadoc popis, abyste mohli na závěr vygenerovat javadoc dokumentaci. 
 
 ## Dokumentace

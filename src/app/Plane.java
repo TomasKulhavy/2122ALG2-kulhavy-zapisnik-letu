@@ -7,6 +7,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Třída, která uchovává letadlo
+ * @author Tomáš Kulhavý
+ */
 public class Plane {
     private String name;
     private TypeOfLicence typeOfLicence;
@@ -16,10 +20,22 @@ public class Plane {
     private List<Plane> planes = new ArrayList<>();
     private List<Flight> flights = new ArrayList<>();
 
+    /**
+     * Kontruktor pouze pro inicializaci na startu programu
+     * @param registration
+     */
     public Plane(String registration) {
         this.registration = registration;
     }
 
+    /**
+     * Kontruktor pro vytvoření letadla
+     * @param name Jméno letadla
+     * @param typeOfLicence Typ licence letadla
+     * @param registration Registrace letadla
+     * @param exist Existuje již toto letadlo?
+     * @throws IOException
+     */
     public Plane(String name, TypeOfLicence typeOfLicence, String registration, boolean exist) {
         this.name = name;
         this.typeOfLicence = typeOfLicence;
@@ -29,6 +45,10 @@ public class Plane {
         if(!exist) saveFlightToFile();
     }
 
+
+    /**
+     * Metoda, která uloží let do zápisníku letadla
+     */
     public void saveFlightToFile() {
         try {
             FileWriter myWriter = new FileWriter(registration + ".plane");
@@ -40,26 +60,50 @@ public class Plane {
         }
     }
 
+    /**
+     * Vrátí název letadla
+     * @return Název letadla
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Vrátí typ licence letadla
+     * @return Typ licence letadla
+     */
     public TypeOfLicence getTypeOfLicence() {
         return typeOfLicence;
     }
 
+    /**
+     * Vrátí registraci letadla
+     * @return Registrace letadla
+     */
     public String getRegistration() {
         return registration;
     }
 
+    /**
+     * Nastaví dobu letu v minutách
+     * @param flightTimeMinutes Doba letu v minutách
+     */
     public void setFlightTimeMinutes(int flightTimeMinutes) {
         this.flightTimeMinutes = flightTimeMinutes;
     }
 
+    /**
+     * Nastaví počet vzletů
+     * @param takeoffNo Počet vzletů
+     */
     public void setTakeoffNo(int takeoffNo) {
         this.takeoffNo = takeoffNo;
     }
 
+
+    /**
+     * Metoda, která aktualizuje celkový nálet letadla v textovém souboru
+     */
     public void setOverallPlane() {
         try {
             File myObj = new File(getRegistration() + ".plane");
@@ -82,6 +126,11 @@ public class Plane {
         }
     }
 
+    /**
+     * Metoda, která vrátí celkový nálet hodin a minut ve Stringu
+     * @return String naformátovaný, který vrátí celkový nálet hodin a vzletů
+     * @throws FileNotFoundException
+     */
     public String getFlightsAndMinutes() throws FileNotFoundException {
         System.out.format("%-15s%-15s%n", "Letadlo: ", getName());
         System.out.format("%-15s%-15s%n", "Registrace: ", getRegistration());
@@ -97,6 +146,11 @@ public class Plane {
         return String.format("Celkem: %s hodin a %sx startu\n", Tools.getTotalTime(flightTimeMinutes), takeoffNo);
     }
 
+    /**
+     * Metoda, která vrátí list letů
+     * @return List letů z daného zápisníku letadla
+     * @throws FileNotFoundException
+     */
     public List<Flight> getFlights() {
         try {
             File myObj = new File(getRegistration() + ".plane");
@@ -136,14 +190,28 @@ public class Plane {
         return flights;
     }
 
+
+    /**
+     * Metoda, která přidá letadlo
+     * @param plane Objekt letadla
+     */
     public void addPlane(Plane plane) {
         planes.add(plane);
     }
 
+    /**
+     * Vrátí list letadel
+     * @return List letadel
+     */
     public List<Plane> getPlanes() {
         return planes;
     }
 
+    /**
+     * Metoda, která načte všechna letadla a jejich hodnoty ze souboru
+     * @return List letadel s jejich hodnotami ze souborů
+     * @throws FileNotFoundException
+     */
     public List<Plane> loadAllPlanes() throws FileNotFoundException {
         planes.removeAll(planes);
         File dir = new File(".");
@@ -164,6 +232,10 @@ public class Plane {
         return getPlanes();
     }
 
+    /**
+     * Metoda, která vrátí list seřazený sestupně
+     * @return List seřazený sestupně
+     */
     public ArrayList<Flight> sortByDateDesc() {
         ArrayList<Flight> list = new ArrayList<>(flights);
         Comparator<Flight> flight = new Flight();
@@ -171,6 +243,10 @@ public class Plane {
         return list;
     }
 
+    /**
+     * Metoda, která vrátí list seřazený vzestupně
+     * @return List seřazený vzestupně
+     */
     public ArrayList<Flight> sortByDateAsc() {
         ArrayList<Flight> list = new ArrayList<>(flights);
         Comparator<Flight> flight = new Flight();
