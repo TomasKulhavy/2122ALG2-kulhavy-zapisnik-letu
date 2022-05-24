@@ -99,7 +99,7 @@ public class Flight implements Comparator<Flight> {
      */
     public void saveNewFlight() {
         try {
-            FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
+            FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
             myWriter.write("\n" + plane.getName() +
                     ", " + plane.getRegistration() +
                     ", " + takeoff +
@@ -118,7 +118,7 @@ public class Flight implements Comparator<Flight> {
             e.printStackTrace();
         }
         try {
-            FileWriter myWriterPlane = new FileWriter(plane.getRegistration() + ".plane", true);
+            FileWriter myWriterPlane = new FileWriter("data/exported-data/" + plane.getRegistration() + ".plane", true);
             myWriterPlane.write("\n" +
                     takeoff +
                     ", " + landing +

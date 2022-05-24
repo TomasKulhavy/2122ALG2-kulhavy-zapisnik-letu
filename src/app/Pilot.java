@@ -34,15 +34,14 @@ public class Pilot {
      * Metoda, která uloží pilotův profil
      */
     public void savePilotToFile() {
-        File file = new File(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
+        File file = new File("data/exported-data/" + firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
         exist = file.exists();
 
         if (!exist) {
             try {
-                FileWriter myWriter = new FileWriter(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
+                FileWriter myWriter = new FileWriter("data/exported-data/" + firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
                 myWriter.write("\n" + firstName + ", " + lastName);
                 myWriter.close();
-                System.out.println("Successfully wrote to the file.");
             } catch (IOException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();

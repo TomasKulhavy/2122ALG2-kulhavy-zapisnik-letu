@@ -39,14 +39,14 @@ public class FlightDiary {
      */
     public void saveToFile() {
         try {
-            FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + ".profile", true);
+            FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + ".profile", true);
             myWriter.write("\n" + typeOfLicence);
             myWriter.close();
 
-            File file2 = new File(pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
+            File file2 = new File("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
             exist = file2.exists();
             if (!exist) {
-                FileWriter myWriterDiary = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
+                FileWriter myWriterDiary = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
                 myWriterDiary.write("\n" + getOverallMinutes() + "," + getOverallTakeoffs());
                 myWriterDiary.close();
             }
@@ -87,7 +87,7 @@ public class FlightDiary {
      */
     public List<FlightDiary> getDiaries() throws FileNotFoundException {
         diaries.removeAll(diaries);
-        File myObj = new File(pilot.getName() + ".profile");
+        File myObj = new File("data/exported-data/" + pilot.getName() + ".profile");
         Scanner myReader = new Scanner(myObj);
         myReader.nextLine();
         myReader.nextLine();
@@ -108,7 +108,7 @@ public class FlightDiary {
      */
     public void setOverall(int overallTakeoffs, int overallMinutes, TypeOfLicence typeOfLicence) {
         try {
-            File myObj = new File(pilot.getName() + "." + typeOfLicence);
+            File myObj = new File("data/exported-data/" + pilot.getName() + "." + typeOfLicence);
             Scanner myReader = new Scanner(myObj);
             myReader.nextLine();
             String data = myReader.nextLine();
@@ -135,7 +135,7 @@ public class FlightDiary {
      */
     public String getFlightsAndMinutes() throws FileNotFoundException {
         System.out.println("Typ licence: " + typeOfLicence);
-        File myObj = new File(pilot.getName() + "." + typeOfLicence);
+        File myObj = new File("data/exported-data/" + pilot.getName() + "." + typeOfLicence);
         Scanner myReader = new Scanner(myObj);
         myReader.nextLine();
         String data = myReader.nextLine();
@@ -152,7 +152,7 @@ public class FlightDiary {
      */
     public List<Flight> getFlights() {
         try {
-            File myObj = new File(pilot.getName() + "." + typeOfLicence);
+            File myObj = new File("data/exported-data/" + pilot.getName() + "." + typeOfLicence);
             Scanner myReader = new Scanner(myObj);
             myReader.nextLine();
             myReader.nextLine();

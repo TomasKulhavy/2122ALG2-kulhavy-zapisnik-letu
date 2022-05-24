@@ -51,7 +51,7 @@ public class Plane {
      */
     public void saveFlightToFile() {
         try {
-            FileWriter myWriter = new FileWriter(registration + ".plane");
+            FileWriter myWriter = new FileWriter("data/exported-data/" + registration + ".plane");
             myWriter.write("\n" + name + ", " + typeOfLicence + ", " + registration + ", " + flightTimeMinutes + ", " + takeoffNo);
             myWriter.close();
         } catch (IOException e) {
@@ -106,7 +106,7 @@ public class Plane {
      */
     public void setOverallPlane() {
         try {
-            File myObj = new File(getRegistration() + ".plane");
+            File myObj = new File("data/exported-data/" + getRegistration() + ".plane");
             Scanner myReader = new Scanner(myObj);
             myReader.nextLine();
             String data = myReader.nextLine();
@@ -136,7 +136,7 @@ public class Plane {
         System.out.format("%-15s%-15s%n", "Registrace: ", getRegistration());
         System.out.format("%-15s%-15s%n", "Typ letadla: ", getTypeOfLicence());
 
-        File myObj = new File(getRegistration() + ".plane");
+        File myObj = new File("data/exported-data/" + getRegistration() + ".plane");
         Scanner myReader = new Scanner(myObj);
         myReader.nextLine();
         String data = myReader.nextLine();
@@ -153,7 +153,7 @@ public class Plane {
      */
     public List<Flight> getFlights() {
         try {
-            File myObj = new File(getRegistration() + ".plane");
+            File myObj = new File("data/exported-data/" + getRegistration() + ".plane");
             Scanner myReader = new Scanner(myObj);
             myReader.nextLine();
             myReader.nextLine();
@@ -214,11 +214,11 @@ public class Plane {
      */
     public List<Plane> loadAllPlanes() throws FileNotFoundException {
         planes.removeAll(planes);
-        File dir = new File(".");
+        File dir = new File("data/exported-data/");
         File[] files = dir.listFiles((dir1, name) -> name.endsWith(".plane"));
 
         for (File xmlfile : Objects.requireNonNull(files)) {
-            File file = new File(xmlfile.getName());
+            File file = new File("data/exported-data/" + xmlfile.getName());
             Scanner sc = new Scanner(file);
             sc.nextLine();
             String data = sc.nextLine();
