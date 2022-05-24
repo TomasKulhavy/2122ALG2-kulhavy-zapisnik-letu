@@ -16,9 +16,13 @@ public class FlightDiary {
     private int overallTakeoffs = 0;
     boolean exist = false;
 
-    public FlightDiary(Pilot pilot, TypeOfLicence typeOfLicence) {
+    public FlightDiary(Pilot pilot, TypeOfLicence typeOfLicence, boolean exist) {
         this.pilot = pilot;
         this.typeOfLicence = typeOfLicence;
+        if(!exist) saveToFile();
+    }
+
+    public void saveToFile() {
         try {
             FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + ".profile", true);
             myWriter.write("\n" + typeOfLicence);
@@ -35,11 +39,6 @@ public class FlightDiary {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-    }
-
-    public FlightDiary(Pilot pilot, TypeOfLicence typeOfLicence, boolean exist) {
-        this.pilot = pilot;
-        this.typeOfLicence = typeOfLicence;
     }
 
     public TypeOfLicence getType() {
@@ -111,12 +110,22 @@ public class FlightDiary {
             while (myReader.hasNextLine()) {
                 String dataFlight = myReader.nextLine();
                 String[] lineFlight = dataFlight.split(", ");
-                Plane plane = new Plane(lineFlight[0], TypeOfLicence.findByLicence(lineFlight[11]), lineFlight[1], true);
+                Plane plane;
+                if(Tools.isGlider(typeOfLicence)) {
+                    plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[12], true);
+                } else {
+                    plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[11], true);
+                }
                 LocalDate date = LocalDate.parse(lineFlight[4]);
                 LocalDateTime takeoffTime = Tools.parseTime(lineFlight[5], date);
                 LocalDateTime landingTime = Tools.parseTime(lineFlight[6], date);
                 FlightDiary diary = new FlightDiary(pilot, typeOfLicence, true);
-                Flight flight = new Flight(plane, lineFlight[2], lineFlight[3], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[7]), Integer.parseInt(lineFlight[8]), lineFlight[9], pilot, diary, true);
+                Flight flight;
+                if (Tools.isGlider(diary.getType())) {
+                    flight = new Flight(plane, lineFlight[2], lineFlight[3], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[8]), Integer.parseInt(lineFlight[9]), lineFlight[10], lineFlight[7], pilot, diary, true);
+                } else {
+                    flight = new Flight(plane, lineFlight[2], lineFlight[3], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[7]), Integer.parseInt(lineFlight[8]), lineFlight[9], pilot, diary, true);
+                }
                 flights.add(flight);
                 if (myReader.hasNextLine()) myReader.nextLine();
             }

@@ -13,10 +13,13 @@ public class Pilot {
     private List<FlightDiary> diary = new ArrayList<>();
     boolean exist = false;
 
-    public Pilot(String firstName, String lastName) {
+    public Pilot(String firstName, String lastName, boolean exist) {
         this.firstName = firstName;
         this.lastName = lastName;
+        if(!exist) savePilotToFile();
+    }
 
+    public void savePilotToFile() {
         File file = new File(firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
         exist = file.exists();
 
@@ -31,11 +34,6 @@ public class Pilot {
                 e.printStackTrace();
             }
         }
-    }
-
-    public Pilot(String firstName, String lastName, File logbook) {
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
     public String getName() {

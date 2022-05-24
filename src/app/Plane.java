@@ -20,12 +20,16 @@ public class Plane {
         this.registration = registration;
     }
 
-    public Plane(String name, TypeOfLicence typeOfLicence, String registration) {
+    public Plane(String name, TypeOfLicence typeOfLicence, String registration, boolean exist) {
         this.name = name;
         this.typeOfLicence = typeOfLicence;
         this.registration = registration;
         this.flightTimeMinutes = 0;
         this.takeoffNo = 0;
+        if(!exist) saveFlightToFile();
+    }
+
+    public void saveFlightToFile() {
         try {
             FileWriter myWriter = new FileWriter(registration + ".plane");
             myWriter.write("\n" + name + ", " + typeOfLicence + ", " + registration + ", " + flightTimeMinutes + ", " + takeoffNo);
@@ -34,14 +38,6 @@ public class Plane {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-    }
-
-    public Plane(String name, TypeOfLicence typeOfLicence, String registration, boolean exist) {
-        this.name = name;
-        this.typeOfLicence = typeOfLicence;
-        this.registration = registration;
-        this.flightTimeMinutes = 0;
-        this.takeoffNo = 0;
     }
 
     public String getName() {
@@ -89,7 +85,7 @@ public class Plane {
     public String getFlightsAndMinutes() throws FileNotFoundException {
         System.out.format("%-15s%-15s%n", "Letadlo: ", getName());
         System.out.format("%-15s%-15s%n", "Registrace: ", getRegistration());
-        System.out.format("%-15s%-15s%n", "Type letu: ", getTypeOfLicence());
+        System.out.format("%-15s%-15s%n", "Typ letadla: ", getTypeOfLicence());
 
         File myObj = new File(getRegistration() + ".plane");
         Scanner myReader = new Scanner(myObj);
@@ -114,10 +110,20 @@ public class Plane {
                 LocalDate date = LocalDate.parse(lineFlight[2]);
                 LocalDateTime takeoffTime = Tools.parseTime(lineFlight[3], date);
                 LocalDateTime landingTime = Tools.parseTime(lineFlight[4], date);
-                String[] tempName = lineFlight[8].split("_");
-                File file = new File(lineFlight[8] + ".profile");
-                Pilot pilot = new Pilot(tempName[0], tempName[1], file);
-                Flight flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[5]), Integer.parseInt(lineFlight[6]), lineFlight[7], pilot, true);
+                String[] tempName;
+                if(Tools.isGlider(typeOfLicence)) {
+                    tempName = lineFlight[9].split("_");
+                } else {
+                    tempName = lineFlight[8].split("_");
+                }
+                Pilot pilot = new Pilot(tempName[0], tempName[1], true);
+                FlightDiary diary = new FlightDiary(pilot, planeSelect.getTypeOfLicence(), true);
+                Flight flight;
+                if(Tools.isGlider(planeSelect.getTypeOfLicence())) {
+                    flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[5]), Integer.parseInt(lineFlight[6]),lineFlight[7], lineFlight[8], pilot, diary, true);
+                } else {
+                    flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[5]), Integer.parseInt(lineFlight[6]), lineFlight[7], pilot, diary, true);
+                }
                 flights.add(flight);
                 if (myReader.hasNextLine()) myReader.nextLine();
             }

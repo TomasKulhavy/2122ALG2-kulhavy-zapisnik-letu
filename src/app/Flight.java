@@ -17,14 +17,14 @@ public class Flight implements Comparator<Flight> {
     private int flightTimeMinutes;
     private int takeoffNo;
     private String typeOfFlight;
+    private String typeOfTakeOff;
     private Pilot pilot;
     private FlightDiary flightDiary;
 
     public Flight() {
-
     }
 
-    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, FlightDiary flightDiary) {
+    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, String typeOfTakeOff, Pilot pilot, FlightDiary flightDiary, boolean exist) {
         this.plane = plane;
         this.takeoff = takeoff;
         this.landing = landing;
@@ -34,11 +34,13 @@ public class Flight implements Comparator<Flight> {
         this.flightTimeMinutes = flightTimeMinutes;
         this.takeoffNo = takeoffNo;
         this.typeOfFlight = typeOfFlight;
+        this.typeOfTakeOff = typeOfTakeOff;
         this.pilot = pilot;
         this.flightDiary = flightDiary;
-        SaveNewFlight();
+        if(!exist) saveNewFlight();
     }
 
+    // TODO - Dokumentace a javadocs
     public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, FlightDiary flightDiary, boolean exist) {
         this.plane = plane;
         this.takeoff = takeoff;
@@ -51,22 +53,10 @@ public class Flight implements Comparator<Flight> {
         this.typeOfFlight = typeOfFlight;
         this.pilot = pilot;
         this.flightDiary = flightDiary;
+        if(!exist) saveNewFlight();
     }
 
-    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, boolean exist) {
-        this.plane = plane;
-        this.takeoff = takeoff;
-        this.landing = landing;
-        this.date = date;
-        this.takeoffTime = takeoffTime;
-        this.landingTime = landingTime;
-        this.flightTimeMinutes = flightTimeMinutes;
-        this.takeoffNo = takeoffNo;
-        this.typeOfFlight = typeOfFlight;
-        this.pilot = pilot;
-    }
-
-    public void SaveNewFlight() {
+    public void saveNewFlight() {
         try {
             FileWriter myWriter = new FileWriter(pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
             myWriter.write("\n" + plane.getName() +
@@ -129,6 +119,8 @@ public class Flight implements Comparator<Flight> {
     public LocalDateTime getLandingTime() {
         return landingTime;
     }
+
+    public String getTypeOfTakeOff() { return typeOfTakeOff; }
 
     public int getFlightTimeMinutes() {
         return flightTimeMinutes;

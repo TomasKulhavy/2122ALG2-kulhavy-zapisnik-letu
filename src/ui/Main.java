@@ -34,15 +34,16 @@ public class Main {
             File logbook = new File(tempData[0] + "_" + tempData[1] + ".txt");
             boolean exist = logbook.exists();
             if (!exist) {
-                pilot = new Pilot(tempData[0], tempData[1]);
+                pilot = new Pilot(tempData[0], tempData[1], false);
             } else {
-                pilot = new Pilot(tempData[0], tempData[1], logbook);
+                pilot = new Pilot(tempData[0], tempData[1], true);
             }
             login = true;
 
             do {
                 List<Plane> planes = plane.loadAllPlanes();
                 Tools.showMenu();
+                String typeOfTakeoff = "";
                 int tempLogin = sc.nextInt();
                 if (tempLogin == 0) {
                     sc.nextLine();
@@ -51,7 +52,7 @@ public class Main {
                     System.out.println("Zadej pozadovany typ licence ze seznamu: ");
                     Tools.generateTypesOfLicence();
                     int tempLicence = sc.nextInt() - 1;
-                    FlightDiary diary = new FlightDiary(pilot, TypeOfLicence.valueOf(tempLicence));
+                    FlightDiary diary = new FlightDiary(pilot, TypeOfLicence.valueOf(tempLicence), false);
                     pilot.addDiary(diary);
                 } else if (tempLogin == 2) {
                     System.out.println("--Zadejte informace o letu--");
@@ -65,6 +66,10 @@ public class Main {
                     String takeoff = sc.nextLine();
                     System.out.println("Zadej letiste priletu: ");
                     String landing = sc.nextLine();
+                    if(Tools.isGlider(planes.get(tempPlane).getTypeOfLicence())) {
+                        System.out.println("Zadejte způsob vzletu: ");
+                        typeOfTakeoff = sc.nextLine();
+                    }
                     System.out.println("Zadej cas odletu [HH:MM]: ");
                     String takeoffTime = sc.nextLine();
                     System.out.println("Zadej cas priletu [HH:MM]: ");
@@ -83,7 +88,12 @@ public class Main {
 
                     int flightTimeInMinutes = (int) ChronoUnit.MINUTES.between(takeoffTimeCal, landingTimeCal);
                     flightDiary = new FlightDiary(pilot, plane.getTypeOfLicence(), true);
-                    Flight flight = new Flight(selectedPlane, takeoff, landing, dateCal, takeoffTimeCal, landingTimeCal, flightTimeInMinutes, takeoffNo, typeOfFlight, pilot, flightDiary);
+
+                    if(Tools.isGlider(plane.getTypeOfLicence())) {
+                        Flight flightGlider = new Flight(selectedPlane, takeoff, landing, dateCal, takeoffTimeCal, landingTimeCal, flightTimeInMinutes, takeoffNo, typeOfTakeoff, typeOfFlight, pilot, flightDiary, false);
+                    } else {
+                        Flight flight = new Flight(selectedPlane, takeoff, landing, dateCal, takeoffTimeCal, landingTimeCal, flightTimeInMinutes, takeoffNo, typeOfFlight, pilot, flightDiary, false);
+                    }
                 } else if (tempLogin == 3) {
                     System.out.println("--Zadejte informace o letadle--");
                     System.out.println("Nazev letadla: ");
@@ -93,7 +103,7 @@ public class Main {
                     int tempLicence = sc.nextInt() - 1;
                     System.out.println("Zadejte registraci letadla: ");
                     String reg = sc.next();
-                    plane = new Plane(name, TypeOfLicence.valueOf(tempLicence), reg);
+                    plane = new Plane(name, TypeOfLicence.valueOf(tempLicence), reg, false);
 
                 } else if (tempLogin == 4) {
                     System.out.println("--Vas vypis zapisniku--");
@@ -104,12 +114,12 @@ public class Main {
                     int tempLicence = sc.nextInt();
                     flightDiary = diaries.get(tempLicence - 1);
                     System.out.println(flightDiary.getFlightsAndMinutes());
-                    Tools.printFlight(flightDiary.getFlights());
+                    Tools.printFlight(flightDiary.getFlights(), Tools.isGlider(flightDiary.getType()));
                     do {
                         Tools.showSortMenu();
                         int tempSort = sc.nextInt();
-                        if(tempSort == 1) Tools.printFlight(flightDiary.sortByDateDesc());
-                        else if(tempSort == 2) Tools.printFlight(flightDiary.sortByDateAsc());
+                        if(tempSort == 1) Tools.printFlight(flightDiary.sortByDateDesc(), Tools.isGlider(flightDiary.getType()));
+                        else if(tempSort == 2) Tools.printFlight(flightDiary.sortByDateAsc(), Tools.isGlider(flightDiary.getType()));
                         if(tempSort == 0) exitSort = true;
                     } while (!exitSort);
                 } else if (tempLogin == 5) {
@@ -119,15 +129,14 @@ public class Main {
                     int tempPlaneDiary = sc.nextInt();
                     plane = planes.get(tempPlaneDiary - 1);
                     System.out.println(plane.getFlightsAndMinutes());
-                    Tools.printPlaneFlight(plane.getFlights());
+                    Tools.printPlaneFlight(plane.getFlights(), Tools.isGlider(plane.getTypeOfLicence()));
                     do {
                         Tools.showSortMenu();
                         int tempSort = sc.nextInt();
-                        if(tempSort == 1) Tools.printPlaneFlight(plane.sortByDateDesc());
-                        else if(tempSort == 2) Tools.printPlaneFlight(plane.sortByDateAsc());
+                        if(tempSort == 1) Tools.printPlaneFlight(plane.sortByDateDesc(), Tools.isGlider(plane.getTypeOfLicence()));
+                        else if(tempSort == 2) Tools.printPlaneFlight(plane.sortByDateAsc(), Tools.isGlider(plane.getTypeOfLicence()));
                         if(tempSort == 0) exitSort = true;
                     } while (!exitSort);
-
                 }
             } while (login);
         } while (!end);

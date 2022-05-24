@@ -25,21 +25,38 @@ public class Tools {
         }
     }
 
-    public static void printFlight(List<Flight> flights) {
-        System.out.format("%-15s%-15s%-15s%-20s%-20s%-20s%-15s%-15s%-15s%-15s%n", "Datum letu", "Cas odletu", "Cas priletu", "Letiste odletu", "Letiste priletu", "Cas letu", "Pocet startu", "Letadlo", "Registrace", "Poznamka");
-        for (Flight flight : flights) {
-            Plane plane = flight.getPlane();
-            System.out.format("%-15s%-15s%-15s%-20s%-20s%-20s%-15s%-15s%-15s%-15s%n", flight.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), flight.getTakeoffTime().getHour() + ":" + flight.getTakeoffTime().getMinute(), flight.getLandingTime().getHour() + ":" + flight.getLandingTime().getMinute(), flight.getTakeoff(), flight.getLanding(), getTotalTime(flight.getFlightTimeMinutes()), flight.getTakeoffNo(), plane.getName(), plane.getRegistration(), flight.getTypeOfFlight());
+    public static void printFlight(List<Flight> flights, boolean isGlider) {
+        if (isGlider) {
+            System.out.format("%-15s%-15s%-15s%-20s%-20s%-20s%-20s%-15s%-15s%-15s%-15s%n", "Datum letu", "Cas odletu", "Cas priletu", "Letiste odletu", "Letiste priletu", "Zpusob vzletu", "Cas letu", "Pocet startu", "Letadlo", "Registrace", "Poznamka");
+            for (Flight flight : flights) {
+                Plane plane = flight.getPlane();
+                System.out.format("%-15s%-15s%-15s%-20s%-20s%-20s%-20s%-15s%-15s%-15s%-15s%n", flight.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), flight.getTakeoffTime().getHour() + ":" + flight.getTakeoffTime().getMinute(), flight.getLandingTime().getHour() + ":" + flight.getLandingTime().getMinute(), flight.getTakeoff(), flight.getLanding(), flight.getTypeOfTakeOff(), getTotalTime(flight.getFlightTimeMinutes()), flight.getTakeoffNo(), plane.getName(), plane.getRegistration(), flight.getTypeOfFlight());
+            }
+            System.out.println();
+        } else {
+            System.out.format("%-15s%-15s%-15s%-20s%-20s%-20s%-15s%-15s%-15s%-15s%n", "Datum letu", "Cas odletu", "Cas priletu", "Letiste odletu", "Letiste priletu", "Cas letu", "Pocet startu", "Letadlo", "Registrace", "Poznamka");
+            for (Flight flight : flights) {
+                Plane plane = flight.getPlane();
+                System.out.format("%-15s%-15s%-15s%-20s%-20s%-20s%-15s%-15s%-15s%-15s%n", flight.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), flight.getTakeoffTime().getHour() + ":" + flight.getTakeoffTime().getMinute(), flight.getLandingTime().getHour() + ":" + flight.getLandingTime().getMinute(), flight.getTakeoff(), flight.getLanding(), getTotalTime(flight.getFlightTimeMinutes()), flight.getTakeoffNo(), plane.getName(), plane.getRegistration(), flight.getTypeOfFlight());
+            }
+            System.out.println();
         }
-        System.out.println();
     }
 
-    public static void printPlaneFlight(List<Flight> flights) {
-        System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", "Letiste odletu", "Letiste priletu", "Datum letu", "Cas odletu", "Cas priletu", "Cas letu", "Pocet startu", "Poznamka", "Pilot");
-        for (Flight flight : flights) {
-            System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", flight.getTakeoff(), flight.getLanding(), flight.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), flight.getTakeoffTime().getHour() + ":" + flight.getTakeoffTime().getMinute(), flight.getLandingTime().getHour() + ":" + flight.getLandingTime().getMinute(), getTotalTime(flight.getFlightTimeMinutes()), flight.getTakeoffNo(), flight.getTypeOfFlight(), flight.getPilot());
+    public static void printPlaneFlight(List<Flight> flights, boolean isGlider) {
+        if(isGlider) {
+            System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", "Letiste odletu", "Letiste priletu", "Datum letu", "Cas odletu", "Cas priletu", "Cas letu", "Pocet startu", "Zpusob vzletu", "Poznamka", "Pilot");
+            for (Flight flight : flights) {
+                System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", flight.getTakeoff(), flight.getLanding(), flight.getTypeOfTakeOff(), flight.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), flight.getTakeoffTime().getHour() + ":" + flight.getTakeoffTime().getMinute(), flight.getLandingTime().getHour() + ":" + flight.getLandingTime().getMinute(), getTotalTime(flight.getFlightTimeMinutes()), flight.getTakeoffNo(), flight.getTypeOfFlight(), flight.getPilot());
+            }
+            System.out.println();
+        } else {
+            System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", "Letiste odletu", "Letiste priletu", "Datum letu", "Cas odletu", "Cas priletu", "Cas letu", "Pocet startu", "Poznamka", "Pilot");
+            for (Flight flight : flights) {
+                System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", flight.getTakeoff(), flight.getLanding(), flight.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), flight.getTakeoffTime().getHour() + ":" + flight.getTakeoffTime().getMinute(), flight.getLandingTime().getHour() + ":" + flight.getLandingTime().getMinute(), getTotalTime(flight.getFlightTimeMinutes()), flight.getTakeoffNo(), flight.getTypeOfFlight(), flight.getPilot());
+            }
+            System.out.println();
         }
-        System.out.println();
     }
 
     public static String getTotalTime(int minutesInput) {
@@ -114,5 +131,9 @@ public class Tools {
                         2. Seradit vzestupne podle datumu
                         0. Zpet""";
         System.out.println(menu);
+    }
+
+    public static boolean isGlider(TypeOfLicence licence) {
+        return licence == TypeOfLicence.SPL;
     }
 }
