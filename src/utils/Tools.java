@@ -90,27 +90,6 @@ public class Tools {
     }
 
     /**
-     * Metoda, která námm parsne čas ze Stringu
-     * @param timeInput Čas ve Stringu
-     * @param dateCal Datum ve formátu LocalDate
-     * @return Čas ve formátu LocalDateTime
-     */
-    public static LocalDateTime parseTime(String timeInput, LocalDate dateCal) {
-        String[] timeArr = timeInput.split(":");
-        return dateCal.atTime(Integer.parseInt(timeArr[0]), Integer.parseInt(timeArr[1]));
-    }
-
-    /**
-     * Metoda, která námm parsne datum ze Stringu
-     * @param dateInput Datum ve Stringu
-     * @return Datum ve formátu LocalDate
-     */
-    public static LocalDate parseDate(String dateInput) {
-        String[] dateArr = dateInput.split("\\.");
-        return LocalDate.of(Integer.parseInt(dateArr[2]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]));
-    }
-
-    /**
      * Metoda, která nám vygeneruje typy licencí pro volbu v UI
      */
     public static void generateTypesOfLicence() {

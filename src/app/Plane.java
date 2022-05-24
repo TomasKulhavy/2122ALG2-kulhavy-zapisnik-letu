@@ -1,5 +1,6 @@
 package app;
 
+import utils.InputValid;
 import utils.Tools;
 
 import java.io.*;
@@ -162,8 +163,8 @@ public class Plane {
                 String[] lineFlight = dataFlight.split(", ");
                 Plane planeSelect = new Plane(name, typeOfLicence, registration, true);
                 LocalDate date = LocalDate.parse(lineFlight[2]);
-                LocalDateTime takeoffTime = Tools.parseTime(lineFlight[3], date);
-                LocalDateTime landingTime = Tools.parseTime(lineFlight[4], date);
+                LocalDateTime takeoffTime = InputValid.parseTime(lineFlight[3], date);
+                LocalDateTime landingTime = InputValid.parseTime(lineFlight[4], date);
                 String[] tempName;
                 if(Tools.isGlider(typeOfLicence)) {
                     tempName = lineFlight[9].split("_");
