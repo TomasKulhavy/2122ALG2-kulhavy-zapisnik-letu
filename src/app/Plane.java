@@ -12,7 +12,7 @@ import java.util.*;
  * Třída, která uchovává letadlo
  * @author Tomáš Kulhavý
  */
-public class Plane {
+public class Plane extends Flight {
     private String name;
     private TypeOfLicence typeOfLicence;
     private String registration;

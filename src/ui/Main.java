@@ -167,7 +167,6 @@ public class Main {
                                 } else if (!InputValid.parseRangeInput(planes.size(), tempLicence)) {
                                     System.out.println("Zadavate ve spatnem rozsahu");
                                     System.out.println("Vyberte typ letadla: ");
-                                    break;
                                 }
                             }
                         } while (InputValid.parseRangeInput(planes.size(), tempLicence));
@@ -186,17 +185,16 @@ public class Main {
                         do {
                             String tempPlaneInput = sc.nextLine();
                             if (InputValid.parseToNumber(tempPlaneInput)) {
-                                tempLicence = Integer.parseInt(tempPlaneInput) - 1;
+                                tempLicence = Integer.parseInt(tempPlaneInput);
                                 if (InputValid.parseRangeInput(planes.size(), tempLicence)) {
                                     break;
                                 } else if (!InputValid.parseRangeInput(planes.size(), tempLicence)) {
                                     System.out.println("Zadavate ve spatnem rozsahu");
                                     System.out.println("Vyberte typ letadla: ");
-                                    break;
                                 }
                             }
-                        } while (InputValid.parseRangeInput(planes.size(), tempLicence));
-                        flightDiary = diaries.get(tempLicence);
+                        } while (InputValid.parseRangeInput(diaries.size(), tempLicence));
+                        flightDiary = diaries.get(tempLicence - 1);
                         System.out.println(flightDiary.getFlightsAndMinutes());
                         Tools.printFlight(flightDiary.getFlights(), Tools.isGlider(flightDiary.getType()));
                         do {
@@ -219,7 +217,7 @@ public class Main {
                         do {
                             String tempPlaneInput = sc.nextLine();
                             if (InputValid.parseToNumber(tempPlaneInput)) {
-                                tempPlaneDiary = Integer.parseInt(tempPlaneInput) - 1;
+                                tempPlaneDiary = Integer.parseInt(tempPlaneInput);
                                 if (InputValid.parseRangeInput(planes.size(), tempPlaneDiary)) {
                                     break;
                                 } else if (!InputValid.parseRangeInput(planes.size(), tempPlaneDiary)) {
@@ -229,7 +227,7 @@ public class Main {
                                 }
                             }
                         } while (InputValid.parseRangeInput(planes.size(), tempPlaneDiary));
-                        plane = planes.get(tempPlaneDiary);
+                        plane = planes.get(tempPlaneDiary - 1);
                         System.out.println(plane.getFlightsAndMinutes());
                         Tools.printPlaneFlight(plane.getFlights(), Tools.isGlider(plane.getTypeOfLicence()));
                         do {

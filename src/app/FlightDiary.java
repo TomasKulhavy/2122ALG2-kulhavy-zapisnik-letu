@@ -12,7 +12,7 @@ import java.util.*;
  * Třída, která zápisník letů
  * @author Tomáš Kulhavý
  */
-public class FlightDiary {
+public class FlightDiary extends Flight {
     private Pilot pilot;
     private List<Flight> flights = new ArrayList<>();
     private List<FlightDiary> diaries = new ArrayList<>();

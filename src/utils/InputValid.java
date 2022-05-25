@@ -1,6 +1,7 @@
 package utils;
 
 import org.w3c.dom.ranges.RangeException;
+import ui.Main;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ import java.time.format.DateTimeParseException;
  * Pomocná třída na ošetření výjimek a vstupů
  * @author Tomáš Kulhavý
  */
-public class InputValid {
+public class InputValid extends Main {
     public InputValid() {
     }
 

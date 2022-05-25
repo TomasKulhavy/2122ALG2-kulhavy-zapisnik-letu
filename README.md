@@ -7,27 +7,20 @@
 ## Zadání práce
 
 - ### **Popis problému (motivace)**
-    - Zápisník letů bude sloužit pro piloty, kteří si budou chtít své lety zapisovat elektronicky do PC
-    - Záznamník letů bude umožňovat uživateli si zapisovat lety, které budou ukládány do textové souboru. A následně je
-      bude moc vyexportovat do PDF.
-        - Místo startu / přistání
-        - Čas vzletu / přistání
-        - Celková doba letu
-        - Počet startů
-        - Typ statu
-        - Typ letu
-        - Velitel letadla
-        - Typ letadla
-        - Registrace letadla
-    - Uživatel může lety načíst, filtorvat a řadit
-    - Uživatel může vytvářet své zápisníky letů např. pro vetroně, ultralighty nebo motorové letadla.
-    - Celkové součty letů, hodin a startů
-    - Užitel může načíst deníky letadel ze souboru
-        - Údaje v deníkách letadel budou různé od typu letadla (větroň, ultralight, motorové letadlo)
-
-- ### **Popis řešení**
-  - 
-
+    - Zápisník letů bude umožňovat uživateli si zapisovat lety, které budou ukládány do textové souboru. A následně je bude moc vyexportovat do PDF.
+      - Místo startu / přistání
+      - Čas vzletu / přistání
+      - Celková doba letu
+      - Počet startů
+      - Typ statu
+      - Typ letu
+      - Velitel letadla
+      - Typ letadla
+      - Registrace letadla 
+    - Uživatel může lety načíst, filtrovat a řadit. Zobrazit celkové součty hodin a startů
+    - Uživatel může vytvářet své zápisníky letů pro větroně, ultralighty nebo motorové letadla.
+    - Uživatel může načíst deníky letadel ze souboru
+    - Údaje v denících letadel budou různé od typu letadla (větroň, ultralight, motorové letadlo)
 ## Řešení
 
 - ### **Funkční specifikace**
@@ -100,7 +93,7 @@
    ```
 
 - ### **Class diagram**
--
+
 
 ## Popis fungování externích knihoven
 

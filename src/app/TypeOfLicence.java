@@ -7,7 +7,7 @@ import java.util.Map;
  * Enum licencí
  * @author Tomáš Kulhavý
  */
-public enum TypeOfLicence {
+public enum TypeOfLicence extends FlightDiary {
     SPL(0),
     ULL(1),
     PPL(2);
