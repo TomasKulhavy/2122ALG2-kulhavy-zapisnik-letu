@@ -176,26 +176,4 @@ public class Tools extends Main {
     public static boolean isGlider(TypeOfLicence licence) {
         return licence == TypeOfLicence.SPL;
     }
-
-    public static void saveToPdf() {
-        String inFile = Path.Combine(ImagesPath.Path, @"input.txt");
-        String outFile = Path.Combine(ImagesPath.Path, @"output.pdf");
-        DocumentFormat format = DocumentFormat.Pdf;
-
-        DocumentConverter documentConverter = new DocumentConverter();
-        DocumentWriter docWriter = new DocumentWriter();
-        docConverter.setDocumentWriterInstance(docWriter);
-
-        DocumentConverterJobData jobData =
-                DocumentConverterJobs.CreateJobData(inFile, outFile, format);
-        jobData.setJobName("TXT Conversion");
-        DocumentConverterJob job = docConverter.getJobs().createJob(jobData);
-        docConverter.getJobs().runJob(job);
-
-        if (job.getErrors().size() > 0)
-            for (DocumentConverterJobError error : job.getErrors())
-                System.out.println("%2fnError during conversion: " + error.getError().getMessage());
-        else
-            System.out.println("Successfully converted file to " + outFile);
-    }
 }
