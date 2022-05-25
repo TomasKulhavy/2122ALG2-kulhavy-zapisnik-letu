@@ -93,7 +93,7 @@
    ```
 
 - ### **Class diagram**
-![bg right:30% 30%](./diagram.svg)
+![bg right:20% 20%](./diagram.svg)
 
 ## Popis fungování externích knihoven
 
