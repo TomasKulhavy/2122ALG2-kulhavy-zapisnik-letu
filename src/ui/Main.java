@@ -25,20 +25,27 @@ public class Main {
         FlightDiary flightDiary;
         do {
             System.out.println("---- Vitejte v zapisniku svych letu ----");
-            System.out.println("Zadejte sve jmeno [bez diakritiky] - pro vypnuti aplikace stiskni [0]: ");
+            System.out.println("Zadejte sve jmeno a prijmeni [jan novak] - pro vypnuti aplikace stiskni [0]: ");
             String temp = sc.nextLine();
             if (temp.equals("0")) {
                 break;
             }
             String[] tempData = temp.split(" ");
-
-            File logbook = new File(tempData[0] + "_" + tempData[1] + ".txt");
-            boolean exist = logbook.exists();
-            if (!exist) {
-                pilot = new Pilot(tempData[0], tempData[1], false);
+            String surename = " ";
+            if (tempData.length < 2) {
+                surename = " ";
             } else {
-                pilot = new Pilot(tempData[0], tempData[1], true);
+                surename = tempData[1];
             }
+            File logbook = new File(tempData[0] + "_" + surename + ".txt");
+            boolean exist = logbook.exists();
+
+            if (!exist) {
+                pilot = new Pilot(tempData[0], surename, false);
+            } else {
+                pilot = new Pilot(tempData[0], surename, true);
+            }
+
             login = true;
             System.out.println();
             System.out.println("----- Vitejte " + pilot.getName() + " -----");
@@ -46,7 +53,7 @@ public class Main {
             do {
                 List<Plane> planes = plane.loadAllPlanes();
                 Tools.showMenu();
-                String typeOfTakeoff = "";
+                String typeOfTakeoff = null;
                 String tempLoginInput = sc.nextLine();
                 if (InputValid.parseToNumber(tempLoginInput)) {
                     int tempLogin = Integer.parseInt(tempLoginInput);
@@ -98,7 +105,8 @@ public class Main {
                         String takeoff = sc.nextLine();
                         System.out.println("Zadej letiste priletu: ");
                         String landing = sc.nextLine();
-                        if (Tools.isGlider(planes.get(tempPlane).getTypeOfLicence())) {
+
+                        if (Tools.isGlider(planes.get(tempPlane - 1).getTypeOfLicence())) {
                             System.out.println("Zadejte způsob vzletu: ");
                             typeOfTakeoff = sc.nextLine();
                         }
@@ -131,7 +139,7 @@ public class Main {
                             System.out.println("Zadej pocet letu: ");
                             tempTakeoffInput = sc.nextLine();
                             if (InputValid.parseToNumber(tempTakeoffInput)) {
-                                tempPlane = Integer.parseInt(tempTakeoffInput);
+                                takeoffNo = Integer.parseInt(tempTakeoffInput);
                                 break;
                             }
                             sc.nextLine();
@@ -146,8 +154,8 @@ public class Main {
                         int flightTimeInMinutes = (int) ChronoUnit.MINUTES.between(takeoffTime, landingTime);
                         flightDiary = new FlightDiary(pilot, plane.getTypeOfLicence(), true);
 
-                        if (Tools.isGlider(plane.getTypeOfLicence())) {
-                            Flight flightGlider = new Flight(selectedPlane, takeoff, landing, date, takeoffTime, landingTime, flightTimeInMinutes, takeoffNo, typeOfTakeoff, typeOfFlight, pilot, flightDiary, false);
+                        if (Tools.isGlider(selectedPlane.getTypeOfLicence())) {
+                            Flight flightGlider = new Flight(selectedPlane, takeoff, landing, date, takeoffTime, landingTime, flightTimeInMinutes, takeoffNo, typeOfFlight, typeOfTakeoff, pilot, flightDiary, false);
                         } else {
                             Flight flight = new Flight(selectedPlane, takeoff, landing, date, takeoffTime, landingTime, flightTimeInMinutes, takeoffNo, typeOfFlight, pilot, flightDiary, false);
                         }

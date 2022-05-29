@@ -46,7 +46,7 @@ public class Flight implements Comparator<Flight> {
      * @param exist existuje už?
      * @throws java.io.IOException
      */
-    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, String typeOfTakeOff, Pilot pilot, FlightDiary flightDiary, boolean exist) {
+    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfTakeOff, String typeOfFlight, Pilot pilot, FlightDiary flightDiary, boolean exist) {
         this.plane = plane;
         this.takeoff = takeoff;
         this.landing = landing;
@@ -59,7 +59,7 @@ public class Flight implements Comparator<Flight> {
         this.typeOfTakeOff = typeOfTakeOff;
         this.pilot = pilot;
         this.flightDiary = flightDiary;
-        if(!exist) saveNewFlight();
+        if(!exist) saveNewFlightGlider();
     }
 
     /**
@@ -100,7 +100,7 @@ public class Flight implements Comparator<Flight> {
     public void saveNewFlight() {
         try {
             FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
-            myWriter.write("\n" + plane.getName() +
+            myWriter.write(plane.getName() +
                     ", " + plane.getRegistration() +
                     ", " + takeoff +
                     ", " + landing +
@@ -125,6 +125,52 @@ public class Flight implements Comparator<Flight> {
                     ", " + date +
                     ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
                     ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
+                    ", " + flightTimeMinutes +
+                    ", " + takeoffNo +
+                    ", " + typeOfFlight +
+                    ", " + pilot.getName());
+            myWriterPlane.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        flightDiary.setOverall(getTakeoffNo(), getFlightTimeMinutes(), plane.getTypeOfLicence());
+        plane.setFlightTimeMinutes(getFlightTimeMinutes());
+        plane.setTakeoffNo(getTakeoffNo());
+        plane.setOverallPlane();
+    }
+
+    public void saveNewFlightGlider() {
+        try {
+            FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
+            myWriter.write("\n" + plane.getName() +
+                    ", " + plane.getRegistration() +
+                    ", " + takeoff +
+                    ", " + landing +
+                    ", " + date +
+                    ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
+                    ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
+                    ", " + typeOfTakeOff +
+                    ", " + flightTimeMinutes +
+                    ", " + takeoffNo +
+                    ", " + typeOfFlight +
+                    ", " + pilot.getName() +
+                    ", " + plane.getTypeOfLicence());
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        try {
+            FileWriter myWriterPlane = new FileWriter("data/exported-data/" + plane.getRegistration() + ".plane", true);
+            myWriterPlane.write("\n" +
+                    takeoff +
+                    ", " + landing +
+                    ", " + date +
+                    ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
+                    ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
+                    ", " + typeOfTakeOff +
                     ", " + flightTimeMinutes +
                     ", " + takeoffNo +
                     ", " + typeOfFlight +

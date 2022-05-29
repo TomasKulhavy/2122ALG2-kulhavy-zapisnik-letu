@@ -53,7 +53,7 @@ public class Plane extends Flight {
     public void saveFlightToFile() {
         try {
             FileWriter myWriter = new FileWriter("data/exported-data/" + registration + ".plane");
-            myWriter.write("\n" + name + ", " + typeOfLicence + ", " + registration + ", " + flightTimeMinutes + ", " + takeoffNo);
+            myWriter.write(name + ", " + typeOfLicence + ", " + registration + ", " + flightTimeMinutes + ", " + takeoffNo);
             myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -175,12 +175,11 @@ public class Plane extends Flight {
                 FlightDiary diary = new FlightDiary(pilot, planeSelect.getTypeOfLicence(), true);
                 Flight flight;
                 if(Tools.isGlider(planeSelect.getTypeOfLicence())) {
-                    flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[5]), Integer.parseInt(lineFlight[6]),lineFlight[7], lineFlight[8], pilot, diary, true);
+                    flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[6]), Integer.parseInt(lineFlight[7]), lineFlight[5], lineFlight[8], pilot, diary, true);
                 } else {
                     flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[5]), Integer.parseInt(lineFlight[6]), lineFlight[7], pilot, diary, true);
                 }
                 flights.add(flight);
-                if (myReader.hasNextLine()) myReader.nextLine();
             }
             myReader.close();
         } catch (FileNotFoundException e) {

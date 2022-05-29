@@ -162,9 +162,9 @@ public class FlightDiary extends Flight {
                 String[] lineFlight = dataFlight.split(", ");
                 Plane plane;
                 if(Tools.isGlider(typeOfLicence)) {
-                    plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[12], true);
+                    plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[1], true);
                 } else {
-                    plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[11], true);
+                    plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[1], true);
                 }
                 LocalDate date = LocalDate.parse(lineFlight[4]);
                 LocalDateTime takeoffTime = InputValid.parseTime(lineFlight[5], date);
@@ -172,12 +172,11 @@ public class FlightDiary extends Flight {
                 FlightDiary diary = new FlightDiary(pilot, typeOfLicence, true);
                 Flight flight;
                 if (Tools.isGlider(diary.getType())) {
-                    flight = new Flight(plane, lineFlight[2], lineFlight[3], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[8]), Integer.parseInt(lineFlight[9]), lineFlight[10], lineFlight[7], pilot, diary, true);
+                    flight = new Flight(plane, lineFlight[2], lineFlight[3], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[8]), Integer.parseInt(lineFlight[9]), lineFlight[7], lineFlight[10], pilot, diary, true);
                 } else {
                     flight = new Flight(plane, lineFlight[2], lineFlight[3], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[7]), Integer.parseInt(lineFlight[8]), lineFlight[9], pilot, diary, true);
                 }
                 flights.add(flight);
-                if (myReader.hasNextLine()) myReader.nextLine();
             }
             myReader.close();
         } catch (FileNotFoundException e) {
