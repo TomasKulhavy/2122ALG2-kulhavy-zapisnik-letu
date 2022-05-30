@@ -1,6 +1,15 @@
 ##### Termín: 25. 5. 2022 #####
 
 ###### Semestrální práce ######
+- [Zadání práce]()
+  - [Popis problému (motivace)]()
+- [Řešení]()
+  - [Funkční specifikace]()
+  - [Popis struktury vstupních a výstupních souborů]()
+  - [Class diagram]()
+- [Popis fungování externích knihoven]()
+  - [Použití externí knihovny]()
+- [Požadavky]()
 
 # Zápisník letů
 
@@ -31,16 +40,23 @@
     - Uživateli zobrazí menu, kde si vybírá z následujících bodů:
         - `1.` Pridat typ zapisniku letu - zobrazí se list možných licencí, ze kterých si pilot vybere a ta se uloží do
           souboru pilota
-        - `1.` Pridat let - pilot vyplní všechny potřebné informace o letu a následně tento let program přidá do souboru
+        - `3.` Pridat let - pilot vyplní všechny potřebné informace o letu a následně tento let program přidá do souboru
           daného zápisníku
-        - `2.` Pridat letadlo - pilot vytvoří letadlo, zadá název, registraci a typ licence a poté se vytvoří příslušný
+        - `3.` Pridat letadlo - pilot vytvoří letadlo, zadá název, registraci a typ licence a poté se vytvoří příslušný
           soubor
-        - `3.` Zobrazit zapisnik - zobrazí se výpis licencí, které pilot má. Po zvolení licence se vypíše zápisník letů,
+        - `4.` Zobrazit zapisnik - zobrazí se výpis licencí, které pilot má. Po zvolení licence se vypíše zápisník letů,
           který může následně řadit sestupně nebo vzestupně podle datumu
-        - `4.` Zobrazit zapisnik letadla - zobrazí se výpis letadel. Po zvolení letadla se vypíše zápisník letů, který
+        - `5.` Zobrazit zapisnik letadla - zobrazí se výpis letadel. Po zvolení letadla se vypíše zápisník letů, který
           může následně řadit sestupně nebo vzestupně podle datumu
         - `0.` Odhlasit se - pokud uživatel zadá `0` tak se z programu odhlásí a může se znovu přihlásit nebo může
           program opustit
+
+    - Ve 4. a 5. výběru se uživateli zobrazí menu, kde si vybírá z následujících bodů:
+      - `1.` Seradit sestupne podle datumu - lety se seřadí podle datumu sestupně
+      - `2.` Seradit vzestupne podle datumu - lety se seřadí podle datumu vzestupně
+      - `3.` Exportovat do PDF - daný zápisník letů se vyexportuje do PDF souboru
+      - `0.` Odhlasit se - pokud uživatel zadá `0` tak se dostane zpět do hlavní nabídky
+      
 - ### **Popis struktury vstupních a výstupních souborů**
     - [Soubory (data store)](./data/exported-data)
     - Program si přečte všechny soubory s letovými deníky letadel `(.plane)`, pilotů `(.ULL, .SPL, .PPL)` a také účty
