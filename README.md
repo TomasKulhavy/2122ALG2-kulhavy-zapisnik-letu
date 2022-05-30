@@ -126,18 +126,20 @@ classDiagram
     class Plane
     enum TypeOfLicence
     class Main
+    class UI
     interface IInputValid
     class InputValid
     class Tools
 
-    Main .. Tools : uses
-    Main .. IInputValid : uses
+    UI .. Tools : uses
+    UI .. IInputValid : uses
     InputValid .. IInputValid : implements
     FlightDiary .. Flight : uses
     Plane .. Flight : uses
     Pilot .. TypeOfLicence : uses
     Plane .. TypeOfLicence : uses
     Flight .. TypeOfLicence : uses
+    Main .. UI : uses
 ```
 
 ## Popis fungování externích knihoven

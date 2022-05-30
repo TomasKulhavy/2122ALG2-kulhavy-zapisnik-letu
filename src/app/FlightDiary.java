@@ -1,5 +1,6 @@
 package app;
 
+import utils.IInputValid;
 import utils.InputValid;
 import utils.Tools;
 
@@ -24,6 +25,7 @@ public class FlightDiary extends Flight {
     private TypeOfLicence typeOfLicence;
     private int overallMinutes = 0;
     private int overallTakeoffs = 0;
+    private IInputValid inputValid = new InputValid();
 
     /**
      * Konstruktor
@@ -184,8 +186,8 @@ public class FlightDiary extends Flight {
                 Plane plane;
                 plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[1], true);
                 LocalDate date = LocalDate.parse(lineFlight[4]);
-                LocalDateTime takeoffTime = InputValid.parseTimeInput(lineFlight[5], date);
-                LocalDateTime landingTime = InputValid.parseTimeInput(lineFlight[6], date);
+                LocalDateTime takeoffTime = inputValid.parseTimeInput(lineFlight[5], date);
+                LocalDateTime landingTime = inputValid.parseTimeInput(lineFlight[6], date);
                 FlightDiary diary = new FlightDiary(pilot, typeOfLicence, true);
                 Flight flight;
                 if (Tools.isGlider(diary.getType())) {

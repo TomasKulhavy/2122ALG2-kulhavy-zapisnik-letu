@@ -1,5 +1,6 @@
 package app;
 
+import utils.IInputValid;
 import utils.InputValid;
 import utils.Tools;
 
@@ -24,6 +25,8 @@ public class Plane extends Flight {
     private int flightTimeMinutes;
     private List<Plane> planes = new ArrayList<>();
     private List<Flight> flights = new ArrayList<>();
+    private IInputValid inputValid = new InputValid();
+
 
     /**
      * Kontruktor pouze pro inicializaci na startu programu
@@ -174,8 +177,8 @@ public class Plane extends Flight {
                 String[] lineFlight = dataFlight.split(", ");
                 Plane planeSelect = new Plane(name, typeOfLicence, registration, true);
                 LocalDate date = LocalDate.parse(lineFlight[2]);
-                LocalDateTime takeoffTime = InputValid.parseTimeInput(lineFlight[3], date);
-                LocalDateTime landingTime = InputValid.parseTimeInput(lineFlight[4], date);
+                LocalDateTime takeoffTime = inputValid.parseTimeInput(lineFlight[3], date);
+                LocalDateTime landingTime = inputValid.parseTimeInput(lineFlight[4], date);
                 String[] tempName;
                 if (Tools.isGlider(typeOfLicence)) {
                     tempName = lineFlight[9].split("_");

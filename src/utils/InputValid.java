@@ -5,6 +5,7 @@ import org.w3c.dom.ranges.RangeException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 
 /**
  * Pomocná třída na ošetření vyjímek a vstupů
@@ -21,7 +22,7 @@ public class InputValid implements IInputValid {
      * @param input vstup String
      * @return Boolean
      */
-    public static boolean parseToNumber(String input) {
+    public boolean parseToNumber(String input) {
         try {
             Integer.parseInt(input);
             return true;
@@ -48,7 +49,7 @@ public class InputValid implements IInputValid {
      * @param input Vstup
      * @return Boolean
      */
-    public static boolean parseRangeInput(int max, int input) {
+    public boolean parseRangeInput(int max, int input) {
         try {
             parseRange(input, max);
             return true;
@@ -64,7 +65,7 @@ public class InputValid implements IInputValid {
      * @param dateCal   Datum ve formátu LocalDate
      * @return Čas ve formátu LocalDateTime
      */
-    public static boolean parseTime(String timeInput, LocalDate dateCal) {
+    public boolean parseTime(String timeInput, LocalDate dateCal) {
         String[] timeArr = timeInput.split(":");
         try {
             dateCal.atTime(Integer.parseInt(timeArr[0]), Integer.parseInt(timeArr[1]));
@@ -81,7 +82,7 @@ public class InputValid implements IInputValid {
      * @param dateCal   Zadané datum
      * @return Parsovaný čas na LocalDateTime
      */
-    public static LocalDateTime parseTimeInput(String timeInput, LocalDate dateCal) {
+    public LocalDateTime parseTimeInput(String timeInput, LocalDate dateCal) {
         String[] timeArr = timeInput.split(":");
         parseTime(timeInput, dateCal);
         return dateCal.atTime(Integer.parseInt(timeArr[0]), Integer.parseInt(timeArr[1]));
@@ -95,7 +96,7 @@ public class InputValid implements IInputValid {
      * @param year  Rok letu
      * @return Datum ve formátu LocalDate
      */
-    public static LocalDate parseDate(int day, int month, int year) {
+    public LocalDate parseDate(int day, int month, int year) {
         return LocalDate.of(year, month, day);
     }
 
@@ -107,21 +108,11 @@ public class InputValid implements IInputValid {
      * @param year  Rok
      * @return Vrátí boolean, jestli je den správně
      */
-    public static boolean parseDayInMonth(int day, int month, int year) {
+    public boolean parseDayInMonth(int day, int month, int year) {
+        YearMonth yearMonthObject = YearMonth.of(year, month);
+        int daysInMonth = yearMonthObject.lengthOfMonth();
         boolean result;
-        if (month == 2) {
-            boolean leapYear = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
-            if (leapYear) {
-                result = parseRangeInput(29, day);
-            } else {
-                result = parseRangeInput(28, day);
-            }
-        } else if (month % 2 == 1) {
-            result = parseRangeInput(31, day);
-        } else {
-            result = parseRangeInput(30, day);
-        }
-
+        result = parseRangeInput(daysInMonth, day);
         return result;
     }
 
@@ -131,7 +122,7 @@ public class InputValid implements IInputValid {
      * @param month Měsíc v roce
      * @return boolean
      */
-    public static boolean parseMonth(int month) {
+    public boolean parseMonth(int month) {
         try {
             return parseRangeInput(12, month);
         } catch (RangeException e) {
@@ -147,7 +138,7 @@ public class InputValid implements IInputValid {
      * @param year  Rok
      * @return boolean
      */
-    public static boolean parseDay(int day, int month, int year) {
+    public boolean parseDay(int day, int month, int year) {
         try {
             return parseDayInMonth(day, month, year);
         } catch (RangeException e) {
