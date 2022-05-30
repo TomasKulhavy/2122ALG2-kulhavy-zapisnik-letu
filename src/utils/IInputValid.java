@@ -29,7 +29,7 @@ public interface IInputValid {
      * Vrací exception
      *
      * @param input Int vstup
-     * @param max Maximální číslo
+     * @param max   Maximální číslo
      * @throws RangeException Mimo rozsah
      */
     static void parseRange(int input, int max) throws RangeException {

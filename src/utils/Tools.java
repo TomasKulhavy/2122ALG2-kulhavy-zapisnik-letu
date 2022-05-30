@@ -4,7 +4,6 @@ import app.Flight;
 import app.FlightDiary;
 import app.Plane;
 import app.TypeOfLicence;
-import ui.Main;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,7 +34,7 @@ public class Tools {
     }
 
     /**
-     * Metoda, která vypíše lety ze záisníku pilota v závisloti na typu letadla
+     * Metoda, která vypíše lety ze zápisníku pilota v závisloti na typu letadla
      *
      * @param flights  List letů
      * @param isGlider Je toto větroň?
@@ -59,7 +58,7 @@ public class Tools {
     }
 
     /**
-     * Metoda, která vypíše lety ze záisníku letadla v závisloti na typu letadla
+     * Metoda, která vypíše lety ze zápisníku letadla v závisloti na typu letadla
      *
      * @param flights  List letů
      * @param isGlider Je toto větroň?
@@ -168,6 +167,7 @@ public class Tools {
         String menu = """
                 1. Seradit sestupne podle datumu
                 2. Seradit vzestupne podle datumu
+                3. Exportovat do PDF
                 0. Zpet""";
         System.out.println(menu);
     }

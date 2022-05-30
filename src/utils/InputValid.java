@@ -1,7 +1,6 @@
 package utils;
 
 import org.w3c.dom.ranges.RangeException;
-import ui.Main;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -35,7 +34,7 @@ public class InputValid implements IInputValid {
      * Vrací exception
      *
      * @param input Int vstup
-     * @param max Maximální číslo
+     * @param max   Maximální číslo
      * @throws RangeException Mimo rozsah
      */
     public static void parseRange(int input, int max) throws RangeException {

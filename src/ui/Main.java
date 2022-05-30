@@ -3,6 +3,7 @@ package ui;
 import app.*;
 import org.w3c.dom.ranges.RangeException;
 import utils.IInputValid;
+import utils.PDFGenerator;
 import utils.Tools;
 
 import java.io.File;
@@ -13,11 +14,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Scanner;
-
-// TODO - dokumentace
-// TODO - prezentace
-// TODO - diagram
-// TODO - export do PDF
 
 public class Main {
     private static Scanner sc = new Scanner(System.in);
@@ -260,6 +256,7 @@ public class Main {
                         flightDiary = diaries.get(tempLicence - 1);
                         System.out.println(flightDiary.getFlightsAndMinutes());
                         Tools.printFlight(flightDiary.getFlights(), Tools.isGlider(flightDiary.getType()));
+
                         do {
                             Tools.showSortMenu();
                             String tempSortInput = sc.nextLine();
@@ -269,6 +266,8 @@ public class Main {
                                     Tools.printFlight(flightDiary.sortByDateDesc(), Tools.isGlider(flightDiary.getType()));
                                 else if (tempSort == 2)
                                     Tools.printFlight(flightDiary.sortByDateAsc(), Tools.isGlider(flightDiary.getType()));
+                                else if (tempSort == 3)
+                                    PDFGenerator.saveToPdf(flightDiary.getFlights(), pilot, flightDiary.getType(), Tools.isGlider(flightDiary.getType()));
                                 if (tempSort == 0) exitSort = true;
                             }
                         } while (!exitSort);
@@ -302,6 +301,8 @@ public class Main {
                                     Tools.printPlaneFlight(plane.sortByDateDesc(), Tools.isGlider(plane.getTypeOfLicence()));
                                 else if (tempSort == 2)
                                     Tools.printPlaneFlight(plane.sortByDateAsc(), Tools.isGlider(plane.getTypeOfLicence()));
+                                else if (tempSort == 3)
+                                    PDFGenerator.saveToPdfPlane(plane.getFlights(), plane, Tools.isGlider(plane.getTypeOfLicence()));
                                 if (tempSort == 0) exitSort = true;
                             }
                         } while (!exitSort);

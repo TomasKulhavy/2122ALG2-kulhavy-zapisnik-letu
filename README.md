@@ -7,32 +7,42 @@
 ## Zadání práce
 
 - ### **Popis problému (motivace)**
-    - Zápisník letů bude umožňovat uživateli si zapisovat lety, které budou ukládány do textové souboru. A následně je bude moc vyexportovat do PDF.
-      - Místo startu / přistání
-      - Čas vzletu / přistání
-      - Celková doba letu
-      - Počet startů
-      - Typ statu
-      - Typ letu
-      - Velitel letadla
-      - Typ letadla
-      - Registrace letadla 
+    - Zápisník letů bude umožňovat uživateli si zapisovat lety, které budou ukládány do textové souboru. A následně je
+      bude moc vyexportovat do PDF.
+        - Místo startu / přistání
+        - Čas vzletu / přistání
+        - Celková doba letu
+        - Počet startů
+        - Typ startu
+        - Typ letu
+        - Velitel letadla
+        - Typ letadla
+        - Registrace letadla
     - Uživatel může lety načíst, filtrovat a řadit. Zobrazit celkové součty hodin a startů
     - Uživatel může vytvářet své zápisníky letů pro větroně, ultralighty nebo motorové letadla.
     - Uživatel může načíst deníky letadel ze souboru
     - Údaje v denících letadel budou různé od typu letadla (větroň, ultralight, motorové letadlo)
+
 ## Řešení
 
 - ### **Funkční specifikace**
-  - Po spuštění programu se uživatel musí přihlásit tím, že zadá své jméno a příjmení. Pokud zadá `0` program se vypne. Dále program podle toho, jestli již existuje či nikoliv založí soubor (.profile).
-  - Uživateli zobrazí menu, kde si vybírá z následujících bodů:
-    - `1.` Pridat typ zapisniku letu - zobrazí se list možných licencí, ze kterých si pilot vybere a ta se uloží do souboru pilota
-    - `1.` Pridat let - pilot vyplní všechny potřebné informace o letu a následně tento let program přidá do souboru daného zápisníku
-    - `2.` Pridat letadlo - pilot vytvoří letadlo, zadá název, registraci a typ licence a poté se vytvoří příslušný soubor
-    - `3.` Zobrazit zapisnik - zobrazí se výpis licencí, které pilot má. Po zvolení licence se vypíše zápisník letů, který může následně řadit sestupně nebo vzestupně podle datumu
-    - `4.` Zobrazit zapisnik letadla - zobrazí se výpis letadel. Po zvolení letadla se vypíše zápisník letů, který může následně řadit sestupně nebo vzestupně podle datumu
-    - `0.` Odhlasit se - pokud uživatel zadá `0` tak se z programu odhlásí a může se znovu přihlásit nebo může program opustit
+    - Po spuštění programu se uživatel musí přihlásit tím, že zadá své jméno a příjmení. Pokud zadá `0` program se
+      vypne. Dále program podle toho, jestli již existuje či nikoliv založí soubor (.profile).
+    - Uživateli zobrazí menu, kde si vybírá z následujících bodů:
+        - `1.` Pridat typ zapisniku letu - zobrazí se list možných licencí, ze kterých si pilot vybere a ta se uloží do
+          souboru pilota
+        - `1.` Pridat let - pilot vyplní všechny potřebné informace o letu a následně tento let program přidá do souboru
+          daného zápisníku
+        - `2.` Pridat letadlo - pilot vytvoří letadlo, zadá název, registraci a typ licence a poté se vytvoří příslušný
+          soubor
+        - `3.` Zobrazit zapisnik - zobrazí se výpis licencí, které pilot má. Po zvolení licence se vypíše zápisník letů,
+          který může následně řadit sestupně nebo vzestupně podle datumu
+        - `4.` Zobrazit zapisnik letadla - zobrazí se výpis letadel. Po zvolení letadla se vypíše zápisník letů, který
+          může následně řadit sestupně nebo vzestupně podle datumu
+        - `0.` Odhlasit se - pokud uživatel zadá `0` tak se z programu odhlásí a může se znovu přihlásit nebo může
+          program opustit
 - ### **Popis struktury vstupních a výstupních souborů**
+    - [Soubory (data store)](./data/exported-data)
     - Program si přečte všechny soubory s letovými deníky letadel `(.plane)`, pilotů `(.ULL, .SPL, .PPL)` a také účty
       pilotů `(.profile)`
     - Pokud uživatel neexistuje tj. nemá svůj soubor, program mu tento soubor vytvoří `jmeno_prijmeno.profile`
@@ -79,7 +89,7 @@
     158,26
     C-182, OK-JTV, LKLB, LKLB, 2022-05-22, 12:15, 13:15, 60, 1, vyhlídkový let, tomas_kulhavy, PPL
   ```
-   
+
     - **Soubor uživatele**
    ``` txt
     tomas, kulhavy
@@ -110,12 +120,32 @@ classDiagram
     Pilot .. TypeOfLicence : uses
     Plane .. TypeOfLicence : uses
     Flight .. TypeOfLicence : uses
-    
 ```
 
 ## Popis fungování externích knihoven
 
 - [ITextPDF](https://github.com/itext/itextpdf)
+- [Vygenerované PDF letů](./data/pdf-export)
+
+### Použití externí knihovny
+
+``` java
+public static boolean saveToPdf(List<Flight> flights, Pilot pilot, TypeOfLicence typeOfLicence, boolean isGlider) {
+    try {
+        PdfWriter.getInstance(document, new FileOutputStream("data//pdf-export//" + pilot.getName() + "_" + typeOfLicence + ".pdf"));
+        document.setPageSize(PageSize.A3.rotate());
+        document.open();
+        printFlight(flights, isGlider);
+        document.close();
+        return true;
+
+    } catch (FileNotFoundException e) {
+        return false;
+    } catch (DocumentException ex) {
+        return false;
+    }
+}
+```
 
 ## Funkční a technické požadavky na aplikaci
 
