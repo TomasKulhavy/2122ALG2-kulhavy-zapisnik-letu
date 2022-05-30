@@ -14,7 +14,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Scanner;
 
-// TODO - parsování všech vstupů
 // TODO - dokumentace
 // TODO - prezentace
 // TODO - diagram
@@ -70,7 +69,19 @@ public class Main {
                     } else if (tempLogin == 1) {
                         System.out.println("Zadej pozadovany typ licence ze seznamu: ");
                         Tools.generateTypesOfLicence();
-                        int tempLicence = sc.nextInt() - 1;
+                        int tempLicence = -1;
+                        do {
+                            String tempPlaneInput = sc.nextLine();
+                            if (InputValid.parseToNumber(tempPlaneInput)) {
+                                tempLicence = Integer.parseInt(tempPlaneInput) - 1;
+                                if (InputValid.parseRangeInput(2, tempLicence)) {
+                                    break;
+                                } else if (!InputValid.parseRangeInput(2, tempLicence)) {
+                                    System.out.println("Zadavate ve spatnem rozsahu");
+                                    System.out.println("Vyberte typ licence: ");
+                                }
+                            }
+                        } while (!InputValid.parseRangeInput(2, tempLicence));
                         FlightDiary diary = new FlightDiary(pilot, TypeOfLicence.valueOf(tempLicence), false);
                         pilot.addDiary(diary);
                     } else if (tempLogin == 2) {

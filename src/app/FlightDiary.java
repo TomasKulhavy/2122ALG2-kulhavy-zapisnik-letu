@@ -42,21 +42,34 @@ public class FlightDiary extends Flight {
      * Uloží typ licence to souboru pilota
      */
     public void saveToFile() {
-        try {
-            FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + ".profile", true);
-            myWriter.write("\n" + typeOfLicence);
-            myWriter.close();
+        List<TypeOfLicence> licences = new ArrayList<>();
+        licences.add(TypeOfLicence.SPL);
+        licences.add(TypeOfLicence.ULL);
+        licences.add(TypeOfLicence.PPL);
+        boolean existFile = false;
+        for (int i = 0; i < licences.size(); i++) {
+            File fileFind = new File("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + typeOfLicence);
+            existFile = fileFind.exists();
+        }
+        if (!existFile) {
+            try {
+                FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + ".profile", true);
+                myWriter.write("\n" + typeOfLicence);
+                myWriter.close();
 
-            File file2 = new File("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
-            exist = file2.exists();
-            if (!exist) {
-                FileWriter myWriterDiary = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
-                myWriterDiary.write("\n" + getOverallMinutes() + "," + getOverallTakeoffs());
-                myWriterDiary.close();
+                File file2 = new File("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
+                exist = file2.exists();
+                if (!exist) {
+                    FileWriter myWriterDiary = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
+                    myWriterDiary.write("\n" + getOverallMinutes() + "," + getOverallTakeoffs());
+                    myWriterDiary.close();
+                }
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+        } else {
+            System.out.println("Tuto licenci jiz mate.");
         }
     }
 
