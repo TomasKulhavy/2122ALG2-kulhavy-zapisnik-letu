@@ -47,9 +47,7 @@
     Bristell, ULL, OK-YAI-24, 79, 13
     letiste odletu, letiste priletu, datum letu, cas odletu, cas priletu, doba letu v minutach, pocet vzletu, poznamka, pilot
     LKLB, LKLB, 2022-05-22, 12:15, 12:54, 39, 10, let, tomas_kulhavy
-
     LKLB, LKVR, 2022-05-23, 12:20, 12:40, 20, 1, let, tomas_kulhavy
-   
     LKVR, LKLB, 2022-05-23, 13:0, 13:20, 20, 2, navigacni, tomas_kulhavy
    ```
 
@@ -73,9 +71,7 @@
   ``` txt
     158,26
     Bristell, OK-YAI-24, LKLB, LKLB, 2022-05-22, 12:15, 12:54, 39, 10, let, tomas_kulhavy, ULL
-    
     Bristell, OK-YAI-24, LKLB, LKVR, 2022-05-23, 12:20, 12:40, 20, 1, let, tomas_kulhavy, ULL
-    
     Bristell, OK-YAI-24, LKVR, LKLB, 2022-05-23, 13:0, 13:20, 20, 2, navigacni, tomas_kulhavy, ULL
   ```
     - **Zápisník PPL pilota**
@@ -93,11 +89,33 @@
    ```
 
 - ### **Class diagram**
-![bg right:20% 20%](./diagram.svg)
+
+```mermaid
+classDiagram
+    class Flight
+    class FlightDiary
+    class Pilot
+    class Plane
+    enum TypeOfLicence
+    class Main
+    interface IInputValid
+    class InputValid
+    class Tools
+
+    Main .. Tools : uses
+    Main .. IInputValid : uses
+    InputValid .. IInputValid : implements
+    FlightDiary .. Flight : uses
+    Plane .. Flight : uses
+    Pilot .. TypeOfLicence : uses
+    Plane .. TypeOfLicence : uses
+    Flight .. TypeOfLicence : uses
+    
+```
 
 ## Popis fungování externích knihoven
 
-- [LEADTOOLS Document Converter](https://www.leadtools.com/sdk/document/document-converter)
+- [ITextPDF](https://github.com/itext/itextpdf)
 
 ## Funkční a technické požadavky na aplikaci
 

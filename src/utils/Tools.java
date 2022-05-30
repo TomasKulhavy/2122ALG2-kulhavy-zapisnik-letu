@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Tomáš Kulhavý
  */
-public class Tools extends Main {
+public class Tools {
 
     public Tools() {
     }

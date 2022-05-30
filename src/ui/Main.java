@@ -2,7 +2,7 @@ package ui;
 
 import app.*;
 import org.w3c.dom.ranges.RangeException;
-import utils.InputValid;
+import utils.IInputValid;
 import utils.Tools;
 
 import java.io.File;
@@ -38,19 +38,19 @@ public class Main {
                 break;
             }
             String[] tempData = temp.split(" ");
-            String surename;
+            String surname;
             if (tempData.length < 2) {
-                surename = " ";
+                surname = " ";
             } else {
-                surename = tempData[1];
+                surname = tempData[1];
             }
-            File logbook = new File(tempData[0] + "_" + surename + ".txt");
+            File logbook = new File(tempData[0] + "_" + surname + ".txt");
             boolean exist = logbook.exists();
 
             if (!exist) {
-                pilot = new Pilot(tempData[0], surename, false);
+                pilot = new Pilot(tempData[0], surname, false);
             } else {
-                pilot = new Pilot(tempData[0], surename, true);
+                pilot = new Pilot(tempData[0], surname, true);
             }
 
             login = true;
@@ -62,7 +62,7 @@ public class Main {
                 Tools.showMenu();
                 String typeOfTakeoff = null;
                 String tempLoginInput = sc.nextLine();
-                if (InputValid.parseToNumber(tempLoginInput)) {
+                if (IInputValid.parseToNumber(tempLoginInput)) {
                     int tempLogin = Integer.parseInt(tempLoginInput);
                     if (tempLogin == 0) {
                         break;
@@ -72,16 +72,16 @@ public class Main {
                         int tempLicence = -1;
                         do {
                             String tempPlaneInput = sc.nextLine();
-                            if (InputValid.parseToNumber(tempPlaneInput)) {
+                            if (IInputValid.parseToNumber(tempPlaneInput)) {
                                 tempLicence = Integer.parseInt(tempPlaneInput) - 1;
-                                if (InputValid.parseRangeInput(2, tempLicence)) {
+                                if (IInputValid.parseRangeInput(2, tempLicence)) {
                                     break;
-                                } else if (!InputValid.parseRangeInput(2, tempLicence)) {
+                                } else if (!IInputValid.parseRangeInput(2, tempLicence)) {
                                     System.out.println("Zadavate ve spatnem rozsahu");
                                     System.out.println("Vyberte typ licence: ");
                                 }
                             }
-                        } while (!InputValid.parseRangeInput(2, tempLicence));
+                        } while (!IInputValid.parseRangeInput(2, tempLicence));
                         FlightDiary diary = new FlightDiary(pilot, TypeOfLicence.valueOf(tempLicence), false);
                         pilot.addDiary(diary);
                     } else if (tempLogin == 2) {
@@ -99,58 +99,58 @@ public class Main {
                         int takeoffNo = -1;
                         do {
                             String tempPlaneInput = sc.nextLine();
-                            if (InputValid.parseToNumber(tempPlaneInput)) {
+                            if (IInputValid.parseToNumber(tempPlaneInput)) {
                                 tempPlane = Integer.parseInt(tempPlaneInput);
-                                if (InputValid.parseRangeInput(planes.size(), tempPlane)) {
+                                if (IInputValid.parseRangeInput(planes.size(), tempPlane)) {
                                     break;
-                                } else if (!InputValid.parseRangeInput(planes.size(), tempPlane)) {
+                                } else if (!IInputValid.parseRangeInput(planes.size(), tempPlane)) {
                                     System.out.println("Zadavate ve spatnem rozsahu");
                                     System.out.println("Vyber letadlo: ");
                                 }
                             }
-                        } while (!InputValid.parseRangeInput(planes.size(), tempPlane));
+                        } while (!IInputValid.parseRangeInput(planes.size(), tempPlane));
 
                         String yearFlightInput;
                         do {
                             System.out.println("Zadej rok letu: ");
                             yearFlightInput = sc.nextLine();
-                            if (InputValid.parseToNumber(yearFlightInput)) {
+                            if (IInputValid.parseToNumber(yearFlightInput)) {
                                 yearFlight = Integer.parseInt(yearFlightInput);
                                 break;
-                            } else if (!InputValid.parseToNumber(yearFlightInput)) {
+                            } else if (!IInputValid.parseToNumber(yearFlightInput)) {
                                 System.out.println("Zadej platny rok [cislo]: ");
                             }
-                        } while (!InputValid.parseToNumber(yearFlightInput));
+                        } while (!IInputValid.parseToNumber(yearFlightInput));
 
                         String monthFlightInput;
                         do {
                             System.out.println("Zadej mesic letu: ");
                             monthFlightInput = sc.nextLine();
-                            if (InputValid.parseToNumber(monthFlightInput)) {
+                            if (IInputValid.parseToNumber(monthFlightInput)) {
                                 monthFlight = Integer.parseInt(monthFlightInput);
-                                if (InputValid.parseMonth(monthFlight)) {
+                                if (IInputValid.parseMonth(monthFlight)) {
                                     break;
-                                } else if (!InputValid.parseMonth(monthFlight)) {
+                                } else if (!IInputValid.parseMonth(monthFlight)) {
                                     System.out.println("Zadej platny mesic: [1-12]");
                                 }
                             }
-                        } while (!InputValid.parseMonth(monthFlight));
+                        } while (!IInputValid.parseMonth(monthFlight));
 
                         String dayFlightInput;
                         do {
                             System.out.println("Zadej den letu: ");
                             dayFlightInput = sc.nextLine();
-                            if (InputValid.parseToNumber(dayFlightInput)) {
+                            if (IInputValid.parseToNumber(dayFlightInput)) {
                                 dayFlight = Integer.parseInt(dayFlightInput);
-                                if (InputValid.parseDay(dayFlight, monthFlight, yearFlight)) {
+                                if (IInputValid.parseDay(dayFlight, monthFlight, yearFlight)) {
                                     break;
-                                } else if (!InputValid.parseDay(dayFlight, monthFlight, yearFlight)) {
+                                } else if (!IInputValid.parseDay(dayFlight, monthFlight, yearFlight)) {
                                     System.out.println("Zadej platne cislo dne: [1-31]");
                                 }
                             }
-                        } while (!InputValid.parseDay(dayFlight, monthFlight, yearFlight));
+                        } while (!IInputValid.parseDay(dayFlight, monthFlight, yearFlight));
 
-                        date = InputValid.parseDate(dayFlight, monthFlight, yearFlight);
+                        date = IInputValid.parseDate(dayFlight, monthFlight, yearFlight);
 
                         System.out.println("Zadej letiste odletu: ");
                         String takeoff = sc.nextLine();
@@ -166,38 +166,38 @@ public class Main {
                         do {
                             System.out.println("Zadej cas odletu [HH:MM]: ");
                             takeoffTimeInput = sc.nextLine();
-                            if (InputValid.parseTime(takeoffTimeInput, date)) {
-                                takeoffTime = InputValid.parseTimeInput(takeoffTimeInput, date);
+                            if (IInputValid.parseTime(takeoffTimeInput, date)) {
+                                takeoffTime = IInputValid.parseTimeInput(takeoffTimeInput, date);
                                 break;
-                            } else if (!InputValid.parseTime(takeoffTimeInput, date)) {
+                            } else if (!IInputValid.parseTime(takeoffTimeInput, date)) {
                                 System.out.println("Zadej platny cas: ");
                             }
-                        } while (!InputValid.parseTime(takeoffTimeInput, date));
+                        } while (!IInputValid.parseTime(takeoffTimeInput, date));
 
 
                         String landingTimeInput;
                         do {
                             System.out.println("Zadej cas priletu [HH:MM]: ");
                             landingTimeInput = sc.nextLine();
-                            if (InputValid.parseTime(landingTimeInput, date)) {
-                                landingTime = InputValid.parseTimeInput(landingTimeInput, date);
+                            if (IInputValid.parseTime(landingTimeInput, date)) {
+                                landingTime = IInputValid.parseTimeInput(landingTimeInput, date);
                                 break;
-                            } else if (!InputValid.parseTime(landingTimeInput, date)) {
+                            } else if (!IInputValid.parseTime(landingTimeInput, date)) {
                                 System.out.println("Zadej platny cas: ");
                             }
-                        } while (!InputValid.parseTime(landingTimeInput, date));
+                        } while (!IInputValid.parseTime(landingTimeInput, date));
 
                         String tempTakeoffInput;
                         do {
                             System.out.println("Zadej pocet letu: ");
                             tempTakeoffInput = sc.nextLine();
-                            if (InputValid.parseToNumber(tempTakeoffInput)) {
+                            if (IInputValid.parseToNumber(tempTakeoffInput)) {
                                 takeoffNo = Integer.parseInt(tempTakeoffInput);
                                 break;
-                            } else if (!InputValid.parseToNumber(tempTakeoffInput)) {
+                            } else if (!IInputValid.parseToNumber(tempTakeoffInput)) {
                                 System.out.println("Zadej cislo: ");
                             }
-                        } while (!InputValid.parseToNumber(tempTakeoffInput));
+                        } while (!IInputValid.parseToNumber(tempTakeoffInput));
 
 
                         System.out.println("Zadej typ letu: [uloha letu, atd.]");
@@ -222,16 +222,16 @@ public class Main {
                         int tempLicence = -1;
                         do {
                             String tempPlaneInput = sc.nextLine();
-                            if (InputValid.parseToNumber(tempPlaneInput)) {
+                            if (IInputValid.parseToNumber(tempPlaneInput)) {
                                 tempLicence = Integer.parseInt(tempPlaneInput) - 1;
-                                if (InputValid.parseRangeInput(planes.size(), tempLicence)) {
+                                if (IInputValid.parseRangeInput(planes.size(), tempLicence)) {
                                     break;
-                                } else if (!InputValid.parseRangeInput(planes.size(), tempLicence)) {
+                                } else if (!IInputValid.parseRangeInput(planes.size(), tempLicence)) {
                                     System.out.println("Zadavate ve spatnem rozsahu");
                                     System.out.println("Vyberte typ letadla: ");
                                 }
                             }
-                        } while (!InputValid.parseRangeInput(planes.size(), tempLicence));
+                        } while (!IInputValid.parseRangeInput(planes.size(), tempLicence));
 
                         System.out.println("Zadejte registraci letadla: ");
                         String reg = sc.next();
@@ -246,16 +246,16 @@ public class Main {
                         int tempLicence = -1;
                         do {
                             String tempPlaneInput = sc.nextLine();
-                            if (InputValid.parseToNumber(tempPlaneInput)) {
+                            if (IInputValid.parseToNumber(tempPlaneInput)) {
                                 tempLicence = Integer.parseInt(tempPlaneInput);
-                                if (InputValid.parseRangeInput(diaries.size(), tempLicence)) {
+                                if (IInputValid.parseRangeInput(diaries.size(), tempLicence)) {
                                     break;
-                                } else if (!InputValid.parseRangeInput(diaries.size(), tempLicence)) {
+                                } else if (!IInputValid.parseRangeInput(diaries.size(), tempLicence)) {
                                     System.out.println("Zadavate ve spatnem rozsahu");
                                     System.out.println("Vyberte typ letadla: ");
                                 }
                             }
-                        } while (!InputValid.parseRangeInput(diaries.size(), tempLicence));
+                        } while (!IInputValid.parseRangeInput(diaries.size(), tempLicence));
 
                         flightDiary = diaries.get(tempLicence - 1);
                         System.out.println(flightDiary.getFlightsAndMinutes());
@@ -263,7 +263,7 @@ public class Main {
                         do {
                             Tools.showSortMenu();
                             String tempSortInput = sc.nextLine();
-                            if (InputValid.parseToNumber(tempSortInput)) {
+                            if (IInputValid.parseToNumber(tempSortInput)) {
                                 int tempSort = Integer.parseInt(tempSortInput);
                                 if (tempSort == 1)
                                     Tools.printFlight(flightDiary.sortByDateDesc(), Tools.isGlider(flightDiary.getType()));
@@ -279,16 +279,16 @@ public class Main {
                         int tempPlaneDiary = -1;
                         do {
                             String tempPlaneInput = sc.nextLine();
-                            if (InputValid.parseToNumber(tempPlaneInput)) {
+                            if (IInputValid.parseToNumber(tempPlaneInput)) {
                                 tempPlaneDiary = Integer.parseInt(tempPlaneInput);
-                                if (InputValid.parseRangeInput(planes.size(), tempPlaneDiary)) {
+                                if (IInputValid.parseRangeInput(planes.size(), tempPlaneDiary)) {
                                     break;
-                                } else if (!InputValid.parseRangeInput(planes.size(), tempPlaneDiary)) {
+                                } else if (!IInputValid.parseRangeInput(planes.size(), tempPlaneDiary)) {
                                     System.out.println("Zadavate ve spatnem rozsahu");
                                     System.out.println("Vyber letadlo: ");
                                 }
                             }
-                        } while (!InputValid.parseRangeInput(planes.size(), tempPlaneDiary));
+                        } while (!IInputValid.parseRangeInput(planes.size(), tempPlaneDiary));
 
                         plane = planes.get(tempPlaneDiary - 1);
                         System.out.println(plane.getFlightsAndMinutes());
@@ -296,7 +296,7 @@ public class Main {
                         do {
                             Tools.showSortMenu();
                             String tempSortInput = sc.nextLine();
-                            if (InputValid.parseToNumber(tempSortInput)) {
+                            if (IInputValid.parseToNumber(tempSortInput)) {
                                 int tempSort = Integer.parseInt(tempSortInput);
                                 if (tempSort == 1)
                                     Tools.printPlaneFlight(plane.sortByDateDesc(), Tools.isGlider(plane.getTypeOfLicence()));
