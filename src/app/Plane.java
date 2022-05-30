@@ -3,13 +3,17 @@ package app;
 import utils.InputValid;
 import utils.Tools;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 /**
  * Třída, která uchovává letadlo
+ *
  * @author Tomáš Kulhavý
  */
 public class Plane extends Flight {
@@ -23,7 +27,8 @@ public class Plane extends Flight {
 
     /**
      * Kontruktor pouze pro inicializaci na startu programu
-     * @param registration
+     *
+     * @param registration registrace letadla
      */
     public Plane(String registration) {
         this.registration = registration;
@@ -31,11 +36,11 @@ public class Plane extends Flight {
 
     /**
      * Kontruktor pro vytvoření letadla
-     * @param name Jméno letadla
+     *
+     * @param name          Jméno letadla
      * @param typeOfLicence Typ licence letadla
-     * @param registration Registrace letadla
-     * @param exist Existuje již toto letadlo?
-     * @throws IOException
+     * @param registration  Registrace letadla
+     * @param exist         Existuje již toto letadlo?
      */
     public Plane(String name, TypeOfLicence typeOfLicence, String registration, boolean exist) {
         this.name = name;
@@ -43,7 +48,7 @@ public class Plane extends Flight {
         this.registration = registration;
         this.flightTimeMinutes = 0;
         this.takeoffNo = 0;
-        if(!exist) saveFlightToFile();
+        if (!exist) saveFlightToFile();
     }
 
 
@@ -63,6 +68,7 @@ public class Plane extends Flight {
 
     /**
      * Vrátí název letadla
+     *
      * @return Název letadla
      */
     public String getName() {
@@ -71,6 +77,7 @@ public class Plane extends Flight {
 
     /**
      * Vrátí typ licence letadla
+     *
      * @return Typ licence letadla
      */
     public TypeOfLicence getTypeOfLicence() {
@@ -79,6 +86,7 @@ public class Plane extends Flight {
 
     /**
      * Vrátí registraci letadla
+     *
      * @return Registrace letadla
      */
     public String getRegistration() {
@@ -87,6 +95,7 @@ public class Plane extends Flight {
 
     /**
      * Nastaví dobu letu v minutách
+     *
      * @param flightTimeMinutes Doba letu v minutách
      */
     public void setFlightTimeMinutes(int flightTimeMinutes) {
@@ -95,6 +104,7 @@ public class Plane extends Flight {
 
     /**
      * Nastaví počet vzletů
+     *
      * @param takeoffNo Počet vzletů
      */
     public void setTakeoffNo(int takeoffNo) {
@@ -129,8 +139,9 @@ public class Plane extends Flight {
 
     /**
      * Metoda, která vrátí celkový nálet hodin a minut ve Stringu
+     *
      * @return String naformátovaný, který vrátí celkový nálet hodin a vzletů
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException Soubor nenalezen
      */
     public String getFlightsAndMinutes() throws FileNotFoundException {
         System.out.format("%-15s%-15s%n", "Letadlo: ", getName());
@@ -149,8 +160,8 @@ public class Plane extends Flight {
 
     /**
      * Metoda, která vrátí list letů
+     *
      * @return List letů z daného zápisníku letadla
-     * @throws FileNotFoundException
      */
     public List<Flight> getFlights() {
         try {
@@ -163,10 +174,10 @@ public class Plane extends Flight {
                 String[] lineFlight = dataFlight.split(", ");
                 Plane planeSelect = new Plane(name, typeOfLicence, registration, true);
                 LocalDate date = LocalDate.parse(lineFlight[2]);
-                LocalDateTime takeoffTime = InputValid.parseTime(lineFlight[3], date);
-                LocalDateTime landingTime = InputValid.parseTime(lineFlight[4], date);
+                LocalDateTime takeoffTime = InputValid.parseTimeInput(lineFlight[3], date);
+                LocalDateTime landingTime = InputValid.parseTimeInput(lineFlight[4], date);
                 String[] tempName;
-                if(Tools.isGlider(typeOfLicence)) {
+                if (Tools.isGlider(typeOfLicence)) {
                     tempName = lineFlight[9].split("_");
                 } else {
                     tempName = lineFlight[8].split("_");
@@ -174,7 +185,7 @@ public class Plane extends Flight {
                 Pilot pilot = new Pilot(tempName[0], tempName[1], true);
                 FlightDiary diary = new FlightDiary(pilot, planeSelect.getTypeOfLicence(), true);
                 Flight flight;
-                if(Tools.isGlider(planeSelect.getTypeOfLicence())) {
+                if (Tools.isGlider(planeSelect.getTypeOfLicence())) {
                     flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[6]), Integer.parseInt(lineFlight[7]), lineFlight[5], lineFlight[8], pilot, diary, true);
                 } else {
                     flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[5]), Integer.parseInt(lineFlight[6]), lineFlight[7], pilot, diary, true);
@@ -193,6 +204,7 @@ public class Plane extends Flight {
 
     /**
      * Metoda, která přidá letadlo
+     *
      * @param plane Objekt letadla
      */
     public void addPlane(Plane plane) {
@@ -201,6 +213,7 @@ public class Plane extends Flight {
 
     /**
      * Vrátí list letadel
+     *
      * @return List letadel
      */
     public List<Plane> getPlanes() {
@@ -209,8 +222,9 @@ public class Plane extends Flight {
 
     /**
      * Metoda, která načte všechna letadla a jejich hodnoty ze souboru
+     *
      * @return List letadel s jejich hodnotami ze souborů
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException Soubor nenalezen
      */
     public List<Plane> loadAllPlanes() throws FileNotFoundException {
         planes.removeAll(planes);
@@ -234,6 +248,7 @@ public class Plane extends Flight {
 
     /**
      * Metoda, která vrátí list seřazený sestupně
+     *
      * @return List seřazený sestupně
      */
     public ArrayList<Flight> sortByDateDesc() {
@@ -245,6 +260,7 @@ public class Plane extends Flight {
 
     /**
      * Metoda, která vrátí list seřazený vzestupně
+     *
      * @return List seřazený vzestupně
      */
     public ArrayList<Flight> sortByDateAsc() {

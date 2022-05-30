@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * Enum licencí
+ *
  * @author Tomáš Kulhavý
  */
 public enum TypeOfLicence {
@@ -12,12 +13,7 @@ public enum TypeOfLicence {
     ULL(1),
     PPL(2);
 
-    private int value;
     private static Map map = new HashMap<>();
-
-    private TypeOfLicence(int value) {
-        this.value = value;
-    }
 
     static {
         for (TypeOfLicence licence : TypeOfLicence.values()) {
@@ -25,8 +21,15 @@ public enum TypeOfLicence {
         }
     }
 
+    private int value;
+
+    TypeOfLicence(int value) {
+        this.value = value;
+    }
+
     /**
      * Metodá, která nám vrátí TypeOfLicence
+     *
      * @param typeOfLicence int hodnota licence
      * @return TypeOfLicence
      */
@@ -36,6 +39,7 @@ public enum TypeOfLicence {
 
     /**
      * Metoda, která nám vrátí licenci podle názvu
+     *
      * @param name Název licence
      * @return Název licence podle názvu
      */

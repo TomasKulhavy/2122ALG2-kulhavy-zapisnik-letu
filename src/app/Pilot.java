@@ -9,25 +9,43 @@ import java.util.Locale;
 
 /**
  * Třída, která uchovává pilota
+ *
  * @author Tomáš Kulhavý
  */
 public class Pilot {
+    boolean exist = false;
     private String firstName;
     private String lastName;
     private List<FlightDiary> diary = new ArrayList<>();
-    boolean exist = false;
 
     /**
      * Konstuktor
+     *
      * @param firstName Křestní jméno pilota
-     * @param lastName Příjmení pilota
-     * @param exist Existuje daný pilot?
-     * @throws IOException
+     * @param lastName  Příjmení pilota
+     * @param exist     Existuje daný pilot?
      */
     public Pilot(String firstName, String lastName, boolean exist) {
         this.firstName = firstName;
         this.lastName = lastName;
-        if(!exist) savePilotToFile();
+        if (!exist) savePilotToFile();
+    }
+
+    public static void main(String[] args) {
+        //Pilot pilot = new Pilot("Tomas", "Kulhavy");
+        //FlightDiary diarySPL = new FlightDiary(pilot, TypeOfLicence.SPL);
+        //FlightDiary diaryULL = new FlightDiary(pilot, TypeOfLicence.ULL);
+        //Plane plane = new Plane("Bristell", TypeOfLicence.ULL, "OK-YAI-24");
+        //Plane plane2 = new Plane("HpH304CZ", TypeOfLicence.SPL, "OK-7304");
+
+        //LocalDate date = LocalDate.of(2022, 5, 9);
+        //LocalDateTime takeoffTime = date.atTime(16, 22);
+        //LocalDateTime landingTime = date.atTime(17, 22);
+        //int flightTimeMinutes = (int) ChronoUnit.MINUTES.between(takeoffTime, landingTime);
+
+        //Flight flight = new Flight(plane, "LKLB", "LKVR", date, takeoffTime, landingTime, flightTimeMinutes, 8, "okruhy", pilot, diaryULL);
+        //Flight flight2 = new Flight(plane2, "LKLB", "LKBR", date, takeoffTime, landingTime, flightTimeMinutes, 1, "přelet", pilot, diarySPL);
+        //light flight3 = new Flight(plane2, "LKBR", "LKLB", date, takeoffTime, landingTime, flightTimeMinutes, 10, "přelet", pilot, diarySPL);
     }
 
     /**
@@ -51,6 +69,7 @@ public class Pilot {
 
     /**
      * Vrátí celé jméno pilota
+     *
      * @return Pilotovo celé jméno
      */
     public String getName() {
@@ -59,6 +78,7 @@ public class Pilot {
 
     /**
      * Metoda, která přidá zápisník do profilu pilota
+     *
      * @param flightDiary Letový zápisník
      */
     public void addDiary(FlightDiary flightDiary) {
@@ -68,22 +88,5 @@ public class Pilot {
             }
         }
         diary.add(flightDiary);
-    }
-
-    public static void main(String[] args) {
-        //Pilot pilot = new Pilot("Tomas", "Kulhavy");
-        //FlightDiary diarySPL = new FlightDiary(pilot, TypeOfLicence.SPL);
-        //FlightDiary diaryULL = new FlightDiary(pilot, TypeOfLicence.ULL);
-        //Plane plane = new Plane("Bristell", TypeOfLicence.ULL, "OK-YAI-24");
-        //Plane plane2 = new Plane("HpH304CZ", TypeOfLicence.SPL, "OK-7304");
-
-        //LocalDate date = LocalDate.of(2022, 5, 9);
-        //LocalDateTime takeoffTime = date.atTime(16, 22);
-        //LocalDateTime landingTime = date.atTime(17, 22);
-        //int flightTimeMinutes = (int) ChronoUnit.MINUTES.between(takeoffTime, landingTime);
-
-        //Flight flight = new Flight(plane, "LKLB", "LKVR", date, takeoffTime, landingTime, flightTimeMinutes, 8, "okruhy", pilot, diaryULL);
-        //Flight flight2 = new Flight(plane2, "LKLB", "LKBR", date, takeoffTime, landingTime, flightTimeMinutes, 1, "přelet", pilot, diarySPL);
-        //light flight3 = new Flight(plane2, "LKBR", "LKLB", date, takeoffTime, landingTime, flightTimeMinutes, 10, "přelet", pilot, diarySPL);
     }
 }

@@ -10,6 +10,7 @@ import java.util.Locale;
 
 /**
  * Třída, která uchovává let
+ *
  * @author Tomáš Kulhavý
  */
 public class Flight implements Comparator<Flight> {
@@ -31,20 +32,20 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Konstruktor pro větroně
-     * @param plane Letadlo
-     * @param takeoff Letiště odletu
-     * @param landing Letiště příletu
-     * @param date Datum letu
-     * @param takeoffTime Čas odletu
-     * @param landingTime Čas příletu
+     *
+     * @param plane             Letadlo
+     * @param takeoff           Letiště odletu
+     * @param landing           Letiště příletu
+     * @param date              Datum letu
+     * @param takeoffTime       Čas odletu
+     * @param landingTime       Čas příletu
      * @param flightTimeMinutes Čas letu v minutách
-     * @param takeoffNo Počet vzletů
-     * @param typeOfTakeOff Způsob vzletu
-     * @param typeOfFlight Typ letu
-     * @param pilot Pilot letadla
-     * @param flightDiary Letový zápisník
-     * @param exist existuje už?
-     * @throws java.io.IOException
+     * @param takeoffNo         Počet vzletů
+     * @param typeOfTakeOff     Způsob vzletu
+     * @param typeOfFlight      Typ letu
+     * @param pilot             Pilot letadla
+     * @param flightDiary       Letový zápisník
+     * @param exist             existuje už?
      */
     public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfTakeOff, String typeOfFlight, Pilot pilot, FlightDiary flightDiary, boolean exist) {
         this.plane = plane;
@@ -59,24 +60,24 @@ public class Flight implements Comparator<Flight> {
         this.typeOfTakeOff = typeOfTakeOff;
         this.pilot = pilot;
         this.flightDiary = flightDiary;
-        if(!exist) saveNewFlightGlider();
+        if (!exist) saveNewFlightGlider();
     }
 
     /**
      * Konstruktor pro motorové letadlo
-     * @param plane Letadlo
-     * @param takeoff Letiště odletu
-     * @param landing Letiště příletu
-     * @param date Datum letu
-     * @param takeoffTime Čas odletu
-     * @param landingTime Čas příletu
+     *
+     * @param plane             Letadlo
+     * @param takeoff           Letiště odletu
+     * @param landing           Letiště příletu
+     * @param date              Datum letu
+     * @param takeoffTime       Čas odletu
+     * @param landingTime       Čas příletu
      * @param flightTimeMinutes Čas letu v minutách
-     * @param takeoffNo Počet vzletů
-     * @param typeOfFlight Typ letu
-     * @param pilot Pilot letadla
-     * @param flightDiary Letový zápisník
-     * @param exist existuje už?
-     * @throws java.io.IOException
+     * @param takeoffNo         Počet vzletů
+     * @param typeOfFlight      Typ letu
+     * @param pilot             Pilot letadla
+     * @param flightDiary       Letový zápisník
+     * @param exist             existuje už?
      */
     public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, FlightDiary flightDiary, boolean exist) {
         this.plane = plane;
@@ -90,12 +91,11 @@ public class Flight implements Comparator<Flight> {
         this.typeOfFlight = typeOfFlight;
         this.pilot = pilot;
         this.flightDiary = flightDiary;
-        if(!exist) saveNewFlight();
+        if (!exist) saveNewFlight();
     }
 
     /**
      * Ukládá nové lety do textového soubory letadla a zápisníku pilota
-     * @throws java.io.IOException
      */
     public void saveNewFlight() {
         try {
@@ -119,16 +119,16 @@ public class Flight implements Comparator<Flight> {
         }
         try {
             FileWriter myWriterPlane = new FileWriter("data/exported-data/" + plane.getRegistration() + ".plane", true);
-            myWriterPlane.write("\n" +
+            myWriterPlane.write(
                     takeoff +
-                    ", " + landing +
-                    ", " + date +
-                    ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
-                    ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
-                    ", " + flightTimeMinutes +
-                    ", " + takeoffNo +
-                    ", " + typeOfFlight +
-                    ", " + pilot.getName());
+                            ", " + landing +
+                            ", " + date +
+                            ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
+                            ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
+                            ", " + flightTimeMinutes +
+                            ", " + takeoffNo +
+                            ", " + typeOfFlight +
+                            ", " + pilot.getName());
             myWriterPlane.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -144,7 +144,7 @@ public class Flight implements Comparator<Flight> {
     public void saveNewFlightGlider() {
         try {
             FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
-            myWriter.write("\n" + plane.getName() +
+            myWriter.write(plane.getName() +
                     ", " + plane.getRegistration() +
                     ", " + takeoff +
                     ", " + landing +
@@ -164,17 +164,17 @@ public class Flight implements Comparator<Flight> {
         }
         try {
             FileWriter myWriterPlane = new FileWriter("data/exported-data/" + plane.getRegistration() + ".plane", true);
-            myWriterPlane.write("\n" +
+            myWriterPlane.write(
                     takeoff +
-                    ", " + landing +
-                    ", " + date +
-                    ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
-                    ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
-                    ", " + typeOfTakeOff +
-                    ", " + flightTimeMinutes +
-                    ", " + takeoffNo +
-                    ", " + typeOfFlight +
-                    ", " + pilot.getName());
+                            ", " + landing +
+                            ", " + date +
+                            ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
+                            ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
+                            ", " + typeOfTakeOff +
+                            ", " + flightTimeMinutes +
+                            ", " + takeoffNo +
+                            ", " + typeOfFlight +
+                            ", " + pilot.getName());
             myWriterPlane.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -189,6 +189,7 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí letiště odletu
+     *
      * @return Letiště odletu
      */
     public String getTakeoff() {
@@ -197,6 +198,7 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí letiště příletu
+     *
      * @return Letiště příletu
      */
     public String getLanding() {
@@ -205,6 +207,7 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí datum letu
+     *
      * @return Datum letu
      */
     public LocalDate getDate() {
@@ -213,6 +216,7 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí čas odletu
+     *
      * @return Čas odletu
      */
     public LocalDateTime getTakeoffTime() {
@@ -221,6 +225,7 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí čas příletu
+     *
      * @return Čas příletu
      */
     public LocalDateTime getLandingTime() {
@@ -229,12 +234,16 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí způsob vzletu
+     *
      * @return Způsob vzletu
      */
-    public String getTypeOfTakeOff() { return typeOfTakeOff; }
+    public String getTypeOfTakeOff() {
+        return typeOfTakeOff;
+    }
 
     /**
      * Vrátí čas letu v minutách
+     *
      * @return Čas letu v minutách
      */
     public int getFlightTimeMinutes() {
@@ -243,6 +252,7 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí počet vzletů
+     *
      * @return Počet vzletů
      */
     public int getTakeoffNo() {
@@ -251,6 +261,7 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí typ letu
+     *
      * @return Typ letu
      */
     public String getTypeOfFlight() {
@@ -259,6 +270,7 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí pilota letadla
+     *
      * @return Pilot letadla
      */
     public String getPilot() {
@@ -267,6 +279,7 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Vrátí letadlo
+     *
      * @return Letadlo
      */
     public Plane getPlane() {
@@ -275,9 +288,10 @@ public class Flight implements Comparator<Flight> {
 
     /**
      * Seřadí lety podle datumu
-     * @params o1 let 1
-     * @params o2 let 2
-     * @return Seřazený list
+     *
+     * @param o1 the first object to be compared.
+     * @param o2 the second object to be compared.
+     * @return -1, 0, 1
      */
     @Override
     public int compare(Flight o1, Flight o2) {

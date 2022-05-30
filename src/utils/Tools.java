@@ -10,14 +10,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.nio.file.Path;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
  * Pomocná třída na vedlejší metody
+ *
  * @author Tomáš Kulhavý
  */
 public class Tools extends Main {
@@ -27,7 +25,8 @@ public class Tools extends Main {
 
     /**
      * Metoda, která vypíše letadla do konzole
-     * @param planeList
+     *
+     * @param planeList List letadel
      */
     public static void printPlanes(List<Plane> planeList) {
         for (int i = 0; i < planeList.size(); i++) {
@@ -37,7 +36,8 @@ public class Tools extends Main {
 
     /**
      * Metoda, která vypíše lety ze záisníku pilota v závisloti na typu letadla
-     * @param flights List letů
+     *
+     * @param flights  List letů
      * @param isGlider Je toto větroň?
      */
     public static void printFlight(List<Flight> flights, boolean isGlider) {
@@ -60,11 +60,12 @@ public class Tools extends Main {
 
     /**
      * Metoda, která vypíše lety ze záisníku letadla v závisloti na typu letadla
-     * @param flights List letů
+     *
+     * @param flights  List letů
      * @param isGlider Je toto větroň?
      */
     public static void printPlaneFlight(List<Flight> flights, boolean isGlider) {
-        if(isGlider) {
+        if (isGlider) {
             System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", "Letiste odletu", "Letiste priletu", "Datum letu", "Cas odletu", "Cas priletu", "Cas letu", "Pocet startu", "Zpusob vzletu", "Poznamka", "Pilot");
             for (Flight flight : flights) {
                 System.out.format("%-20s%-20s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%n", flight.getTakeoff(), flight.getLanding(), flight.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), flight.getTakeoffTime().getHour() + ":" + flight.getTakeoffTime().getMinute(), flight.getLandingTime().getHour() + ":" + flight.getLandingTime().getMinute(), getTotalTime(flight.getFlightTimeMinutes()), flight.getTakeoffNo(), flight.getTypeOfTakeOff(), flight.getTypeOfFlight(), flight.getPilot());
@@ -82,6 +83,7 @@ public class Tools extends Main {
 
     /**
      * Metoda, která nám vrátí minuty na hodiny
+     *
      * @param minutesInput Celkové minuty
      * @return Hodiny ve formátu HH:MM
      */
@@ -102,6 +104,7 @@ public class Tools extends Main {
 
     /**
      * Metoda, která nám vypíše licence pilota
+     *
      * @param diaries List licencí pilota
      */
     public static void printLicences(List<FlightDiary> diaries) {
@@ -112,8 +115,9 @@ public class Tools extends Main {
 
     /**
      * Metoda, která v souboru přepíše hodnotu novou hodnotou
-     * @param fileInput Soubor pro změnu
-     * @param replaceOld Starý text
+     *
+     * @param fileInput   Soubor pro změnu
+     * @param replaceOld  Starý text
      * @param replaceWith Nový text
      */
     public static void replaceSelected(File fileInput, String replaceOld, String replaceWith) {
@@ -148,12 +152,12 @@ public class Tools extends Main {
      */
     public static void showMenu() {
         String menu = """
-                        1. Pridat typ zapisniku letu
-                        2. Pridat let
-                        3. Pridat letadlo
-                        4. Zobrazit zapisnik
-                        5. Zobrazit zapisnik letadla
-                        0. Odhlasit se""";
+                1. Pridat typ zapisniku letu
+                2. Pridat let
+                3. Pridat letadlo
+                4. Zobrazit zapisnik
+                5. Zobrazit zapisnik letadla
+                0. Odhlasit se""";
         System.out.println(menu);
     }
 
@@ -162,14 +166,15 @@ public class Tools extends Main {
      */
     public static void showSortMenu() {
         String menu = """
-                        1. Seradit sestupne podle datumu
-                        2. Seradit vzestupne podle datumu
-                        0. Zpet""";
+                1. Seradit sestupne podle datumu
+                2. Seradit vzestupne podle datumu
+                0. Zpet""";
         System.out.println(menu);
     }
 
     /**
      * Metoda, která nám zjistí, jestli je toto větroň
+     *
      * @param licence Typ licence
      * @return True : je, False : není
      */

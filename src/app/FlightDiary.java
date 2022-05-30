@@ -3,40 +3,43 @@ package app;
 import utils.InputValid;
 import utils.Tools;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 /**
  * Třída, která zápisník letů
+ *
  * @author Tomáš Kulhavý
  */
 public class FlightDiary extends Flight {
+    boolean exist = false;
     private Pilot pilot;
     private List<Flight> flights = new ArrayList<>();
     private List<FlightDiary> diaries = new ArrayList<>();
     private TypeOfLicence typeOfLicence;
     private int overallMinutes = 0;
     private int overallTakeoffs = 0;
-    boolean exist = false;
 
     /**
      * Konstruktor
-     * @param pilot
-     * @param typeOfLicence
-     * @param exist
-     * @throws IOException
+     *
+     * @param pilot         Pilot object
+     * @param typeOfLicence Typ licence
+     * @param exist         Existuje už?
      */
     public FlightDiary(Pilot pilot, TypeOfLicence typeOfLicence, boolean exist) {
         this.pilot = pilot;
         this.typeOfLicence = typeOfLicence;
-        if(!exist) saveToFile();
+        if (!exist) saveToFile();
     }
 
     /**
      * Uloží typ licence to souboru pilota
-     * @throws IOException
      */
     public void saveToFile() {
         try {
@@ -59,6 +62,7 @@ public class FlightDiary extends Flight {
 
     /**
      * Vrátí typ licence
+     *
      * @return Typ licence
      */
     public TypeOfLicence getType() {
@@ -67,6 +71,7 @@ public class FlightDiary extends Flight {
 
     /**
      * Vrátí celkový nálet v minutách
+     *
      * @return Celkový nálet v minutách
      */
     public int getOverallMinutes() {
@@ -75,6 +80,7 @@ public class FlightDiary extends Flight {
 
     /**
      * Vrátí celkový počet startů
+     *
      * @return Celkový počet startů
      */
     public int getOverallTakeoffs() {
@@ -83,8 +89,9 @@ public class FlightDiary extends Flight {
 
     /**
      * Metoda získá všechny licence pilota
+     *
      * @return List zápisníků, které pilot má.
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException Soubor nenalezen
      */
     public List<FlightDiary> getDiaries() throws FileNotFoundException {
         diaries.removeAll(diaries);
@@ -102,10 +109,10 @@ public class FlightDiary extends Flight {
 
     /**
      * Metoda aktualizuje součty celkového náletu
-     * @param overallTakeoffs
-     * @param overallMinutes
-     * @param typeOfLicence
-     * @throws FileNotFoundException
+     *
+     * @param overallTakeoffs Celkové vzlety
+     * @param overallMinutes  Celkové minuty
+     * @param typeOfLicence   Typ licence
      */
     public void setOverall(int overallTakeoffs, int overallMinutes, TypeOfLicence typeOfLicence) {
         try {
@@ -131,8 +138,9 @@ public class FlightDiary extends Flight {
 
     /**
      * Metoda, která vrátí celkový nálet hodin a minut ve Stringu
+     *
      * @return String naformátovaný, který vrátí celkový nálet hodin a vzletů
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException Soubor nenalezen
      */
     public String getFlightsAndMinutes() throws FileNotFoundException {
         System.out.println("Typ licence: " + typeOfLicence);
@@ -148,8 +156,8 @@ public class FlightDiary extends Flight {
 
     /**
      * Metoda, která vrátí list letů
+     *
      * @return List letů z daného zápisníku letů
-     * @throws FileNotFoundException
      */
     public List<Flight> getFlights() {
         try {
@@ -161,14 +169,10 @@ public class FlightDiary extends Flight {
                 String dataFlight = myReader.nextLine();
                 String[] lineFlight = dataFlight.split(", ");
                 Plane plane;
-                if(Tools.isGlider(typeOfLicence)) {
-                    plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[1], true);
-                } else {
-                    plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[1], true);
-                }
+                plane = new Plane(lineFlight[0], typeOfLicence, lineFlight[1], true);
                 LocalDate date = LocalDate.parse(lineFlight[4]);
-                LocalDateTime takeoffTime = InputValid.parseTime(lineFlight[5], date);
-                LocalDateTime landingTime = InputValid.parseTime(lineFlight[6], date);
+                LocalDateTime takeoffTime = InputValid.parseTimeInput(lineFlight[5], date);
+                LocalDateTime landingTime = InputValid.parseTimeInput(lineFlight[6], date);
                 FlightDiary diary = new FlightDiary(pilot, typeOfLicence, true);
                 Flight flight;
                 if (Tools.isGlider(diary.getType())) {
@@ -189,6 +193,7 @@ public class FlightDiary extends Flight {
 
     /**
      * Metoda, která vrátí list seřazený sestupně
+     *
      * @return List seřazený sestupně
      */
     public ArrayList<Flight> sortByDateDesc() {
@@ -200,6 +205,7 @@ public class FlightDiary extends Flight {
 
     /**
      * Metoda, která vrátí list seřazený vzestupně
+     *
      * @return List seřazený vzestupně
      */
     public ArrayList<Flight> sortByDateAsc() {
