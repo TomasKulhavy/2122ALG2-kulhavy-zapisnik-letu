@@ -1,15 +1,17 @@
 ##### Termín: 25. 5. 2022 #####
 
 ###### Semestrální práce ######
-- [Zadání práce]()
-  - [Popis problému (motivace)]()
-- [Řešení]()
-  - [Funkční specifikace]()
-  - [Popis struktury vstupních a výstupních souborů]()
-  - [Class diagram]()
-- [Popis fungování externích knihoven]()
-  - [Použití externí knihovny]()
-- [Požadavky]()
+[🖥️Prezentace](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu/blob/master/prezentace/2122ALG2-kulhavy-zapisnik-letu.pdf)
+[📃Dokumentace](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#readme)
+- [Zadání práce](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#zad%C3%A1n%C3%AD-pr%C3%A1ce)
+  - [Popis problému (motivace)](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#popis-probl%C3%A9mu-motivace)
+- [Řešení](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#%C5%99e%C5%A1en%C3%AD)
+  - [Funkční specifikace](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#funk%C4%8Dn%C3%AD-specifikace)
+  - [Popis struktury vstupních a výstupních souborů](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#popis-struktury-vstupn%C3%ADch-a-v%C3%BDstupn%C3%ADch-soubor%C5%AF)
+  - [Class diagram](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#class-diagram)
+- [Popis fungování externích knihoven](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#popis-fungov%C3%A1n%C3%AD-extern%C3%ADch-knihoven)
+  - [Použití externí knihovny](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#pou%C5%BEit%C3%AD-extern%C3%AD-knihovny)
+- [Požadavky](https://github.com/TomasKulhavy/2122ALG2-kulhavy-zapisnik-letu#funk%C4%8Dn%C3%AD-a-technick%C3%A9-po%C5%BEadavky-na-aplikaci)
 
 # Zápisník letů
 
