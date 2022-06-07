@@ -61,6 +61,7 @@
       
 - ### **Popis struktury vstupních a výstupních souborů**
     - [Soubory (data store)](./data/exported-data)
+    - Údaje jsou uloženy v textovém souboru a jsou odděleny `, `
     - Program si přečte všechny soubory s letovými deníky letadel `(.plane)`, pilotů `(.ULL, .SPL, .PPL)` a také účty
       pilotů `(.profile)`
     - Pokud uživatel neexistuje tj. nemá svůj soubor, program mu tento soubor vytvoří `jmeno_prijmeno.profile`
