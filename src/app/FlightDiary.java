@@ -63,7 +63,7 @@ public class FlightDiary extends Flight {
                 exist = file2.exists();
                 if (!exist) {
                     FileWriter myWriterDiary = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
-                    myWriterDiary.write(getOverallMinutes() + "," + getOverallTakeoffs());
+                    myWriterDiary.write(getOverallMinutes() + "," + getOverallTakeoffs() + "\n");
                     myWriterDiary.close();
                 }
             } catch (IOException e) {

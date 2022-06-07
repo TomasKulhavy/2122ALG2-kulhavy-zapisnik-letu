@@ -61,7 +61,7 @@ public class Plane extends Flight {
     public void savePlaneToFile() {
         try {
             FileWriter myWriter = new FileWriter("data/exported-data/" + registration + ".plane");
-            myWriter.write(name + ", " + typeOfLicence + ", " + registration + ", " + flightTimeMinutes + ", " + takeoffNo);
+            myWriter.write(name + ", " + typeOfLicence + ", " + registration + ", " + flightTimeMinutes + ", " + takeoffNo + "\n");
             myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");

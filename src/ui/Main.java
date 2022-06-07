@@ -15,3 +15,5 @@ public class Main {
         ui.Menu();
     }
 }
+
+// TODO - Řádkování souborů

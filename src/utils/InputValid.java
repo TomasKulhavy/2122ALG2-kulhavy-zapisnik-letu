@@ -39,7 +39,7 @@ public class InputValid implements IInputValid {
      * @throws RangeException Mimo rozsah
      */
     public static void parseRange(int input, int max) throws RangeException {
-        if (input > max) throw new RangeException((short) input, "Jste mimo rozsah hodnot");
+        if (input > max && input < 0) throw new RangeException((short) input, "Jste mimo rozsah hodnot");
     }
 
     /**

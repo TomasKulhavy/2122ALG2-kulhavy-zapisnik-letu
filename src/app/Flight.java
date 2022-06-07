@@ -100,7 +100,7 @@ public class Flight implements Comparator<Flight> {
     public void saveNewFlight() {
         try {
             FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
-            myWriter.write("\n" + plane.getName() +
+            myWriter.write(plane.getName() +
                     ", " + plane.getRegistration() +
                     ", " + takeoff +
                     ", " + landing +
@@ -120,7 +120,7 @@ public class Flight implements Comparator<Flight> {
         try {
             FileWriter myWriterPlane = new FileWriter("data/exported-data/" + plane.getRegistration() + ".plane", true);
             myWriterPlane.write(
-                    "\n" + takeoff +
+                    takeoff +
                             ", " + landing +
                             ", " + date +
                             ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
@@ -144,7 +144,7 @@ public class Flight implements Comparator<Flight> {
     public void saveNewFlightGlider() {
         try {
             FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
-            myWriter.write("\n" + plane.getName() +
+            myWriter.write(plane.getName() +
                     ", " + plane.getRegistration() +
                     ", " + takeoff +
                     ", " + landing +
@@ -165,7 +165,7 @@ public class Flight implements Comparator<Flight> {
         try {
             FileWriter myWriterPlane = new FileWriter("data/exported-data/" + plane.getRegistration() + ".plane", true);
             myWriterPlane.write(
-                    "\n" + takeoff +
+                    takeoff +
                             ", " + landing +
                             ", " + date +
                             ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
