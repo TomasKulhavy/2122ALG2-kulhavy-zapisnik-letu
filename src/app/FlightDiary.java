@@ -63,7 +63,7 @@ public class FlightDiary extends Flight {
                 exist = file2.exists();
                 if (!exist) {
                     FileWriter myWriterDiary = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + getType());
-                    myWriterDiary.write("\n" + getOverallMinutes() + "," + getOverallTakeoffs());
+                    myWriterDiary.write(getOverallMinutes() + "," + getOverallTakeoffs());
                     myWriterDiary.close();
                 }
             } catch (IOException e) {
@@ -113,7 +113,6 @@ public class FlightDiary extends Flight {
         File myObj = new File("data/exported-data/" + pilot.getName() + ".profile");
         Scanner myReader = new Scanner(myObj);
         myReader.nextLine();
-        myReader.nextLine();
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
             FlightDiary diary = new FlightDiary(pilot, TypeOfLicence.findByLicence(data), true);
@@ -133,7 +132,6 @@ public class FlightDiary extends Flight {
         try {
             File myObj = new File("data/exported-data/" + pilot.getName() + "." + typeOfLicence);
             Scanner myReader = new Scanner(myObj);
-            myReader.nextLine();
             String data = myReader.nextLine();
             String[] line = data.split(",");
             int temp = Integer.parseInt(line[0]);
@@ -161,7 +159,6 @@ public class FlightDiary extends Flight {
         System.out.println("Typ licence: " + typeOfLicence);
         File myObj = new File("data/exported-data/" + pilot.getName() + "." + typeOfLicence);
         Scanner myReader = new Scanner(myObj);
-        myReader.nextLine();
         String data = myReader.nextLine();
         String[] line = data.split(",");
         overallMinutes = Integer.parseInt(line[0]);
@@ -178,7 +175,6 @@ public class FlightDiary extends Flight {
         try {
             File myObj = new File("data/exported-data/" + pilot.getName() + "." + typeOfLicence);
             Scanner myReader = new Scanner(myObj);
-            myReader.nextLine();
             myReader.nextLine();
             while (myReader.hasNextLine()) {
                 String dataFlight = myReader.nextLine();

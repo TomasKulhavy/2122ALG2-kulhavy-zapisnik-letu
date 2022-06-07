@@ -58,7 +58,7 @@ public class Pilot {
         if (!exist) {
             try {
                 FileWriter myWriter = new FileWriter("data/exported-data/" + firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
-                myWriter.write("\n" + firstName + ", " + lastName);
+                myWriter.write(firstName + ", " + lastName);
                 myWriter.close();
             } catch (IOException e) {
                 System.out.println("An error occurred.");

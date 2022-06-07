@@ -51,14 +51,14 @@ public class Plane extends Flight {
         this.registration = registration;
         this.flightTimeMinutes = 0;
         this.takeoffNo = 0;
-        if (!exist) saveFlightToFile();
+        if (!exist) savePlaneToFile();
     }
 
 
     /**
      * Metoda, která uloží let do zápisníku letadla
      */
-    public void saveFlightToFile() {
+    public void savePlaneToFile() {
         try {
             FileWriter myWriter = new FileWriter("data/exported-data/" + registration + ".plane");
             myWriter.write(name + ", " + typeOfLicence + ", " + registration + ", " + flightTimeMinutes + ", " + takeoffNo);
@@ -122,7 +122,6 @@ public class Plane extends Flight {
         try {
             File myObj = new File("data/exported-data/" + getRegistration() + ".plane");
             Scanner myReader = new Scanner(myObj);
-            myReader.nextLine();
             String data = myReader.nextLine();
             String[] line = data.split(", ");
             int temp = Integer.parseInt(line[3]);
@@ -150,10 +149,8 @@ public class Plane extends Flight {
         System.out.format("%-15s%-15s%n", "Letadlo: ", getName());
         System.out.format("%-15s%-15s%n", "Registrace: ", getRegistration());
         System.out.format("%-15s%-15s%n", "Typ letadla: ", getTypeOfLicence());
-
         File myObj = new File("data/exported-data/" + getRegistration() + ".plane");
         Scanner myReader = new Scanner(myObj);
-        myReader.nextLine();
         String data = myReader.nextLine();
         String[] line = data.split(", ");
         flightTimeMinutes = Integer.parseInt(line[3]);
@@ -170,7 +167,6 @@ public class Plane extends Flight {
         try {
             File myObj = new File("data/exported-data/" + getRegistration() + ".plane");
             Scanner myReader = new Scanner(myObj);
-            myReader.nextLine();
             myReader.nextLine();
             while (myReader.hasNextLine()) {
                 String dataFlight = myReader.nextLine();
@@ -237,7 +233,6 @@ public class Plane extends Flight {
         for (File xmlfile : Objects.requireNonNull(files)) {
             File file = new File("data/exported-data/" + xmlfile.getName());
             Scanner sc = new Scanner(file);
-            sc.nextLine();
             String data = sc.nextLine();
             String[] list = data.split(", ");
             String name = list[0];
