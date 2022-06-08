@@ -50,7 +50,7 @@
           soubor
         - `4.` Zobrazit zapisnik - zobrazí se výpis licencí, které pilot má. Po zvolení licence se vypíše zápisník letů,
           který může následně řadit sestupně nebo vzestupně podle datumu
-        - `5.` Zobrazit zapisnik letadla - zobrazí se výpis letadel. Po zvolení letadla se vypíše zápisník letů, který
+        - `5.` Zobrazit seznam letů letadla - zobrazí se výpis letadel. Po zvolení letadla se vypíše zápisník letů, který
           může následně řadit sestupně nebo vzestupně podle datumu
         - `0.` Odhlasit se - pokud uživatel zadá `0` tak se z programu odhlásí a může se znovu přihlásit nebo může
           program opustit
