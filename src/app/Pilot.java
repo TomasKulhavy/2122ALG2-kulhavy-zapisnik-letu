@@ -1,11 +1,13 @@
 package app;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * Třída, která uchovává pilota
@@ -16,7 +18,7 @@ public class Pilot {
     boolean exist = false;
     private String firstName;
     private String lastName;
-    private List<FlightDiary> diary = new ArrayList<>();
+    private List<FlightDiary> diaries = new ArrayList<>();
 
     /**
      * Konstuktor
@@ -46,6 +48,25 @@ public class Pilot {
         //Flight flight = new Flight(plane, "LKLB", "LKVR", date, takeoffTime, landingTime, flightTimeMinutes, 8, "okruhy", pilot, diaryULL);
         //Flight flight2 = new Flight(plane2, "LKLB", "LKBR", date, takeoffTime, landingTime, flightTimeMinutes, 1, "přelet", pilot, diarySPL);
         //light flight3 = new Flight(plane2, "LKBR", "LKLB", date, takeoffTime, landingTime, flightTimeMinutes, 10, "přelet", pilot, diarySPL);
+    }
+
+    /**
+     * Metoda získá všechny licence pilota
+     *
+     * @return List zápisníků, které pilot má.
+     * @throws FileNotFoundException Soubor nenalezen
+     */
+    public List<FlightDiary> getDiaries() throws FileNotFoundException {
+        diaries.removeAll(diaries);
+        File myObj = new File("data/exported-data/" + this.getName() + ".profile");
+        Scanner myReader = new Scanner(myObj);
+        myReader.nextLine();
+        while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            FlightDiary diary = new FlightDiary(this, TypeOfLicence.findByLicence(data), true);
+            diaries.add(diary);
+        }
+        return diaries;
     }
 
     /**
@@ -82,11 +103,11 @@ public class Pilot {
      * @param flightDiary Letový zápisník
      */
     public void addDiary(FlightDiary flightDiary) {
-        for (FlightDiary value : diary) {
+        for (FlightDiary value : diaries) {
             if (value.getType().equals(flightDiary.getType())) {
                 break;
             }
         }
-        diary.add(flightDiary);
+        diaries.add(flightDiary);
     }
 }

@@ -12,6 +12,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,6 +28,7 @@ public class UI {
         boolean end = false;
         boolean login;
         boolean exitSort = false;
+
         Pilot pilot;
         Plane plane;
         plane = new Plane("OK-INIT");
@@ -59,7 +61,7 @@ public class UI {
             System.out.println("----- Vitejte " + pilot.getName() + " -----");
             System.out.println();
             do {
-                List<Plane> planes = plane.loadAllPlanes();
+                List<Plane> planes = Tools.loadAllPlanes();
                 Tools.showMenu();
                 String typeOfTakeoff = null;
                 String tempLoginInput = sc.nextLine();
@@ -116,7 +118,7 @@ public class UI {
                         } while (!inputValid.parseRangeInput(planes.size(), tempPlane));
 
                         flightDiary = new FlightDiary(pilot, TypeOfLicence.findByLicence("ULL"), true);
-                        List<FlightDiary> diaries = flightDiary.getDiaries();
+                        List<FlightDiary> diaries = pilot.getDiaries();
                         boolean licenceExist = false;
                         for (int i = 0; i < diaries.size(); i++) {
                             if (planes.get(tempPlane).getTypeOfLicence() == diaries.get(i).getType()) {
@@ -258,8 +260,8 @@ public class UI {
                     } else if (tempLogin == 4) {
                         System.out.println("--Vas vypis zapisniku--");
                         flightDiary = new FlightDiary(pilot, TypeOfLicence.findByLicence("ULL"), true);
-                        List<FlightDiary> diaries = flightDiary.getDiaries();
-                        Tools.printLicences(flightDiary.getDiaries());
+                        List<FlightDiary> diaries = pilot.getDiaries();
+                        Tools.printLicences(pilot.getDiaries());
                         System.out.println("Vyber podle typu licence: ");
                         int tempLicence = -1;
                         do {

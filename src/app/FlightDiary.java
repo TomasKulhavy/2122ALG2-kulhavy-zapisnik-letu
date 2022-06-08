@@ -17,11 +17,10 @@ import java.util.*;
  *
  * @author Tomáš Kulhavý
  */
-public class FlightDiary extends Flight {
+public class FlightDiary {
     boolean exist = false;
     private Pilot pilot;
     private List<Flight> flights = new ArrayList<>();
-    private List<FlightDiary> diaries = new ArrayList<>();
     private TypeOfLicence typeOfLicence;
     private int overallMinutes = 0;
     private int overallTakeoffs = 0;
@@ -67,7 +66,6 @@ public class FlightDiary extends Flight {
                     myWriterDiary.close();
                 }
             } catch (IOException e) {
-                System.out.println("An error occurred.");
                 e.printStackTrace();
             }
         } else {
@@ -100,25 +98,6 @@ public class FlightDiary extends Flight {
      */
     public int getOverallTakeoffs() {
         return overallTakeoffs;
-    }
-
-    /**
-     * Metoda získá všechny licence pilota
-     *
-     * @return List zápisníků, které pilot má.
-     * @throws FileNotFoundException Soubor nenalezen
-     */
-    public List<FlightDiary> getDiaries() throws FileNotFoundException {
-        diaries.removeAll(diaries);
-        File myObj = new File("data/exported-data/" + pilot.getName() + ".profile");
-        Scanner myReader = new Scanner(myObj);
-        myReader.nextLine();
-        while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-            FlightDiary diary = new FlightDiary(pilot, TypeOfLicence.findByLicence(data), true);
-            diaries.add(diary);
-        }
-        return diaries;
     }
 
     /**
@@ -195,7 +174,7 @@ public class FlightDiary extends Flight {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            //System.out.println("An error occurred.");
             e.printStackTrace();
         }
 
@@ -209,7 +188,7 @@ public class FlightDiary extends Flight {
      */
     public ArrayList<Flight> sortByDateDesc() {
         ArrayList<Flight> list = new ArrayList<>(flights);
-        Comparator<Flight> flight = new Flight();
+        ComparatorByDate flight = new ComparatorByDate();
         list.sort(flight);
         return list;
     }
@@ -221,7 +200,7 @@ public class FlightDiary extends Flight {
      */
     public ArrayList<Flight> sortByDateAsc() {
         ArrayList<Flight> list = new ArrayList<>(flights);
-        Comparator<Flight> flight = new Flight();
+        ComparatorByDate flight = new ComparatorByDate();
         list.sort(flight);
         Collections.reverse(list);
         return list;

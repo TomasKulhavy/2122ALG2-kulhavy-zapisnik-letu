@@ -17,13 +17,12 @@ import java.util.*;
  *
  * @author Tomáš Kulhavý
  */
-public class Plane extends Flight {
+public class Plane {
     private String name;
     private TypeOfLicence typeOfLicence;
     private String registration;
     private int takeoffNo;
     private int flightTimeMinutes;
-    private List<Plane> planes = new ArrayList<>();
     private List<Flight> flights = new ArrayList<>();
     private IInputValid inputValid = new InputValid();
 
@@ -53,7 +52,6 @@ public class Plane extends Flight {
         this.takeoffNo = 0;
         if (!exist) savePlaneToFile();
     }
-
 
     /**
      * Metoda, která uloží let do zápisníku letadla
@@ -113,7 +111,6 @@ public class Plane extends Flight {
     public void setTakeoffNo(int takeoffNo) {
         this.takeoffNo = takeoffNo;
     }
-
 
     /**
      * Metoda, která aktualizuje celkový nálet letadla v textovém souboru
@@ -200,50 +197,6 @@ public class Plane extends Flight {
         return flights;
     }
 
-
-    /**
-     * Metoda, která přidá letadlo
-     *
-     * @param plane Objekt letadla
-     */
-    public void addPlane(Plane plane) {
-        planes.add(plane);
-    }
-
-    /**
-     * Vrátí list letadel
-     *
-     * @return List letadel
-     */
-    public List<Plane> getPlanes() {
-        return planes;
-    }
-
-    /**
-     * Metoda, která načte všechna letadla a jejich hodnoty ze souboru
-     *
-     * @return List letadel s jejich hodnotami ze souborů
-     * @throws FileNotFoundException Soubor nenalezen
-     */
-    public List<Plane> loadAllPlanes() throws FileNotFoundException {
-        planes.removeAll(planes);
-        File dir = new File("data/exported-data/");
-        File[] files = dir.listFiles((dir1, name) -> name.endsWith(".plane"));
-
-        for (File xmlfile : Objects.requireNonNull(files)) {
-            File file = new File("data/exported-data/" + xmlfile.getName());
-            Scanner sc = new Scanner(file);
-            String data = sc.nextLine();
-            String[] list = data.split(", ");
-            String name = list[0];
-            TypeOfLicence licence = TypeOfLicence.findByLicence(list[1]);
-            String registration = list[2];
-            Plane plane = new Plane(name, licence, registration, true);
-            addPlane(plane);
-        }
-        return getPlanes();
-    }
-
     /**
      * Metoda, která vrátí list seřazený sestupně
      *
@@ -251,7 +204,7 @@ public class Plane extends Flight {
      */
     public ArrayList<Flight> sortByDateDesc() {
         ArrayList<Flight> list = new ArrayList<>(flights);
-        Comparator<Flight> flight = new Flight();
+        ComparatorByDate flight = new ComparatorByDate();
         list.sort(flight);
         return list;
     }
@@ -263,7 +216,7 @@ public class Plane extends Flight {
      */
     public ArrayList<Flight> sortByDateAsc() {
         ArrayList<Flight> list = new ArrayList<>(flights);
-        Comparator<Flight> flight = new Flight();
+        ComparatorByDate flight = new ComparatorByDate();
         list.sort(flight);
         Collections.reverse(list);
         return list;

@@ -4,13 +4,14 @@ import app.Flight;
 import app.FlightDiary;
 import app.Plane;
 import app.TypeOfLicence;
+import ui.UI;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
+import java.io.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 /**
  * Pomocná třída na vedlejší metody
@@ -19,6 +20,7 @@ import java.util.List;
  */
 public class Tools {
 
+    private static List<Plane> planes = new ArrayList<>();
     public Tools() {
     }
 
@@ -180,5 +182,48 @@ public class Tools {
      */
     public static boolean isGlider(TypeOfLicence licence) {
         return licence == TypeOfLicence.SPL;
+    }
+
+    /**
+     * Metoda, která přidá letadlo
+     *
+     * @param plane Objekt letadla
+     */
+    public static void addPlane(Plane plane) {
+        planes.add(plane);
+    }
+
+    /**
+     * Vrátí list letadel
+     *
+     * @return List letadel
+     */
+    public static List<Plane> getPlanes() {
+        return planes;
+    }
+
+    /**
+     * Metoda, která načte všechna letadla a jejich hodnoty ze souboru
+     *
+     * @return List letadel s jejich hodnotami ze souborů
+     * @throws FileNotFoundException Soubor nenalezen
+     */
+    public static List<Plane> loadAllPlanes() throws FileNotFoundException {
+        planes.removeAll(planes);
+        File dir = new File("data/exported-data/");
+        File[] files = dir.listFiles((dir1, name) -> name.endsWith(".plane"));
+
+        for (File xmlfile : Objects.requireNonNull(files)) {
+            File file = new File("data/exported-data/" + xmlfile.getName());
+            Scanner sc = new Scanner(file);
+            String data = sc.nextLine();
+            String[] list = data.split(", ");
+            String name = list[0];
+            TypeOfLicence licence = TypeOfLicence.findByLicence(list[1]);
+            String registration = list[2];
+            Plane plane = new Plane(name, licence, registration, true);
+            addPlane(plane);
+        }
+        return getPlanes();
     }
 }

@@ -13,7 +13,7 @@ import java.util.Locale;
  *
  * @author Tomáš Kulhavý
  */
-public class Flight implements Comparator<Flight> {
+public class Flight implements Comparable<Flight> {
     private Plane plane;
     private String takeoff;
     private String landing;
@@ -114,7 +114,7 @@ public class Flight implements Comparator<Flight> {
                     ", " + plane.getTypeOfLicence());
             myWriter.close();
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            //System.out.println("An error occurred.");
             e.printStackTrace();
         }
         try {
@@ -289,16 +289,15 @@ public class Flight implements Comparator<Flight> {
     /**
      * Seřadí lety podle datumu
      *
-     * @param o1 the first object to be compared.
-     * @param o2 the second object to be compared.
+     * @param o the object to be compared to.
      * @return -1, 0, 1
      */
     @Override
-    public int compare(Flight o1, Flight o2) {
-        int result = o1.getDate().compareTo(o2.getDate());
+    public int compareTo(Flight o) {
+        int result = this.getDate().compareTo(o.getDate());
         result = ((-1) * result);
         if (0 == result) {
-            result = o1.getTakeoffTime().compareTo(o2.getTakeoffTime());
+            result = this.getTakeoffTime().compareTo(o.getTakeoffTime());
         }
         return result;
     }
