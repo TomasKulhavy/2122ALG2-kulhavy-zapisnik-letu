@@ -73,20 +73,13 @@ public class PDFGenerator {
      * @param isGlider      Je to větroň?
      * @return boolean
      */
-    public static boolean saveToPdf(List<Flight> flights, Pilot pilot, TypeOfLicence typeOfLicence, boolean isGlider) {
-        try {
-            PdfWriter.getInstance(document, new FileOutputStream("data//pdf-export//" + pilot.getName() + "_" + typeOfLicence + ".pdf"));
-            document.setPageSize(PageSize.A3.rotate());
-            document.open();
-            printFlight(flights, isGlider);
-            document.close();
-            return true;
+    public static void saveToPdf(List<Flight> flights, Pilot pilot, TypeOfLicence typeOfLicence, boolean isGlider) throws FileNotFoundException, DocumentException {
+        PdfWriter.getInstance(document, new FileOutputStream("data//pdf-export//" + pilot.getName() + "_" + typeOfLicence + ".pdf"));
+        document.setPageSize(PageSize.A3.rotate());
+        document.open();
+        printFlight(flights, isGlider);
+        document.close();
 
-        } catch (FileNotFoundException e) {
-            return false;
-        } catch (DocumentException ex) {
-            return false;
-        }
     }
 
     /**
@@ -97,19 +90,11 @@ public class PDFGenerator {
      * @param isGlider Je to větroň?
      * @return boolean
      */
-    public static boolean saveToPdfPlane(List<Flight> flights, Plane plane, boolean isGlider) {
-        try {
+    public static void saveToPdfPlane(List<Flight> flights, Plane plane, boolean isGlider) throws FileNotFoundException, DocumentException {
             PdfWriter.getInstance(document, new FileOutputStream("data//pdf-export//" + plane.getRegistration() + ".pdf"));
             document.setPageSize(PageSize.A3.rotate());
             document.open();
             printPlaneFlight(flights, isGlider);
             document.close();
-            return true;
-
-        } catch (FileNotFoundException e) {
-            return false;
-        } catch (DocumentException ex) {
-            return false;
-        }
     }
 }

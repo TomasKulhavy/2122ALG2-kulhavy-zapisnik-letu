@@ -4,7 +4,6 @@ import app.Flight;
 import app.FlightDiary;
 import app.Plane;
 import app.TypeOfLicence;
-import ui.UI;
 
 import java.io.*;
 import java.time.format.DateTimeFormatter;
