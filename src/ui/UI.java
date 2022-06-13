@@ -2,7 +2,6 @@ package ui;
 
 import app.*;
 import com.itextpdf.text.DocumentException;
-import org.w3c.dom.ranges.RangeException;
 import utils.IInputValid;
 import utils.PDFGenerator;
 import utils.Tools;
@@ -10,7 +9,6 @@ import utils.Tools;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -20,22 +18,29 @@ import java.util.Scanner;
 
 public class UI {
     private static final Scanner sc = new Scanner(System.in);
-    IInputValid inputValid;
     Pilot pilot;
     Plane plane = new Plane("OK-INIT");
     FlightDiary flightDiary;
-    List<Plane> planes = Tools.loadAllPlanes();
+    List<Plane> planes;
     String typeOfTakeoff = null;
     boolean end = false;
     boolean login;
     boolean exitSort = false;
+    private IInputValid inputValid;
 
-    public UI(IInputValid inputValid) throws FileNotFoundException {
+    {
+        try {
+            planes = Tools.loadAllPlanes();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public UI(IInputValid inputValid) {
         this.inputValid = inputValid;
     }
 
-    public void Menu() throws RangeException, DateTimeException {
-        Tools.binarySaveToFile();
+    public void Menu() {
         do {
             System.out.println("---- Vitejte v zapisniku svych letu ----");
             System.out.println("Zadejte sve jmeno a prijmeni [jan novak] - pro vypnuti aplikace stiskni [0]: ");
@@ -74,9 +79,7 @@ public class UI {
                                     showPilotDiary();
                                 } catch (FileNotFoundException e) {
                                     System.out.println("Soubor nebyl nalezen!");
-                                } catch (DocumentException e) {
-                                    throw new RuntimeException(e);
-                                } catch (IOException e) {
+                                } catch (DocumentException | IOException e) {
                                     throw new RuntimeException(e);
                                 }
                             }
@@ -85,8 +88,20 @@ public class UI {
                                     showPlaneDiary();
                                 } catch (FileNotFoundException e) {
                                     System.out.println("Soubor nebyl nalezen!");
-                                } catch (DocumentException e) {
+                                } catch (DocumentException | IOException e) {
                                     throw new RuntimeException(e);
+                                }
+                            }
+                            case 6 -> {
+                                try {
+                                    savePlanesToBinary();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            case 7 -> {
+                                try {
+                                    readPlanesFromBinary();
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -95,6 +110,7 @@ public class UI {
                                 System.exit(0);
                                 System.out.println("Odhlasuji Vas...");
                             }
+                            default -> throw new IllegalStateException("Unexpected value: " + tempLogin);
                         }
                     } catch (NoSuchElementException e) {
                         break;
@@ -405,5 +421,17 @@ public class UI {
         else if (tempSort == 3)
             PDFGenerator.saveToPdf(flightDiary.getFlights(), pilot, flightDiary.getType(), Tools.isGlider(flightDiary.getType()));
         if (tempSort == 0) exitSort = true;
+    }
+
+    private void savePlanesToBinary() throws IOException {
+        Tools.saveToBinaryFile();
+        System.out.println("Letadla byla ulozena do binarniho souboru");
+        System.out.println();
+    }
+
+    private void readPlanesFromBinary() throws IOException {
+        System.out.println("--- Zde je vypis vsech registraci letadel ---");
+        System.out.println();
+        System.out.println(Tools.readFromBinaryResults());
     }
 }

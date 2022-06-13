@@ -91,10 +91,10 @@ public class PDFGenerator {
      * @return boolean
      */
     public static void saveToPdfPlane(List<Flight> flights, Plane plane, boolean isGlider) throws FileNotFoundException, DocumentException {
-            PdfWriter.getInstance(document, new FileOutputStream("data//pdf-export//" + plane.getRegistration() + ".pdf"));
-            document.setPageSize(PageSize.A3.rotate());
-            document.open();
-            printPlaneFlight(flights, isGlider);
-            document.close();
+        PdfWriter.getInstance(document, new FileOutputStream("data//pdf-export//" + plane.getRegistration() + ".pdf"));
+        document.setPageSize(PageSize.A3.rotate());
+        document.open();
+        printPlaneFlight(flights, isGlider);
+        document.close();
     }
 }

@@ -17,6 +17,17 @@ public class InputValid implements IInputValid {
     }
 
     /**
+     * Vrací exception
+     *
+     * @param input Int vstup
+     * @param max   Maximální číslo
+     * @throws RangeException Mimo rozsah
+     */
+    public static void parseRange(int input, int max) throws RangeException {
+        if (input > max && input < 0) throw new RangeException((short) input, "Jste mimo rozsah hodnot");
+    }
+
+    /**
      * Parsuje číslo
      *
      * @param input vstup String
@@ -29,17 +40,6 @@ public class InputValid implements IInputValid {
         } catch (NumberFormatException e) {
             return false;
         }
-    }
-
-    /**
-     * Vrací exception
-     *
-     * @param input Int vstup
-     * @param max   Maximální číslo
-     * @throws RangeException Mimo rozsah
-     */
-    public static void parseRange(int input, int max) throws RangeException {
-        if (input > max && input < 0) throw new RangeException((short) input, "Jste mimo rozsah hodnot");
     }
 
     /**

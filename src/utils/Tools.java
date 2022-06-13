@@ -20,6 +20,7 @@ import java.util.Scanner;
 public class Tools {
 
     private static List<Plane> planes = new ArrayList<>();
+
     public Tools() {
     }
 
@@ -156,6 +157,8 @@ public class Tools {
                 3. Pridat letadlo
                 4. Zobrazit zapisnik
                 5. Zobrazit zapisnik letadla
+                6. Zapsat letadla do binarniho souboru
+                7. Vypsat letadla z binarniho souboru
                 0. Odhlasit se""";
         System.out.println(menu);
     }
@@ -225,17 +228,50 @@ public class Tools {
         return getPlanes();
     }
 
-    public static void binarySaveToFile() {
-        String data = "This is the data in the output file";
-
-        try (DataOutputStream out = new DataOutputStream(new FileOutputStream("output.txt"))) {
-            out.writeUTF(data);
-            out.writeBoolean(false);
-            out.writeInt(50);
+    /**
+     * Zápis do binárního souboru
+     *
+     * @throws IOException
+     */
+    public static void saveToBinaryFile() throws IOException {
+        File file = new File("data/bin-data/planesInBinary.bin");
+        try (DataOutputStream out = new DataOutputStream(new FileOutputStream(file))) {
+            out.writeInt(planes.size());
+            for (Plane plane : planes) {
+                out.writeUTF(plane.getRegistration());
+            }
         }
+    }
 
-        catch (Exception e) {
-            e.getStackTrace();
+    /**
+     * Výpis z binárního souboru
+     *
+     * @return
+     * @throws IOException
+     */
+    public static String readFromBinaryResults() throws IOException {
+        File file = new File("data/bin-data/planesInBinary.bin");
+        StringBuilder sb = new StringBuilder();
+        int planesNo;
+        String reg = "";
+        int no = 1;
+        try (DataInputStream in = new DataInputStream(new FileInputStream(file))) {
+            boolean end = false;
+            while (!end) {
+                try {
+                    no = 1;
+                    planesNo = in.readInt();
+                    for (int i = 0; i < planesNo; i++) {
+                        reg = in.readUTF();
+                        sb.append(String.format("%2s %10s", no, reg));
+                        sb.append("\n");
+                        no++;
+                    }
+                } catch (EOFException e) {
+                    end = true;
+                }
+            }
         }
+        return sb.toString();
     }
 }

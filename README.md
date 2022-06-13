@@ -52,6 +52,8 @@
           který může následně řadit sestupně nebo vzestupně podle datumu
         - `5.` Zobrazit seznam letů letadla - zobrazí se výpis letadel. Po zvolení letadla se vypíše zápisník letů, který
           může následně řadit sestupně nebo vzestupně podle datumu
+        - `6.` Zapsat letadla do binarniho souboru - Zapíše a uloží všechna letadla do binárního souboru
+        - `7.` Vypsat letadla z binarniho souboru - Vypíše všechna letadla z binárního souboru do konzole
         - `0.` Odhlasit se - pokud uživatel zadá `0` tak se z programu odhlásí a může se znovu přihlásit nebo může
           program opustit
 
@@ -187,6 +189,8 @@ classDiagram
         void showPlaneDiary()
         void sortMenu()
         void sortMenuPilot()
+        void savePlanesToBinary()
+        void readPlanesFromBinary()
     }
     class IInputValid {
         <<interface>>
@@ -236,6 +240,8 @@ classDiagram
         void printPlaneFlight(List<Flight> flights, boolean isGlider)
         void printFlight(List<Flight> flights, boolean isGlider)
         void printPlanes(List<Plane> planeList)
+        String readFromBinaryResults()
+        void saveToBinaryFile()
     }
     class ComparatorByDate {
         int compare(Flight o1, Flight o2)
@@ -262,6 +268,10 @@ classDiagram
     Flight .. TypeOfLicence : uses
     Main .. UI : uses
     Pilot "1" --> "0..*" FlightDiary
+    Tools .. Flight : uses
+    Tools .. Plane : uses 
+    Tools .. TypeOfLicence : uses
+    UI .. Pilot : uses
 ```
 
 ## Popis fungování externích knihoven

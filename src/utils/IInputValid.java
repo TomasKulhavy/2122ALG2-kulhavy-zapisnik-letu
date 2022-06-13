@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
  */
 public interface IInputValid {
     boolean parseToNumber(String input);
+
     boolean parseRangeInput(int max, int input);
 
     boolean parseTime(String timeInput, LocalDate dateCal);
