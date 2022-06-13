@@ -34,6 +34,7 @@ public class UI {
     }
 
     public void Menu() throws RangeException, DateTimeException {
+        Tools.binarySaveToFile();
         do {
             System.out.println("---- Vitejte v zapisniku svych letu ----");
             System.out.println("Zadejte sve jmeno a prijmeni [jan novak] - pro vypnuti aplikace stiskni [0]: ");
@@ -288,7 +289,7 @@ public class UI {
     private void addPlane() {
         System.out.println("--Zadejte informace o letadle--");
         System.out.println("Nazev letadla: ");
-        String name = sc.next();
+        String name = sc.nextLine();
         System.out.println("Vyberte typ letadla: ");
         Tools.generateTypesOfLicence();
         int tempLicence = -1;

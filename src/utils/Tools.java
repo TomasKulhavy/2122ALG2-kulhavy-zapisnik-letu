@@ -225,4 +225,18 @@ public class Tools {
         }
         return getPlanes();
     }
+
+    public static void binarySaveToFile() {
+        String data = "This is the data in the output file";
+
+        try (DataOutputStream out = new DataOutputStream(new FileOutputStream("output.txt"))) {
+            out.writeUTF(data);
+            out.writeBoolean(false);
+            out.writeInt(50);
+        }
+
+        catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
 }
