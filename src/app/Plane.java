@@ -160,40 +160,33 @@ public class Plane {
      *
      * @return List letů z daného zápisníku letadla
      */
-    public List<Flight> getFlights() {
-        try {
-            File myObj = new File("data/exported-data/" + getRegistration() + ".plane");
-            Scanner myReader = new Scanner(myObj);
-            myReader.nextLine();
-            while (myReader.hasNextLine()) {
-                String dataFlight = myReader.nextLine();
-                String[] lineFlight = dataFlight.split(", ");
-                Plane planeSelect = new Plane(name, typeOfLicence, registration, true);
-                LocalDate date = LocalDate.parse(lineFlight[2]);
-                LocalDateTime takeoffTime = inputValid.parseTimeInput(lineFlight[3], date);
-                LocalDateTime landingTime = inputValid.parseTimeInput(lineFlight[4], date);
-                String[] tempName;
-                if (Tools.isGlider(typeOfLicence)) {
-                    tempName = lineFlight[9].split("_");
-                } else {
-                    tempName = lineFlight[8].split("_");
-                }
-                Pilot pilot = new Pilot(tempName[0], tempName[1], true);
-                FlightDiary diary = new FlightDiary(pilot, planeSelect.getTypeOfLicence(), true);
-                Flight flight;
-                if (Tools.isGlider(planeSelect.getTypeOfLicence())) {
-                    flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[6]), Integer.parseInt(lineFlight[7]), lineFlight[5], lineFlight[8], pilot, diary, true);
-                } else {
-                    flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[5]), Integer.parseInt(lineFlight[6]), lineFlight[7], pilot, diary, true);
-                }
-                flights.add(flight);
+    public List<Flight> getFlights() throws IOException {
+        File myObj = new File("data/exported-data/" + getRegistration() + ".plane");
+        Scanner myReader = new Scanner(myObj);
+        myReader.nextLine();
+        while (myReader.hasNextLine()) {
+            String dataFlight = myReader.nextLine();
+            String[] lineFlight = dataFlight.split(", ");
+            Plane planeSelect = new Plane(name, typeOfLicence, registration, true);
+            LocalDate date = LocalDate.parse(lineFlight[2]);
+            LocalDateTime takeoffTime = inputValid.parseTimeInput(lineFlight[3], date);
+            LocalDateTime landingTime = inputValid.parseTimeInput(lineFlight[4], date);
+            String[] tempName;
+            if (Tools.isGlider(typeOfLicence)) {
+                tempName = lineFlight[9].split("_");
+            } else {
+                tempName = lineFlight[8].split("_");
             }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            Pilot pilot = new Pilot(tempName[0], tempName[1], true);
+            FlightDiary diary = new FlightDiary(pilot, planeSelect.getTypeOfLicence(), true);
+            Flight flight;
+            if (Tools.isGlider(planeSelect.getTypeOfLicence())) {
+                flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[6]), Integer.parseInt(lineFlight[7]), lineFlight[5], lineFlight[8], pilot, diary, true);
+            } else {
+                flight = new Flight(planeSelect, lineFlight[0], lineFlight[1], date, takeoffTime, landingTime, Integer.parseInt(lineFlight[5]), Integer.parseInt(lineFlight[6]), lineFlight[7], pilot, diary, true);
+            }
+            flights.add(flight);
         }
-
         return flights;
     }
 

@@ -9,6 +9,7 @@ import utils.Tools;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -63,6 +64,8 @@ public class UI {
                                     System.out.println("Soubor nebyl nalezen!");
                                 } catch (NoSuchElementException e) {
                                     System.out.println("Nemate pozadovanou licenci, musite ji vytvorit!");
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
                                 }
                             }
                             case 3 -> addPlane();
@@ -73,6 +76,8 @@ public class UI {
                                     System.out.println("Soubor nebyl nalezen!");
                                 } catch (DocumentException e) {
                                     throw new RuntimeException(e);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
                                 }
                             }
                             case 5 -> {
@@ -81,6 +86,8 @@ public class UI {
                                 } catch (FileNotFoundException e) {
                                     System.out.println("Soubor nebyl nalezen!");
                                 } catch (DocumentException e) {
+                                    throw new RuntimeException(e);
+                                } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
                             }
@@ -91,6 +98,8 @@ public class UI {
                         }
                     } catch (NoSuchElementException e) {
                         break;
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             } while (login);
@@ -120,7 +129,7 @@ public class UI {
         login = true;
     }
 
-    private void addLicence() {
+    private void addLicence() throws IOException {
         System.out.println("Zadej pozadovany typ licence ze seznamu: ");
         Tools.generateTypesOfLicence();
         int tempLicence = -1;
@@ -140,7 +149,7 @@ public class UI {
         pilot.addDiary(diary);
     }
 
-    private void addFlight() throws FileNotFoundException, NoSuchElementException {
+    private void addFlight() throws IOException, NoSuchElementException {
         System.out.println("--Zadejte informace o letu--");
 
         System.out.println("Vyber letadlo: ");
@@ -313,7 +322,7 @@ public class UI {
         plane = new Plane(name, TypeOfLicence.valueOf(tempLicence), reg, false);
     }
 
-    private void showPilotDiary() throws FileNotFoundException, DocumentException {
+    private void showPilotDiary() throws IOException, DocumentException {
         System.out.println("--Vas vypis zapisniku--");
         flightDiary = new FlightDiary(pilot, TypeOfLicence.findByLicence("ULL"), true);
         List<FlightDiary> diaries = pilot.getDiaries();
@@ -347,7 +356,7 @@ public class UI {
         } while (!exitSort);
     }
 
-    private void showPlaneDiary() throws FileNotFoundException, DocumentException {
+    private void showPlaneDiary() throws IOException, DocumentException {
         System.out.println("--Zapisnik letadla--");
         System.out.println("Vyber letadlo: ");
         Tools.printPlanes(planes);
@@ -378,7 +387,7 @@ public class UI {
         } while (!exitSort);
     }
 
-    private void sortMenu(int tempSort) throws DocumentException, FileNotFoundException {
+    private void sortMenu(int tempSort) throws DocumentException, IOException {
         if (tempSort == 1)
             Tools.printPlaneFlight(plane.sortByDateDesc(), Tools.isGlider(plane.getTypeOfLicence()));
         else if (tempSort == 2)
@@ -388,7 +397,7 @@ public class UI {
         if (tempSort == 0) exitSort = true;
     }
 
-    private void sortMenuPilot(int tempSort) throws DocumentException, FileNotFoundException {
+    private void sortMenuPilot(int tempSort) throws DocumentException, IOException {
         if (tempSort == 1)
             Tools.printFlight(flightDiary.sortByDateDesc(), Tools.isGlider(flightDiary.getType()));
         else if (tempSort == 2)

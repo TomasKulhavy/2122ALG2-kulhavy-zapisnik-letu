@@ -80,7 +80,6 @@ public class Tools {
         }
     }
 
-
     /**
      * Metoda, která nám vrátí minuty na hodiny
      *

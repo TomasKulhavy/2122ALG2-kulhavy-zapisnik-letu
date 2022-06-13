@@ -123,26 +123,145 @@
 
 ```mermaid
 classDiagram
-    class Flight
-    class FlightDiary
-    class Pilot
-    class Plane
-    enum TypeOfLicence
-    class Main
-    class UI
-    interface IInputValid
-    class InputValid
-    class Tools
+    class Flight {
+        String name
+        TypeOfLicence typeOfLicence
+        String registration
+        int takeoffNo
+        int flightTimeMinutes
+        List<Flight> flights
+        sortByDateAsc()
+        sortByDateDesc()
+        getFlights()
+        gerFlightsAndMinutes()
+        setOverallPlane()
+        savePlaneToFile()
+    }
+    class FlightDiary {
+        Pilot pilot
+        List<Flight> flights
+        TypeOfLicence typeOfLicence
+        int overallMinutes
+        int overallTakeoggs
+        saveToFile()
+        setOverall()
+        getFlightsAndMinutes()
+        getFlights()
+        sortByDateAsc()
+        sortByDateDesc()
+    }
+    class Pilot {
+        String firstName
+        String lastName
+        List<FlightDiary> diaries
+        getDiaries()
+        savePilotToFile()
+        addDiary()
+    }
+    class Plane {
+        TypeOfLicence typeOfLicence
+        String name
+        String registration
+        int takeoffNo
+        int flightTimeMinutes
+        List<Flight> flights
+    }
+    class TypeOfLicence {
+        <<enumeration>>
+        SPL
+        ULL
+        PPL
+        TypeOfLicence valueOf
+        TypeOfLicence findByLicence
+    }
+    class Main {
+        UI ui
+    }
+    class UI {
+        void Menu()
+        void login(String temp)
+        void addLicence()
+        void addFlight()
+        void addPlane()
+        void showPilotDiary()
+        void showPlaneDiary()
+        void sortMenu()
+        void sortMenuPilot()
+    }
+    class IInputValid {
+        <<interface>>
+        boolean parseToNumber(String input)
+        boolean parseRangeInput(int max, int input)
+
+        boolean parseTime(String timeInput, LocalDate dateCal)
+
+        LocalDateTime parseTimeInput(String timeInput, LocalDate dateCal)
+
+        LocalDate parseDate(int day, int month, int year)
+
+        boolean parseDayInMonth(int day, int month, int year)
+
+        boolean parseMonth(int month)
+
+        boolean parseDay(int day, int month, int year)
+    }
+    class InputValid {
+        boolean parseToNumber(String input)
+        boolean parseRangeInput(int max, int input)
+
+        boolean parseTime(String timeInput, LocalDate dateCal)
+
+        LocalDateTime parseTimeInput(String timeInput, LocalDate dateCal)
+
+        LocalDate parseDate(int day, int month, int year)
+
+        boolean parseDayInMonth(int day, int month, int year)
+
+        boolean parseMonth(int month)
+
+        boolean parseDay(int day, int month, int year)
+    }
+    class Tools {
+        void binarySaveToFile()
+        List<Plane> loadAllPlanes()
+        List<Plane> getPlanes()
+        void addPlane(Plane plane)
+        boolean isGlider(TypeOfLicence typeOfLicence)
+        void showSortMenu()
+        void showMenu()
+        void replaceSelected(File fileInput, String replaceOld, String replaceWith)
+        void printLicences(List<FlightDiary> diaries)
+        void generateTypesOfLicence()
+        String getTotalTime(int minutesInput)
+        void printPlaneFlight(List<Flight> flights, boolean isGlider)
+        void printFlight(List<Flight> flights, boolean isGlider)
+        void printPlanes(List<Plane> planeList)
+    }
+    class ComparatorByDate {
+        int compare(Flight o1, Flight o2)
+    }
+
+    class PDFGenerator {
+        void printFlight(List<Flight> flights, boolean isGlider)
+        void printPlaneFlight(List<Flight> flights, boolean isGlider)
+        void saveToPdf(List<Flight> flights, Pilot pilot, TypeOfLicence typeOfLicence, boolean isGlider)
+        void saveToPdfPlane(List<Flight> flights, Plane plane, boolean isGlider)
+    }
 
     UI .. Tools : uses
+    UI .. PDFGenerator : uses
     UI .. IInputValid : uses
-    InputValid .. IInputValid : implements
-    FlightDiary .. Flight : uses
-    Plane .. Flight : uses
+    IInputValid --|> InputValid : implements
+    FlightDiary "1" --> "0..*" Flight
+    FlightDiary .. TypeOfLicence : uses
+    Plane "1" --> "0..*" Flight
     Pilot .. TypeOfLicence : uses
     Plane .. TypeOfLicence : uses
+    Plane .. ComparatorByDate : uses
+    FlightDiary .. ComparatorByDate : uses
     Flight .. TypeOfLicence : uses
     Main .. UI : uses
+    Pilot "1" --> "0..*" FlightDiary
 ```
 
 ## Popis fungování externích knihoven

@@ -1,5 +1,6 @@
 package app;
 
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -47,7 +48,7 @@ public class Flight implements Comparable<Flight> {
      * @param flightDiary       Letový zápisník
      * @param exist             existuje už?
      */
-    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfTakeOff, String typeOfFlight, Pilot pilot, FlightDiary flightDiary, boolean exist) {
+    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfTakeOff, String typeOfFlight, Pilot pilot, FlightDiary flightDiary, boolean exist) throws FileNotFoundException {
         this.plane = plane;
         this.takeoff = takeoff;
         this.landing = landing;
@@ -79,7 +80,7 @@ public class Flight implements Comparable<Flight> {
      * @param flightDiary       Letový zápisník
      * @param exist             existuje už?
      */
-    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, FlightDiary flightDiary, boolean exist) {
+    public Flight(Plane plane, String takeoff, String landing, LocalDate date, LocalDateTime takeoffTime, LocalDateTime landingTime, int flightTimeMinutes, int takeoffNo, String typeOfFlight, Pilot pilot, FlightDiary flightDiary, boolean exist) throws IOException {
         this.plane = plane;
         this.takeoff = takeoff;
         this.landing = landing;
@@ -97,43 +98,33 @@ public class Flight implements Comparable<Flight> {
     /**
      * Ukládá nové lety do textového soubory letadla a zápisníku pilota
      */
-    public void saveNewFlight() {
-        try {
-            FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
-            myWriter.write(plane.getName() +
-                    ", " + plane.getRegistration() +
-                    ", " + takeoff +
-                    ", " + landing +
-                    ", " + date +
-                    ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
-                    ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
-                    ", " + flightTimeMinutes +
-                    ", " + takeoffNo +
-                    ", " + typeOfFlight +
-                    ", " + pilot.getName() +
-                    ", " + plane.getTypeOfLicence());
-            myWriter.close();
-        } catch (IOException e) {
-            //System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        try {
-            FileWriter myWriterPlane = new FileWriter("data/exported-data/" + plane.getRegistration() + ".plane", true);
-            myWriterPlane.write(
-                    takeoff +
-                            ", " + landing +
-                            ", " + date +
-                            ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
-                            ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
-                            ", " + flightTimeMinutes +
-                            ", " + takeoffNo +
-                            ", " + typeOfFlight +
-                            ", " + pilot.getName());
-            myWriterPlane.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+    public void saveNewFlight() throws IOException {
+        FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
+        myWriter.write(plane.getName() +
+                ", " + plane.getRegistration() +
+                ", " + takeoff +
+                ", " + landing +
+                ", " + date +
+                ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
+                ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
+                ", " + flightTimeMinutes +
+                ", " + takeoffNo +
+                ", " + typeOfFlight +
+                ", " + pilot.getName() +
+                ", " + plane.getTypeOfLicence());
+        myWriter.close();
+        FileWriter myWriterPlane = new FileWriter("data/exported-data/" + plane.getRegistration() + ".plane", true);
+        myWriterPlane.write(
+                takeoff +
+                        ", " + landing +
+                        ", " + date +
+                        ", " + takeoffTime.getHour() + ":" + takeoffTime.getMinute() +
+                        ", " + landingTime.getHour() + ":" + landingTime.getMinute() +
+                        ", " + flightTimeMinutes +
+                        ", " + takeoffNo +
+                        ", " + typeOfFlight +
+                        ", " + pilot.getName());
+        myWriterPlane.close();
 
         flightDiary.setOverall(getTakeoffNo(), getFlightTimeMinutes(), plane.getTypeOfLicence());
         plane.setFlightTimeMinutes(getFlightTimeMinutes());
@@ -141,7 +132,7 @@ public class Flight implements Comparable<Flight> {
         plane.setOverallPlane();
     }
 
-    public void saveNewFlightGlider() {
+    public void saveNewFlightGlider() throws FileNotFoundException {
         try {
             FileWriter myWriter = new FileWriter("data/exported-data/" + pilot.getName().toLowerCase(Locale.ROOT) + "." + plane.getTypeOfLicence(), true);
             myWriter.write(plane.getName() +

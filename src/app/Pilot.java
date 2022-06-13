@@ -27,7 +27,7 @@ public class Pilot {
      * @param lastName  Příjmení pilota
      * @param exist     Existuje daný pilot?
      */
-    public Pilot(String firstName, String lastName, boolean exist) {
+    public Pilot(String firstName, String lastName, boolean exist) throws IOException {
         this.firstName = firstName;
         this.lastName = lastName;
         if (!exist) savePilotToFile();
@@ -56,7 +56,7 @@ public class Pilot {
      * @return List zápisníků, které pilot má.
      * @throws FileNotFoundException Soubor nenalezen
      */
-    public List<FlightDiary> getDiaries() throws FileNotFoundException {
+    public List<FlightDiary> getDiaries() throws IOException {
         diaries.removeAll(diaries);
         File myObj = new File("data/exported-data/" + this.getName() + ".profile");
         Scanner myReader = new Scanner(myObj);
@@ -72,19 +72,14 @@ public class Pilot {
     /**
      * Metoda, která uloží pilotův profil
      */
-    public void savePilotToFile() {
+    public void savePilotToFile() throws IOException {
         File file = new File("data/exported-data/" + firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
         exist = file.exists();
 
         if (!exist) {
-            try {
-                FileWriter myWriter = new FileWriter("data/exported-data/" + firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
-                myWriter.write(firstName + ", " + lastName);
-                myWriter.close();
-            } catch (IOException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-            }
+            FileWriter myWriter = new FileWriter("data/exported-data/" + firstName.toLowerCase(Locale.ROOT) + "_" + lastName.toLowerCase(Locale.ROOT) + ".profile");
+            myWriter.write(firstName + ", " + lastName);
+            myWriter.close();
         }
     }
 
